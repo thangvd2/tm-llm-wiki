@@ -14,8 +14,8 @@
 > Specific products, components, tools.
 
 - [[entity-vault-core]] — Thought Machine's cloud-native core banking system
-<!-- entity-smart-contract.md -->
-<!-- entity-supervisor-contract.md -->
+- [[entity-smart-contract]] — Smart Contract entity running on CLv4
+- [[entity-supervisor-contract]] — Supervisor Contract entity for cross-account operations
 <!-- entity-edge-functions.md -->
 
 ## Concepts
@@ -28,27 +28,31 @@
 - [[concept-security]] — Security model, shared responsibility, compliance, encryption
 - [[concept-postings]] — Postings model, accounts, balances, double-entry bookkeeping
 - [[concept-smart-contracts]] — Smart contract business logic, hooks, schedules, parameters
-<!-- concept-sc-hooks.md -->
-<!-- concept-parameters.md -->
+- [[concept-sc-hooks]] — The 13 CLv4 hooks and Hot Path execution
+- [[concept-parameters]] — Expected parameters, attributes, and scopes
+- [[concept-sc-data-fetching]] — Optimal data fetching via @fetch_account_data
+- [[concept-clv4-posting-instructions]] — Constructing and processing postings
+- [[concept-transaction-bridge]] — Automatic conversion of postings to Transactions
+- [[concept-clv4-version-migration]] — Migrating from CLv3 to CLv4
 
 ## Sources
 
 > Per-section summaries of ingested raw documents.
 
 - [[source-vault-core-overview]] — Per-section summary of all Vault Core overview documents
-<!-- source-smart-contracts-clv4.md -->
+- [[source-smart-contracts-clv4]] — Per-section summary of CLv4 Smart Contracts documentation
 
 ## Analyses
 
 > Cross-product comparisons, deep-dives, synthesis pages.
 
-<!-- Created as queries generate valuable answers -->
+- [[analysis-clv4-development-lifecycle]] — Development, simulation, and accelerated testing
 
 ## Reference
 
 > API signatures, type definitions, enum values, lookup tables.
 
 - [[ref-vc5-service-compatibility]] — VC5 service compatibility matrix and switch order
-<!-- ref-clv4-enums.md -->
-<!-- ref-clv4-classes.md -->
-<!-- ref-clv4-hook-signatures.md -->
+- [[ref-clv4-enums]] — CLv4 Enumerations reference
+- [[ref-clv4-classes]] — CLv4 Classes overview and categories
+- [[ref-clv4-hook-signatures]] — CLv4 Hook Signatures and Vault Object APIs

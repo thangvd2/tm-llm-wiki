@@ -43,3 +43,9 @@ Schedules execute operations on a regular cadence, such as daily interest calcul
 - [[entity-vault-core]]: The overarching core banking system.
 - [[concept-postings]]: How Smart Contracts interact with fund movements.
 - [[concept-financial-model]]: How scheduled events and postings dictate the financial model.
+- [[entity-smart-contract]]: Detailed technical breakdown of the CLv4 Smart Contract entity.
+- [[concept-sc-hooks]]: Deep dive into the Smart Contract hook lifecycle.
+- [[concept-parameters]]: How expected parameters and global/instance scopes operate.
+- [[concept-sc-data-fetching]]: How the contract retrieves balances, postings, and parameters securely.
+- [[analysis-clv4-development-lifecycle]]: Development, simulation, and accelerated testing strategy.
+- **CLv4 API References**: [[ref-clv4-hook-signatures]], [[ref-clv4-classes]], [[ref-clv4-enums]].
