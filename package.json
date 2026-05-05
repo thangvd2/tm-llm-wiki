@@ -1,0 +1,28 @@
+{
+  "name": "tm_llm_wiki",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thangvd2/cross-agentic-project-template.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thangvd2/cross-agentic-project-template/issues"
+  },
+  "homepage": "https://github.com/thangvd2/cross-agentic-project-template#readme",
+  "dependencies": {
+    "playwright": "^1.59.1",
+    "turndown": "^7.2.4",
+    "turndown-plugin-gfm": "^1.0.2"
+  }
+}
