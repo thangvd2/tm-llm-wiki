@@ -11,46 +11,82 @@
 > Agents MUST read this file before any code generation.
 
 
-## Project: <!-- TODO: Replace with project name -->
+## Project: Thought Machine LLM Wiki (TM LLM Wiki)
 
-<!-- TODO: Replace with project description (1-2 sentences) -->
+Personal knowledge base where LLM incrementally builds and maintains a persistent wiki of structured, interlinked markdown files from raw sources. 3-layer architecture: raw sources (immutable) → wiki (LLM-generated) → schema (agent config). 3 operations: ingest (process source → update 10-15 wiki pages), query (search wiki → answer with citations → file answers back), lint (health-check: contradictions, orphans, stale claims). Compounding knowledge artifact — not RAG.
 
 ## Tech Stack
 
-<!-- TODO: Choose and uncomment the appropriate stack, remove others -->
-
-<!-- Python Backend -->
-<!-- - **Backend**: Python 3.10+, FastAPI, SQLite, JWT -->
-<!-- - **Infrastructure**: Docker, GitHub Actions CI -->
-
-<!-- Node.js Fullstack -->
-<!-- - **Backend**: Node.js, Express, PostgreSQL -->
-<!-- - **Frontend**: React, Vite -->
-<!-- - **Infrastructure**: Docker, GitHub Actions CI -->
-
-<!-- Python + React Fullstack -->
-<!-- - **Backend**: Python 3.10+, FastAPI, SQLite, JWT -->
-<!-- - **Frontend**: React, Vite -->
-<!-- - **Infrastructure**: Docker, GitHub Actions CI -->
+- **Core**: Python 3.10+, Markdown, Git (versioning)
+- **Viewer**: Obsidian (graph view, backlinks, Dataview plugin)
+- **Optional**: FastAPI (web interface), SQLite (metadata), qmd (search)
+- **Infrastructure**: GitHub Actions CI
 
 ## Versioning
 
 - **PATCH** (x.x.Z): bugfix only
 - **MINOR** (x.Y.0): new feature, backward-compatible
-- **MAJOR** (X.0.0): breaking change (API format, DB schema, response structure)
+- **MAJOR** (X.0.0): breaking change (wiki schema, directory structure, page format)
 - Update `VERSION` file + relevant headers + `RELEASE_NOTES.md` on release
 
 ## Language
 
-<!-- TODO: Adjust to your preference -->
 - User communicates in Vietnamese
-- Code, comments, commit messages in English
+- Wiki content, code, comments, commit messages in English
 - Respond in Vietnamese unless user uses English
 
 ## Key Constraints
 
 - Single developer (sole GitHub account)
 - Branch and release rules: see RULES.md
+- LLM writes wiki (human curates sources)
+- Wiki is a git repo of markdown files
+- Raw sources are IMMUTABLE — LLM never modifies files in `raw/`
+- Z.AI usage policy: see `docs/z-ai-usage-policy-reference.md`
+
+## Project Structure
+
+```
+tm_llm_wiki/
+├── wiki/                    ← LLM-generated wiki pages (LLM writes here)
+│   ├── index.md             ← Content catalog (updated on every ingest)
+│   └── log.md               ← Chronological append-only log
+├── raw/                     ← Immutable source documents (human curates)
+│   └── assets/              ← Downloaded images and attachments
+├── .ai-sync/                ← Single source of truth for AI config
+├── .agents/                 ← AUTO-GENERATED for Antigravity
+├── scripts/                 ← Utility scripts (version bumper, etc.)
+├── AGENTS.md                ← AUTO-GENERATED for OpenCode
+├── CONTRIBUTING.md          ← Branch rules, release process
+└── VERSION                  ← Current version
+```
+
+## Wiki Schema
+
+### Page Naming
+- Format: `{prefix}-{human-readable-name}.md`
+- Prefixes: `entity-` (products/components), `concept-` (ideas/patterns), `source-` (raw source summaries), `analysis-` (cross-cuts), `ref-` (API/type lookup)
+
+### Frontmatter (every wiki page MUST have)
+```yaml
+---
+tags: [category, product-area]
+products: [vault-core, smart-contracts]
+sources: [raw/path/to/source.md]
+last_updated: YYYY-MM-DD
+---
+```
+
+### Categories
+- **Entities**: Specific products, components, tools (Vault Core, Smart Contracts, Edge Functions)
+- **Concepts**: Abstract ideas, frameworks, patterns (Financial Model, Hooks, Parameters)
+- **Sources**: Per-section summaries of ingested raw documents
+- **Analyses**: Cross-product comparisons, deep-dives, synthesis
+- **Reference**: API signatures, type definitions, enum values, lookup tables
+
+### Cross-References
+- Use `[[wiki links]]` format (Obsidian-compatible)
+- Every page must have ≥1 inbound link (checkable via Obsidian graph view)
 
 ## BRANCH RULES (MANDATORY)
 
@@ -71,13 +107,42 @@
 
 ## BEFORE EVERY COMMIT
 
-1. `pytest tests/ -v` — must pass <!-- TODO: Replace with your test command -->
-2. `npm run build` — must pass (if frontend changed) <!-- TODO: Remove if no frontend -->
-3. `npm run lint` — must pass (if frontend changed) <!-- TODO: Remove if no frontend -->
-4. Linter/diagnostics on changed files — no new errors
-5. No hardcode secrets/credentials
-6. No silent `except: pass` — must log the error
-7. If ANY file in `.ai-sync/` was edited — run `python .ai-sync/sync.py` to regenerate platform configs, then commit the generated files in the SAME commit
+1. `ruff check .` — must pass on changed files
+2. Wiki integrity check — after every ingest, verify `index.md` and `log.md` are updated, no orphan pages introduced
+3. Linter/diagnostics on changed files — no new errors
+4. No hardcode secrets/credentials
+5. No silent `except: pass` — must log the error
+6. If ANY file in `.ai-sync/` was edited — run `python .ai-sync/sync.py` to regenerate platform configs, then commit the generated files in the SAME commit
+
+## WIKI INTEGRITY RULES (MANDATORY)
+
+- Raw sources are **IMMUTABLE** — LLM never modifies files in `raw/` directory
+- After every ingest, verify `index.md` and `log.md` are updated
+- No orphan pages introduced — every wiki page must be linked from `index.md` or another page
+- Every wiki page must have at least one inbound link (checkable via Obsidian graph view)
+- Contradictions between pages must be flagged with `> **CONTRADICTION**:` callout
+- Stale claims (superseded by newer sources) must be marked with `> **SUPERSEDED**:` callout
+
+## INGEST PROTECTION RULES (MANDATORY)
+
+### Rollback Protection (Undo Bad Ingest)
+
+- **BEFORE every ingest**: create a git snapshot commit of all current wiki files
+  - `git add wiki/ && git commit -m "snapshot: pre-ingest [source-name]"`
+  - If ingest result is unsatisfactory: `git revert HEAD` or `git reset --soft HEAD~1` to restore
+  - Each ingest = 1 atomic commit → easy to revert cleanly without partial state
+- **NEVER ingest without a pre-ingest snapshot.** No exceptions.
+
+### Dedup Protection (Avoid Re-ingesting Same Source)
+
+- **BEFORE every ingest**: check if source(s) were already processed:
+  1. Check `log.md` — search for the raw source path (e.g. `raw/vault-core-overview/`)
+  2. Check wiki page frontmatter `sources:` field — grep for the raw source path
+  3. If source already appears in log AND on wiki pages → **SKIP** (already ingested)
+  4. If source appears in log but wiki pages seem incomplete → **APPEND** (add missing content, do not recreate existing pages)
+  5. If source not found anywhere → **NEW INGEST** (proceed normally)
+- **NEVER assume a source hasn't been ingested.** Always verify first.
+- Every `log.md` entry MUST include `sources:` listing all raw files processed in that ingest
 
 ## CODE RULES
 
@@ -87,7 +152,6 @@
 - No deleting tests to make them pass
 - Bug fixes: fix minimally, never refactor while fixing
 - New Python dependencies: add to `requirements-dev.txt` (dev) or `requirements.txt` (prod) AND explain why
-- New npm dependencies: add via `npm install` AND explain why
 
 ## MANDATORY PRE-PUSH REVIEW (EVERY FEATURE)
 
@@ -101,86 +165,38 @@ Before pushing ANY new feature or significant change:
    - Resource leaks (timers, threads, connections not cleaned up)
    - Stale references (captured variables in callbacks that may be outdated)
 
-## CODE REVIEW ANTI-FALSE-POSITIVE RULES (MANDATORY)
+## CODE REVIEW RULES
 
-When flagging a potential issue during code review, you MUST:
-1. **Read ALL files in the dependency chain** — not just the immediate file.
-2. **Trace the FULL call path** — callers, callees, related modules.
-3. **Check mitigations FIRST** — before flagging, ask: "Is this already handled elsewhere?"
-4. **Provide FOR and AGAINST evidence** — every flagged issue MUST include:
-   - EVIDENCE FOR: why this seems like a real issue (with file:line)
-   - EVIDENCE AGAINST: why this might NOT be a real issue — check guards, related code, production config
-   - DEPENDENCY CHAIN: list ALL related files/modules that affect this issue
-5. **Classify before reporting** — every issue gets one of:
-   - `REAL`: Confirmed with full dependency trace. Has user impact.
-   - `SPECULATIVE`: Plausible but unverified. Needs deeper investigation.
-   - `FALSE POSITIVE`: Initially seemed real, but mitigated elsewhere.
-
-**Issue without full dependency trace = SPECULATIVE, not actionable.**
-**Issue without AGAINST evidence = incomplete review.**
-
-## REVIEW PROMPT TEMPLATE (USE WHEN DELEGATING REVIEW TASKS)
-When firing explore/librarian agents for code review, include this structure in the prompt:
-
-```
-For EACH potential issue found, you MUST provide:
-
-1. ISSUE: [one-line description]
-2. FILES READ: [list ALL files you actually read to verify this — not just where the issue appears]
-3. EVIDENCE FOR: [why this seems like a real issue, with file:line references]
-4. EVIDENCE AGAINST: [why this might NOT be a real issue — check mitigations, guards,
-   fallbacks, related modules, production config. If you cannot find any against-evidence,
-   state "No against-evidence found after checking [files checked]"]
-5. DEPENDENCY CHAIN: [list all related files/modules that could affect whether this is real]
-6. VERDICT: REAL / SPECULATIVE / FALSE POSITIVE
-
-DO NOT flag issues without reading the full dependency chain.
-DO NOT skip AGAINST evidence — it is MANDATORY.
-```
-
-## 2-PASS REVIEW PROCESS (FOR RELEASE REVIEWS & SECURITY AUDITS)
-For release PRs, security audits, and critical code changes — use this two-pass process:
-
-**Pass 1 — Flag issues (broad scan):**
-- Review different areas (backend, frontend, tests)
-- Flag potential issues using the evidence template above
-- Collect ALL flagged issues — do not filter yet
-
-**Pass 2 — Verify issues (deep investigation):**
-- For EACH flagged issue, investigate to verify
-- The verifier MUST:
-  - Read the FULL dependency chain (not just the file where the issue was found)
-  - Trace every lock acquisition, every fallback path, every related module
-  - Provide FOR and AGAINST evidence
-  - Give final verdict: REAL, SPECULATIVE, or FALSE POSITIVE
-- Only REAL issues are reported to the user
-- SPECULATIVE issues are reported with clear caveat
-- FALSE POSITIVE issues are documented with explanation of why they're safe
-
-**Why 2 passes?** A single pass creates confirmation bias — agents find "evidence" to support their initial concern without checking if it's already mitigated. Two passes separate "detection" (Pass 1) from "verification" (Pass 2), dramatically reducing false positives.
+- All code reviews MUST follow the 2-pass process and evidence template in `.ai-sync/workflows/code-review.md`
+- Every flagged issue MUST include FOR and AGAINST evidence + full dependency trace
+- Issues without dependency trace = SPECULATIVE. Issues without AGAINST evidence = incomplete
+- Verdicts: REAL (confirmed) / SPECULATIVE (unverified) / FALSE POSITIVE (mitigated)
 
 ## MANDATORY SELF-VERIFICATION CHECKLIST (BEFORE SAYING "DONE")
 You MUST NOT report a task as complete until EVERY item below passes.
 No exceptions. If you skip any item, the user WILL find the bug on double-check.
 
-### For EVERY code change (Python, JS, JSX, YAML):
+### For EVERY code change (Python, YAML):
 - [ ] NOT on `master` or `dev` — must be on a feature branch (`feature/`, `fix/`, `security/`, `refactor/`)
-- [ ] `ruff check .` passes on changed files (or `npm run lint` for frontend)
+- [ ] `ruff check .` passes on changed files
 - [ ] `lsp_diagnostics` shows no NEW errors on changed files
 - [ ] No duplicate lines, duplicate comments, or copy-paste artifacts
 - [ ] No unused imports, unused variables, or dead code left behind
 - [ ] Every new shared state variable has cleanup path on shutdown/exit
 - [ ] Git diff reviewed line-by-line — no accidental inclusions (log files, screenshots)
 
+### For wiki changes (markdown pages):
+- [ ] `index.md` updated with new/modified pages
+- [ ] `log.md` appended with entry (date, operation, pages touched)
+- [ ] No orphan pages — all new pages linked from index or another page
+- [ ] Cross-references use `[[wiki links]]` format (Obsidian-compatible)
+- [ ] No modifications to files in `raw/` directory
+- [ ] Contradictions flagged with `> **CONTRADICTION**:` callout
+- [ ] Frontmatter (if present) follows established YAML schema
+
 ### For backend Python changes:
 - [ ] `pytest tests/ -q` passes (or specific test file if targeted)
 - [ ] New functions with threading/locks/timers: verify lock ordering, cancel paths, cleanup on error
-
-### For frontend changes:
-- [ ] `npm run build` passes
-- [ ] `npm run lint` passes
-- [ ] useEffect deps arrays correct (no stale closures)
-- [ ] catch blocks have error handling (alert/toast/setError + console.warn, not bare `catch {}`)
 
 ### For CI/YAML changes:
 - [ ] YAML syntax valid (no duplicate keys, correct indentation)

@@ -36,7 +36,7 @@ yarn-error.log*
 .npm
 .yarn/
 .pnp.*
-package-lock.json  # Uncomment if you want to ignore lock files
+package-lock.json
 
 # Frontend build output
 dist/
@@ -80,6 +80,7 @@ service-account*.json
 .secrets.baseline
 
 # ========= Project-specific =========
+tmp/
 # Auto-generated platform configs — edit .ai-sync/ instead
 # Uncomment to enforce sync.py usage:
 # AGENTS.md
