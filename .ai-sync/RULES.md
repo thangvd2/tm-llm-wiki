@@ -34,11 +34,18 @@
 ## WIKI INTEGRITY RULES (MANDATORY)
 
 - Raw sources are **IMMUTABLE** — LLM never modifies files in `raw/` directory
+- Raw sources are organized by product and version: `raw/vault-core/5.8/`, `raw/additional-products/latest-YYYY-MM/`
 - After every ingest, verify `index.md` and `log.md` are updated
 - No orphan pages introduced — every wiki page must be linked from `index.md` or another page
 - Every wiki page must have at least one inbound link (checkable via Obsidian graph view)
-- Contradictions between pages must be flagged with `> **CONTRADICTION**:` callout
-- Stale claims (superseded by newer sources) must be marked with `> **SUPERSEDED**:` callout
+- Every wiki page MUST include `vault_version` frontmatter field for version provenance
+- Version-related callouts (use exact format for grep-ability):
+  - `> **SUPERSEDED (vX.Y):**` — claim replaced by newer version, link to successor
+  - `> **DEPRECATED (vX.Y):**` — still functional but vendor advises migration
+  - `> **STALE:**` — last verified against old version, needs re-verification
+  - `> **CONTRADICTION:**` — two pages disagree, investigate version conflict
+- When re-scraping a new VC version: create new `raw/vault-core/X.Y/` folder, do NOT overwrite old version folders
+- Breaking changes between versions get dedicated `analysis-` pages (e.g., `analysis-vault-core-5.9-breaking-changes.md`)
 
 ## INGEST PROTECTION RULES (MANDATORY)
 
@@ -104,11 +111,12 @@ No exceptions. If you skip any item, the user WILL find the bug on double-check.
 
 ### For wiki changes (markdown pages):
 - [ ] `index.md` updated with new/modified pages
-- [ ] `log.md` appended with entry (date, operation, pages touched)
+- [ ] `log.md` appended with entry (date, operation, pages touched, vault_version)
 - [ ] No orphan pages — all new pages linked from index or another page
 - [ ] Cross-references use `[[wiki links]]` format (Obsidian-compatible)
 - [ ] No modifications to files in `raw/` directory
-- [ ] Contradictions flagged with `> **CONTRADICTION**:` callout
+- [ ] `vault_version` frontmatter field present on all content pages
+- [ ] Version conflicts flagged with appropriate callout (`SUPERSEDED` / `DEPRECATED` / `STALE` / `CONTRADICTION`)
 - [ ] Frontmatter (if present) follows established YAML schema
 
 ### For backend Python changes:

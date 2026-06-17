@@ -43,17 +43,32 @@ Personal knowledge base where LLM incrementally builds and maintains a persisten
 
 ```
 tm_llm_wiki/
-├── wiki/                    ← LLM-generated wiki pages (LLM writes here)
-│   ├── index.md             ← Content catalog (updated on every ingest)
-│   └── log.md               ← Chronological append-only log
-├── raw/                     ← Immutable source documents (human curates)
-│   └── assets/              ← Downloaded images and attachments
-├── .ai-sync/                ← Single source of truth for AI config
-├── .agents/                 ← AUTO-GENERATED for Antigravity
-├── scripts/                 ← Utility scripts (version bumper, etc.)
-├── AGENTS.md                ← AUTO-GENERATED for OpenCode
-├── CONTRIBUTING.md          ← Branch rules, release process
-└── VERSION                  ← Current version
+├── wiki/                          ← LLM-generated wiki pages (LLM writes here)
+│   ├── index.md                   ← Content catalog (updated on every ingest)
+│   └── log.md                     ← Chronological append-only log
+├── raw/                           ← Immutable source documents (scraper writes here)
+│   ├── vault-core/                ← Vault Core docs, version-pinned
+│   │   ├── 5.8/                   ← One folder per VC minor version
+│   │   └── 5.9/
+│   ├── vault-payments/            ← Non-versioned portals use date-stamped folders
+│   │   └── latest-YYYY-MM/
+│   ├── additional-products/
+│   │   └── latest-YYYY-MM/
+│   ├── policy/                    ← Policy documents
+│   │   └── latest-YYYY-MM/
+│   ├── learning/                  ← Learning pathways
+│   │   └── latest-YYYY-MM/
+│   ├── partners/                  ← Partner enablement
+│   │   └── latest-YYYY-MM/
+│   ├── delivery-framework/        ← Delivery framework guides
+│   │   └── latest-YYYY-MM/
+│   └── _sitemaps/                 ← Portal sitemaps for discovery
+├── .ai-sync/                      ← Single source of truth for AI config
+├── .agents/                       ← AUTO-GENERATED for Antigravity
+├── scripts/                       ← Scraper + version management scripts
+├── AGENTS.md                      ← AUTO-GENERATED for OpenCode
+├── CONTRIBUTING.md                ← Branch rules, release process
+└── VERSION                        ← Current version
 ```
 
 ## Wiki Schema
@@ -67,10 +82,33 @@ tm_llm_wiki/
 ---
 tags: [category, product-area]
 products: [vault-core, smart-contracts]
-sources: [raw/path/to/source.md]
+sources: [raw/vault-core/5.8/path/to/source.md]
+vault_version:
+  introduced: "5.0"          # When this fact/feature first appeared (null = unknown)
+  verified: ["5.8"]          # Versions explicitly checked against
+  current: true              # Is this the latest known state?
 last_updated: YYYY-MM-DD
 ---
 ```
+
+### Version Tracking
+
+TM Vault Core releases ~quarterly minors (5.0 → 5.8) and ~yearly majors. Each release may change documentation. The wiki tracks version provenance to handle drift:
+
+- **`vault_version.introduced`**: The VC version where this fact/feature first appeared (Kubernetes `min-version` pattern)
+- **`vault_version.verified`**: List of VC versions this page was explicitly checked against
+- **`vault_version.current`**: `true` if this reflects the latest known state; `false` if superseded
+- When a feature is deprecated: set `current: false`, add `superseded_by: "[[new-page]]"`, use `> **DEPRECATED (vX.Y):**` callout
+- When a claim is replaced: keep old content, add `> **SUPERSEDED (vX.Y):**` callout linking to successor
+
+### Callout Vocabulary (Version-Related)
+
+| Callout | Meaning | When to use |
+|---------|---------|-------------|
+| `> **SUPERSEDED (vX.Y):**` | Replaced by a newer version | Claim replaced by new behavior in version X.Y |
+| `> **DEPRECATED (vX.Y):**` | Still works but vendor advises migration | API/feature deprecated in X.Y, removal expected next major |
+| `> **STALE:**` | Last verified against old version, needs re-check | No source checked since specified version |
+| `> **CONTRADICTION:**` | Two pages disagree | Cross-version conflicts detected during lint |
 
 ### Categories
 - **Entities**: Specific products, components, tools (Vault Core, Smart Contracts, Edge Functions)
@@ -112,11 +150,18 @@ last_updated: YYYY-MM-DD
 ## WIKI INTEGRITY RULES (MANDATORY)
 
 - Raw sources are **IMMUTABLE** — LLM never modifies files in `raw/` directory
+- Raw sources are organized by product and version: `raw/vault-core/5.8/`, `raw/additional-products/latest-YYYY-MM/`
 - After every ingest, verify `index.md` and `log.md` are updated
 - No orphan pages introduced — every wiki page must be linked from `index.md` or another page
 - Every wiki page must have at least one inbound link (checkable via Obsidian graph view)
-- Contradictions between pages must be flagged with `> **CONTRADICTION**:` callout
-- Stale claims (superseded by newer sources) must be marked with `> **SUPERSEDED**:` callout
+- Every wiki page MUST include `vault_version` frontmatter field for version provenance
+- Version-related callouts (use exact format for grep-ability):
+  - `> **SUPERSEDED (vX.Y):**` — claim replaced by newer version, link to successor
+  - `> **DEPRECATED (vX.Y):**` — still functional but vendor advises migration
+  - `> **STALE:**` — last verified against old version, needs re-verification
+  - `> **CONTRADICTION:**` — two pages disagree, investigate version conflict
+- When re-scraping a new VC version: create new `raw/vault-core/X.Y/` folder, do NOT overwrite old version folders
+- Breaking changes between versions get dedicated `analysis-` pages (e.g., `analysis-vault-core-5.9-breaking-changes.md`)
 
 ## INGEST PROTECTION RULES (MANDATORY)
 
@@ -182,11 +227,12 @@ No exceptions. If you skip any item, the user WILL find the bug on double-check.
 
 ### For wiki changes (markdown pages):
 - [ ] `index.md` updated with new/modified pages
-- [ ] `log.md` appended with entry (date, operation, pages touched)
+- [ ] `log.md` appended with entry (date, operation, pages touched, vault_version)
 - [ ] No orphan pages — all new pages linked from index or another page
 - [ ] Cross-references use `[[wiki links]]` format (Obsidian-compatible)
 - [ ] No modifications to files in `raw/` directory
-- [ ] Contradictions flagged with `> **CONTRADICTION**:` callout
+- [ ] `vault_version` frontmatter field present on all content pages
+- [ ] Version conflicts flagged with appropriate callout (`SUPERSEDED` / `DEPRECATED` / `STALE` / `CONTRADICTION`)
 - [ ] Frontmatter (if present) follows established YAML schema
 
 ### For backend Python changes:
