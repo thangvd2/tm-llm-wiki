@@ -1,0 +1,5072 @@
+---
+source_url: "https://vault-portal.thoughtmachine.net/vault-core/5-8/EN/product_documents/previous_release_notes/5_0"
+title: "Vault Core 5.0"
+scraped_at: "2026-06-16T15:27:25.691Z"
+images: 0
+---
+
+# Vault Core 5.0
+
+## [](#major_version_release_notes "Copy link to heading")Major version release notes
+
+### [](#new_features "Copy link to heading")New features
+
+#### [](#contracts_language "Copy link to heading")Contracts Language
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-81116
+
+ | 
+
+Add client\_id info to posting instructions in CLv4
+
+ | 
+
+This improvement adds `client_id` as a read-only attribute to all the posting instruction classes as well as to the `ClientTransaction` class in Contract Language API 4
+
+ |
+
+#### [](#infrastructure "Copy link to heading")Infrastructure
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-39340
+
+ | 
+
+Reduce number of HTTP 503 errors at the gateway by increasing number of retries
+
+ | 
+
+Increased the number of retires on HTTP 502/503/504 errors to the HTTP API gateway by generating Istio VirtualServices for HTTP gateway services. This should reduce the number of errors passed on to callers of the HTTP APIs, but does not guarantee that all errors will be removed.
+
+ |
+
+#### [](#kafka "Copy link to heading")Kafka
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-37903
+
+ | 
+
+Test Compatibility of Kafka 3.4 with supported Vault Versions
+
+ | 
+
+This Vault Core version has been certified against Apache Kafka 3.4.X.
+
+ |
+| 
+
+INFRA-37210
+
+ | 
+
+Unbundle Apache Kafka in 5.0
+
+ | 
+
+The Kafka bundled with Vault Core has been unbundled in 5.0. Please procure Apache Kafka directly and provision your own Kafka cluster for development purposes.
+
+ |
+
+#### [](#metrics "Copy link to heading")Metrics
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-39450
+
+ | 
+
+Apply label restrictions for Prometheus metrics
+
+ | 
+
+Metric labels were reviewed to improve Prometheus performance and reliability.
+
+ |
+
+#### [](#observability "Copy link to heading")Observability
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-32319
+
+ | 
+
+Support the use of an external, client-managed Grafana installation with self-hosted Vault
+
+ | 
+
+In order to view the metrics and dashboards for Vault, clients are required to use Grafana. Thought Machine pins a Grafana OSS image to install with Vault. Clients can now choose to use their own Grafana installation to view the dashboards that correspond with their current Vault release.
+
+ |
+
+#### [](#scheduler "Copy link to heading")Scheduler
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-78443
+
+ | 
+
+Payment Order Deprecation and Removal
+
+ | 
+
+A Payment Order is a legacy component originally designed to capture the intent to instruct a payment from Vault Core to the Payment Hub. The Payment Order implementation was discontinued in Vault 2.X. The original implementation was closely aligned to the Payment Hub; as Vault Core decoupled as a payment engine, the target state of this feature has changed so that it can support a more generic payment origination capability. Thought Machine does intend to build a native capability to originate future dated payments to external payment systems in the future, the timelines of which will be based on client demand.Contact your Thought Machine representative for further information.
+
+ |
+
+#### [](#vc_all "Copy link to heading")VC - ALL
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+IMP-28
+
+ | 
+
+Optimised use of request headers to reduce network traffic and storage requirements
+
+ | 
+
+This improvement optimises the way Vault Core uses headers in requests which significantly reduces the size of messages and results in reduction of the cost of running Vault Core.
+
+ |
+
+#### [](#vc_account_management "Copy link to heading")VC - Account Management
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+IMP-66
+
+ | 
+
+Retry mechanism improved for account directives errors that avoids infinite retries
+
+ | 
+
+This improvement introduces resilient retry mechanism for failed accounts directives that are generated from the scheduled\_code hook during contract execution.
+
+ |
+| 
+
+IMP-42
+
+ | 
+
+Accounts lifecycle improvements through a new V2 API
+
+ | 
+
+This improvement introduces a new version of the Accounts API delivering significant improvements to account lifecycle management in Vault Core including: improved validation support, integration with the new Parameter resource, better handling of the transitioning between states and the closure of accounts.
+
+ |
+| 
+
+IMP-41
+
+ | 
+
+Vault supports Processing Groups of accounts with the ability to pause/restart schedules
+
+ | 
+
+This improvement introduces a single default Processing Group in Vault to which all the accounts in the deployment are associated. Processing Groups enable banks to operate multiple entities (e.g. banking brands within a banking group) or lines of business (retail vs commercial, deposits vs lending) on a single core banking platform, allowing the respective books of accounts to be financially isolated from each other and the schedules and end of day events to operate independently.
+
+ |
+| 
+
+IMP-40
+
+ | 
+
+Integration of the Data Loader API with the new V2 Accounts API
+
+ | 
+
+This improvement updates the Data Loader API to be compatible with the new Accounts API (V2). The V2 endpoints delivers better performance to the migration journey.
+
+ |
+| 
+
+IMP-32
+
+ | 
+
+Availability of the parameter value time series following a smart contract conversion
+
+ | 
+
+This improvement delivers the ability to access parameter value time series following a Smart Contract conversion.
+
+ |
+| 
+
+IMP-31
+
+ | 
+
+Return rejections from activation/conversion hooks
+
+ | 
+
+This improvement delivers the ability for Smart Contract writers to define conditions where an account will not activate or undergo conversion achieving improved user experience and more elegant Smart Contract implementation.
+
+ |
+| 
+
+IMP-27
+
+ | 
+
+Account Opening can support 30M account deployments
+
+ | 
+
+This improvement delivers significant performance improvements to the process of opening an account aimed to support deployments of up to 30M accounts. Clients can benefit from these performance improvements when using the new synchronous Accounts v2 API.
+
+ |
+
+#### [](#vc_data_loader "Copy link to heading")VC - Data Loader
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+IMP-39
+
+ | 
+
+Improved support to migrate postings from a legacy system into Vault Core’s ledger
+
+ | 
+
+This improvement delivers a range of updates to the existing Posting Migration API including: introducing a more performant design which enables higher throughput, support the migration of Authorisation, Authorisation Adjustment, Settlement and Release posting instruction types and the introduction of a dedicated Posting Migration API Response topic.
+
+ |
+| 
+
+IMP-36
+
+ | 
+
+Migrate account-owned parameters
+
+ | 
+
+This improvement delivers the ability to migrate a historic time series of Parameter Values, accessible from Smart Contracts via the existing Instance Parameter syntax, and the new Expected Parameter syntax.This enables banks to fully migrate an Account from another system into Vault Core with a full view of its historic parameter values.
+
+ |
+
+#### [](#vc_jobs_app "Copy link to heading")VC - Jobs App
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+IMP-38
+
+ | 
+
+Vault Jobs application that provides observability into status of schedules
+
+ | 
+
+This improvement introduces a new Vault Jobs app intended to display long-running asynchronous processes within Vault Core, providing visibility of the status of these processes to Vault Core users.This application is a pillar of our solution to improve the observability and management of the health of the platform. The bank will be able to receive a real time view of the health of the platform with respect to schedules, across the whole deployment as well as at an account level.
+
+ |
+
+#### [](#vc_ledger "Copy link to heading")VC - Ledger
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+IMP-43
+
+ | 
+
+Addition of booking timestamp to Vault Core ledger
+
+ | 
+
+The ledger in Vault 5 has been extended to support an additional client-defined booking\_timestamp for posting instruction batches (PIBs) representing when the movement of funds was booked/reported on. We have also made improvements to the calendar-enriched postings topic to leverage Processing Groups (IMP-41) as well as this improvement.The introduction of booking timestamp enables banks to track which booking period a posting belongs to within Vault and simplifies the implementation of end of day operations.
+
+ |
+| 
+
+IMP-37
+
+ | 
+
+Ordering guarantees on post posting hook for supervisor contracts
+
+ | 
+
+This improvement enables the `post_posting_code` hook for supervised accounts to execute on postings in the same strict order that they were committed to the ledger.This improvement is particularly beneficial for two common use cases for supervisor contracts (the redistribution of funds after an initiating transaction, and the calculation of various balances) as it provides ordering guarantees.
+
+ |
+| 
+
+IMP-33
+
+ | 
+
+Deterministically query value balances from smart contract
+
+ | 
+
+Vault 5.0 delivers an improvement to how postings and balances are queried from scheduled code, making the results deterministic even if the execution of the hook is delayed.Specifically, data fetched from Vault from scheduled\_event\_hook will resolve the required time interval from the perspective of an observation time. This observation time will either be the effective\_datetime of the hook or the upper bound of the time interval that has been defined, whichever is higher. This ensures that any backdated data that is subsequently inserted into the time interval will not be fetched if the hook is run again after the backdates occur.This improvement is only available for account data fetchers in Smart Contracts using CLv4.Smart contract code will still be able to fetch all data available at schedule execution time by specifying DefinedDateTime.LIVE in the hook.
+
+ |
+| 
+
+IMP-30
+
+ | 
+
+Ledger that can support deployments of up to 30M accounts
+
+ | 
+
+This improvement delivers significant improvements to the performance of the Vault Core Ledger so that it can performantly support deployments of up to 30M accounts.
+
+ |
+| 
+
+IMP-29
+
+ | 
+
+Performant 'offline' contract execution to support deployments of up to 30M accounts
+
+ | 
+
+Performance improvements made to the rate of processing all offline postings without impacting the processing of online postings. These improvements contribute to faster processing of EoD schedules and daily settlement files for deployments up to 30M accounts.
+
+ |
+| 
+
+IMP-24
+
+ | 
+
+Financial consistency between supervised accounts
+
+ | 
+
+This improvement delivers a guarantee that the `pre_posting_code` hook for supervised accounts executes on a view of postings and balances that is consistent with the state of the Ledger at commit time and results in correct financial decisions.
+
+ |
+
+#### [](#vc_product_engine "Copy link to heading")VC - Product Engine
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+IMP-26
+
+ | 
+
+New parameter store and improved parameter management
+
+ | 
+
+A new APIs to manage parameters in Vault and the ability to link these new parameters to individual accounts, covering the current instance parameters functionality and delivering additional benefits.This improvement enables a more unified approach to managing parameters with a more powerful API and better Smart Contract language capabilities.
+
+ |
+
+### [](#deprecated_features "Copy link to heading")Deprecated features
+
+#### [](#vc_account_management_2 "Copy link to heading")VC - Account Management
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+IMP-480
+
+ | 
+
+Deprecation of v1/accounts endpoints and fields
+
+ | 
+
+The following endpoints are deprecated:- v1/accounts (GET)- v1/accounts (POST)- v1/account-update-batches- v1/accounts/{account\_id}:updateDetails- v1/accounts/{account\_id}:paramTimeseriesPlease refer to documentation for more informationSome fields of v1/AccountUpdate have been deprecated. Please refer to documentation for more information
+
+ |
+| 
+
+IMP-343
+
+ | 
+
+Removal of v1/internal-accounts endpoint
+
+ | 
+
+The internal account resource has been merged with the account resource, and from 5.0 onwards, when creating account via v2/account, it will be necessary to specify which type of account is being created.Based on this, the dedicated v1/internal-accounts will be marked as deprecated in Vault 5.0 and will removed no earlier than Vault 7.0.
+
+ |
+
+#### [](#vc_configuration_management "Copy link to heading")VC - Configuration Management
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+IMP-366
+
+ | 
+
+Removal of V1 Internal Accounts from CLU
+
+ | 
+
+We are deprecating the ability to create v1 Internal Accounts from the CLU in 5.0.Instead clients can create internal accounts using the v2 Accounts endpoint.
+
+ |
+
+### [](#backwards_incompatible_changes "Copy link to heading")Backwards incompatible changes
+
+#### [](#infra_tmcomponent_operator "Copy link to heading")INFRA - TMComponent Operator
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+IMP-516
+
+ | 
+
+Removal of the Vault Installer
+
+ | 
+
+We have introduced a Kubernetes operator to improve installation reliability, observability, usability, and automation.The operator provides a declarative, kubernetes-native way of describing and performing installations and upgrades.This replaces the previous installation method of Vault Installer.TMComponent Operator will need to be used to install 4.7 as well as 5.0.Further details are in \`\`Vault Installer Deprecation and Removal''
+
+ |
+
+#### [](#vc_account_management_3 "Copy link to heading")VC - Account Management
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+IMP-363
+
+ | 
+
+ListAccounts and ListPostingInstructionBatches eventually consistent
+
+ | 
+
+Prior to Vault Core 5.0, Vault Core relied on a single schema for read and writes. To obtain significant performance improvements and improved flexibility in how data is read, Vault Core now consists of distinct read and write schemas.As a consequence of this change a short lag in the read-optimised schema reaching consistency should be expected (off the hot-path).These endpoints will be using the read-optimised schema and there may be scenarios where postings or accounts queried immediately after they are written may need to be retried.The following topics will only publish events once the resources are available to be listed from these endpoints:- vault.api.v1.postings.posting\_instruction\_batch.created- vault.api.v1.accounts.account.created- vault.api.v1.accounts.account.status.updated
+
+ |
+
+#### [](#vc_data_loader_2 "Copy link to heading")VC - Data Loader
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+IMP-334
+
+ | 
+
+Data Loader API for Accounts updated to match the new V2 API
+
+ | 
+
+From Vault Core 5.0, a new API is available for interacting with Account resources (/v2/accounts). This API is more performant and includes developer ergonomic improvements such as transition through a more descriptive set of statuses when opening Accounts.Although the Core API in Vault 5.0 continues to support the V1 Accounts API in addition to introducing the new V2 Accounts API, the Data Loader API has been updated to match the V2 API only.This changes the following:- Request message structure when migrating Accounts, including removal of INSTANCE parameters which are moving to the a new Data Loader API supported Parameter Value Resource- Event message structure when migrating AccountsAs a result any ETL integrations designed or built to load Accounts with the Data Loader will need to be updated to the new API schema before delivering a migration onto Vault 5.0Additionally the product version specified when loading accounts must be in Contract Language API 4.0.
+
+ |
+
+#### [](#vc_ledger_2 "Copy link to heading")VC - Ledger
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+IMP-373
+
+ | 
+
+Idempotency time window limited to 7 days
+
+ | 
+
+All actions which modify states in Vault Core’s APIs are idempotent based on request ID. This means they’re safe to retry and will produce exactly the same result despite having been requested before.From Vault Core 5.0 request IDs are eligible to be purged from Vault after 7 days. Idempotence is not guaranteed after this window expires; reusing a request ID after 7 days may generate a new request.This period is aligned with Vault Core’s Disaster Recovery process window, which explicitly states that it is not possible to restore journal entries older than 7 days.This change does not affect Configuration Resources.
+
+ |
+| 
+
+IMP-371
+
+ | 
+
+Balance time series fetched from scheduled code pinned to effective\_time by default
+
+ | 
+
+Vault 5.0 delivers an improvement to how postings and balances are queried from scheduled code, making the results deterministic even if the execution of the hook is delayed.Specifically, data fetched from Vault from scheduled\_event\_hook will resolve the required time interval from the perspective of an observation time. This observation time will either be the effective\_datetime of the hook or the upper bound of the time interval that has been defined, whichever is higher. This ensures that any backdated data that is subsequently inserted into the time interval will not be fetched if the hook is run again after the backdates occur.This improvement is only available for account data fetchers in Smart Contracts using CLv4.Smart contract code will still be able to fetch all data available at schedule execution time by specifying DefinedDateTime.LIVE in the hook.
+
+ |
+| 
+
+IMP-364
+
+ | 
+
+Instance parameter value time series not limited to current product version
+
+ | 
+
+In previous versions of Vault Core, the historical values for instance parameters would only extend to the beginning of the current product version and upgrading to a new smart contract version would mean pre-upgrade values were inaccessible. In Vault Core 5.0, instance parameter value history will be preserved across smart contract versions.
+
+ |
+| 
+
+IMP-362
+
+ | 
+
+target\_account cannot be an internal account in transactional Posting Instructions
+
+ | 
+
+CreatePostingInstructionBatchRequest endpoint of the Postings API will error if it receives an internal account in the target\_account field (or It is also possible that the target\_account receives a payment device token which is linked to an internal account). This behaviour is no longer be supported in the new ledger architecture delivered in Vault Core 5.0.This will affect the following Posting Instruction types:- Inbound hard settlement (standalone)- Outbound hard settlement- Inbound authorisation- Outbound authorisationThe Postings API offers other mechanisms for clients to achieve this, particularly:- Transfer does not have a target\_account field, rather a creditor and debtor account, and either both or neither can be internal accounts- Custom instructions only have an account\_id field in the Posting message, and can apply to any coordinate in Vault
+
+ |
+| 
+
+IMP-357
+
+ | 
+
+Removal of the vault.core\_api.v1.balances.balance.events topic
+
+ | 
+
+The vault.core\_api.v1.balances.balance.events topic has been removed with Vault Core 5.0. A replacement topic is provided with Vault Core 5.0.The replacement topic provides a more structured view of Balances, including but not limited to the addition of the Account ID and posting\_instruction\_batch\_id relating to the Balance update. Both topics are outlined in the Vault Portal.
+
+ |
+| 
+
+IMP-355
+
+ | 
+
+Changes to Balance resource in 5.0
+
+ | 
+
+Prior to Vault Core 5.0, balance calculations were executed asynchronously after a posting was accepted and maintained in a time series. From Vault Core 5.0 balances will be calculated on request. This ensure balances are always in sync with postings, and delivers significant performance improvements. As a result of these changes:- GetBalance (by id) will be removed. - update\_posting\_instruction\_batch\_id will be removed from the Balance definition as it is no longer required.- ListBalance endpoints (Live and TimeRange) will continue to be available. They will continue returning balance ids in case these are used by any integrations. The value of these ids will be unique but different from the value that would have been generated prior to Vault Core 5.0 for the same balance.
+
+ |
+| 
+
+IMP-349
+
+ | 
+
+Change in behaviour of the Migrating Postings endpoint
+
+ | 
+
+In Vault 5.0 the existing Posting Migration API will be replaced by an improved design which will change the following:- Request topic name- Request message structure- Event message structure- Migrated posting functional behaviourAny ETL integrations designed or built with the Posting Migration API will need to be updated to the new API schema before delivering a migration onto Vault 5.0. The amended Posting Migration API delivers a range of important functional improvements that will support clients in their migrations:- Supported for migration of Authorisation, Authorisation Adjustment, Settlement and Release posting instruction types- Revised posting timestamp behaviour to align with new financial model- Dedicated Posting Migration API Response topic
+
+ |
+
+#### [](#vc_product_engine_2 "Copy link to heading")VC - Product Engine
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+IMP-479
+
+ | 
+
+Removal of parameter SIMULATION\_LEVEL from Product API
+
+ | 
+
+We are removing the option to specify parameter level SIMULATION\_LEVEL from the /v1/product-versions endpoint of the Core API.The functionality that this parameter level offers can be achieved by using the instructions\[\] field in the /v1/contracts:simulate instead.
+
+ |
+| 
+
+IMP-374
+
+ | 
+
+Removal of the SCHEDULE\_STATUS\_SKIPPED enum parameter
+
+ | 
+
+The SCHEDULE\_STATUS\_SKIPPED enum parameter is removed with Vault Core 5.0.The new endpoints provide improved granularity to control the skipping of schedules, with the ability to now specify a start and/or end date time. Replacement: skip\_start\_timestamp and skip\_end\_timestamp
+
+ |
+| 
+
+IMP-360
+
+ | 
+
+Removal of Payment Order from Core API
+
+ | 
+
+A Payment Order is a legacy component originally designed to capture the intent to instruct a payment from Vault Core to the Payments Hub. The Payment Order implementation was discontinued in Vault 2.X.The original implementation was closely aligned to the Payments Hub; as Vault Core decoupled from having a payment engine, the target state of this feature has changed so that it can support a more generic payment origination capability. Thought Machine does intend to build a native capability to originate future dated payments to external payment systems in the future, the timelines of which will be based on client demand.Contact your Thought Machine representative for further information.
+
+ |
+| 
+
+IMP-358
+
+ | 
+
+Removal of the /v1/smart-contracts:simulateExistingAccount endpoint
+
+ | 
+
+We are removing the /v1/smart-contracts:simulateExistingAccount endpoint from the Core API. Deprecation notice for this endpoint was served in 1.12. A replacement for this endpoint simulateExistingAccount was released in 4.5, with improved performance and aligned with the new Vault 5 functionality.
+
+ |
+| 
+
+IMP-337
+
+ | 
+
+Removal of the migration\_strategy parameter from the Core API v1/product-versions endpoint
+
+ | 
+
+In Vault Core 5.0 the migration\_strategy no longer accepts the following enum values as arguments: PRODUCT\_VERSION\_MIGRATION\_STRATEGY\_ADD\_VERSION\_ASK\_EXISTING\_USERS, PRODUCT\_VERSION\_MIGRATION\_STRATEGY\_ADD\_VERSION\_AUTO\_MIGRATE\_USERS, andPRODUCT\_VERSION\_MIGRATION\_STRATEGY\_ADD\_VERSION\_UPGRADE\_INTERNAL\_ACCOUNTS from the Core API v1/product-versions endpoint.ContextThought Machine recommends that an account conversion takes place as two distinct steps; uploading the Smart Contract and then creating an account conversion. This is the advised approach due the complexities around combining them. Previously using the migration\_strategy parameter would allow triggering an account conversion when a new version of a smart contract is uploaded. Going forward only the best practice recommendation of two distinct steps is offered, removing the ability to auto-trigger upon Smart Contract upload.Replacementv1/account-migrations endpoint
+
+ |
+
+#### [](#vp_ph_payments_hub "Copy link to heading")VP - PH - Payments Hub
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+IMP-377
+
+ | 
+
+Removal of Payments Hub capabilities: FPS via Form3, Bacs via Form3 and Scheduled Payments
+
+ | 
+
+Three capabilities that were offered with Payments Hub: FPS via Form3, Bacs via Form3 and Scheduled Payments have been removed with Vault Core 5.0.None of these capabilities were used in production and in the case of the Bacs via Form3 capabilities, did not undergo and thus achieve scheme certification. The focus now is on launching a new product, Vault Payments, in the future where many of these capabilities, as well as new ones, will be supported.
+
+ |
+| 
+
+IMP-361
+
+ | 
+
+Payments Hub: No longer supports issuing postings to internal accounts
+
+ | 
+
+The ability to specify internal accounts in the target\_account field for standard posting instructions in the Postings API has been removed. Because of this the Payments Hub can no longer support issuing postings to internal accounts.Replacement: Before upgrading to Vault Core 5.0, non-internal accounts need to be provisioned in Vault Core to support any use case that relies on internal accounts used in this field. Users of the Payments Hub should ensure that payments\_hub.redirection\_account, payments\_hub.unapplied\_funds\_account configuration values are updated to reference non-internal accounts. When using additional\_debit\_instructions.internal\_account\_id, users should supply a non-internal account.
+
+ |
+
+### [](#defect_fixes "Copy link to heading")Defect fixes
+
+#### [](#account_management "Copy link to heading")Account Management
+
+ 
+| Reference | Description |
+| --- | --- |
+| 
+TM-80251
+
+ | 
+
+Fixed issue where APv2 could raise a segmentation fault when doing a CL4 → CL4 conversion.
+
+ |
+| 
+
+TM-48465
+
+ | 
+
+Migrating multiple Payment Devices with tags will no longer result in error logs, and overall time to migrate them should be reduced.
+
+ |
+
+#### [](#audit_and_access_control "Copy link to heading")Audit and Access Control
+
+ 
+| Reference | Description |
+| --- | --- |
+| 
+TM-79062
+
+ | 
+
+Roles and permissions updates prior to Vault Core 4.3 and subsequent to Vault Core 3.3 were not accounted for by an internal data migration job. The result was that roles and permissions presented by APIs and Ops Dash Vault Core 4.3 or later may not have reflected the most recent set of roles and permissions data prior to the upgrade. This has been fixed.
+
+ |
+
+#### [](#contracts_language_2 "Copy link to heading")Contracts Language
+
+ 
+| Reference | Description |
+| --- | --- |
+| 
+TM-78637
+
+ |  |
+
+#### [](#contracts_platform "Copy link to heading")Contracts Platform
+
+ 
+| Reference | Description |
+| --- | --- |
+| 
+TM-85660
+
+ | 
+
+\[Vault 4.5-5.0\] Improve documentation for caveats when running Existing Account Simulation. Explain more clearly how existing account schedules are handled. Explain exactly in which cases the simulation is not supported due to existing account schedule mutations since the simulation start time. Explain more clearly that accounts in pending status at start time will not have their activation hooks run in Simulation. \[For Vault 4.5 to 4.7 only add the following sentence\]:Explain more clearly in which cases backdated postings can cause existing account simulation to not be supported.
+
+ |
+| 
+
+TM-81736
+
+ | 
+
+Fixes an issue where un-retryable update\_account\_event\_type and update\_plan\_event\_type directives were being incorrectly retried due to error misclassification. This was leading to some schedules retrying when they should immediately fail. With this fix, the errors are now handled correctly.
+
+ |
+
+#### [](#database_libraries "Copy link to heading")Database Libraries
+
+ 
+| Reference | Description |
+| --- | --- |
+| 
+INFRA-39907
+
+ | 
+
+Ensure the postgres error code for QueryCancelled is retried within Vault.
+
+ |
+| 
+
+INFRA-38767
+
+ | 
+
+Fixes an issue where the Postgres Exporters would cause permission denied error logs to be recorded for Vault instances using an AWS database.
+
+ |
+| 
+
+INFRA-37628
+
+ | 
+
+An issue has been identified where the Postgres-exporter inadvertently accesses the rdsadmin database, leading to error messages appearing in the logs. While these messages might initially cause concern, it’s important to note that they are largely a minor annoyance and do not represent any problem. This behaviour is a known bug of the postgres-exporter and does not compromise the functionality or the security of any systems it interacts with. It is primarily an aesthetic issue, affecting the cleanliness of the logs rather than their accuracy or the performance of the system.
+
+ |
+
+#### [](#deployment_system "Copy link to heading")Deployment System
+
+ 
+| Reference | Description |
+| --- | --- |
+| 
+INFRA-42809
+
+ | 
+
+During an upgrade the deployment sequence ensures that the correct version of the ca-injector init container is inserted for all pods that use it.
+
+ |
+
+#### [](#ledger "Copy link to heading")Ledger
+
+ 
+| Reference | Description |
+| --- | --- |
+| 
+TM-83159
+
+ | 
+
+Some errors related to the ability to reach internal Vault services were miscategorised as non-transient in the postings-processor. They now have been categorised as transient and will automatically be retried.
+
+ |
+| 
+
+TM-82082
+
+ | 
+
+Fixes an edge case where Posting requests with a Time-to-Live enabled would return a response with an error when the Posting was actually committed and accepted
+
+ |
+| 
+
+TM-81341
+
+ | 
+
+The Postings API documentation has been updated to remove the possibility that Request IDs are namespaced by Client ID. This bug fix is a documentation update only, the API has never supported namespaced requests.
+
+ |
+| 
+
+TM-74389
+
+ | 
+
+Our reference documentation defines Transfers as an instruction to transfer an amount from one Vault account to another in the committed phase and default address. Vault Core currently does not validate that the transfer instruction takes place between two different accounts, allowing the transfer of funds between the same account in the committed phase and default address. This work introduces a validation to prevent this incorrect behaviour.
+
+ |
+| 
+
+TM-72681
+
+ | 
+
+The amount field of posting in API call currently allows exponents values, like 1e10. It’s allows to send a really large amounts that once converted take a lot of memory. To prevent this exponent values of the amount filed should be treated as invalid.
+
+ |
+| 
+
+TM-70621
+
+ | 
+
+During an internal refactor, the categorisation of errors was changed that may lead to messages for Balances and Contracts being accidentally sent to the DLQ and requiring a manual retry.
+
+ |
+| 
+
+TM-68135
+
+ | 
+
+Vault Core does not support future-dated postings (`value_date` set by the client in the future relative to when the posting is instructed). This has been explicit in the API documentation since Vault 4.0.0, indicating that the `value_date` is only set for backdated postings, ie the movement of funds has already taken place. However, the API does not prevent clients from instructing future-dated postings. If API clients do instruct future-dated postings then the following problems will occur: - Incorrect balance: these postings are treated as if the `value_date` was the same as the insertion time, which means the balance of the account is impacted immediately, rather than at the date/time that they are instructed to happen. - Performance problems: future-dated postings can cause severe performance problems in the 4.x architecture and potentially result in production incidents. To avoid the problems above, from Vault 5.0, the behaviour is not to validate the `value_date` of a posting in the future, returning an error if it is the case.
+
+ |
+
+#### [](#observability_2 "Copy link to heading")Observability
+
+ 
+| Reference | Description |
+| --- | --- |
+| 
+INFRA-9002
+
+ | 
+
+Changed file writing mechanism for service-discovery service fixing race condition between thanos-query and thanos-dns-discovery containers.
+
+ |
+
+#### [](#product_documentation "Copy link to heading")Product Documentation
+
+ 
+| Reference | Description |
+| --- | --- |
+| 
+TM-79202
+
+ | 
+
+Fixed a documentation error in the `scheduled_event_hook` code example for Contract Language V4, where `.items()` was not called on `.balances` in the `_accrue_interest` function.
+
+ |
+
+#### [](#scheduler_2 "Copy link to heading")Scheduler
+
+ 
+| Reference | Description |
+| --- | --- |
+| 
+TM-84826
+
+ | 
+
+Fixes an issue where fast-forwarded schedules would incorrectly emit further jobs once disabled.
+
+ |
+| 
+
+TM-84240
+
+ | 
+
+Fixes a Scheduler panic and not reporting the error correctly due to database timeouts.
+
+ |
+| 
+
+TM-83444
+
+ | 
+
+Fixes the issue of Calendar Periods being created without bookkeeping labels, even if previously updated.
+
+ |
+| 
+
+TM-82919
+
+ | 
+
+Fixed an edge case where jobs could be scheduled despite the Schedule being disabled
+
+ |
+| 
+
+TM-81513
+
+ | 
+
+Fixed a bug that caused some Schedule updates to fail when the updated Schedule has status Unknown.
+
+ |
+| 
+
+TM-79568
+
+ | 
+
+Ensures at-least-once streaming of scheduled operation kafka notifications in event of an initial failure to publish
+
+ |
+| 
+
+TM-74728
+
+ | 
+
+The ListJobs Core API endpoint now prepends outstanding Jobs to the first page of results, rather than append them to the final page.
+
+ |
+| 
+
+TM-73843
+
+ | 
+
+Fixes an issue where duplicate streamed scheduled operation events would have different sequence IDs
+
+ |
+| 
+
+TM-73674
+
+ | 
+
+Fixed a bug where an empty start\_timestamp field when calling a request to the CreateCalendarPeriodDescriptor endpoint would remain empty instead of defaulting to the time of the request.
+
+ |
+| 
+
+TM-72888
+
+ | 
+
+Fixed a bug where duplicate IDs supplied to the BatchGetCalendarEvents endpoint resulted in a NOT\_FOUND error instead of returning the calendar event.
+
+ |
+| 
+
+TM-72885
+
+ | 
+
+Updated the Calendar Core API docs to specify the create\_timestamp is in UTC time not local time, to avoid confusion.
+
+ |
+| 
+
+TM-72880
+
+ | 
+
+Fixed a bug where providing a value for the create\_timestamp field in a request to the CreateCalendar endpoint would result in an unknown error instead of a user error and updated the docs to note this field cannot be specified.
+
+ |
+
+#### [](#smart_contracts "Copy link to heading")Smart Contracts
+
+ 
+| Reference | Description |
+| --- | --- |
+| 
+TM-78792
+
+ | 
+
+A `get_account_creation_datetime` will return None if an account is created in an OPEN status and the `get_account_creation_datetime` is requested in the `activation_hook`. This is reflected in CL4 API documentation. Contract writers should use hook\_arguments.effective\_datetime for schedule creation.
+
+ |
+
+### [](#known_issues "Copy link to heading")Known issues
+
+#### [](#account_management_2 "Copy link to heading")Account Management
+
+ 
+| Reference | Description |
+| --- | --- |
+| 
+TM-85372
+
+ | 
+
+When converting an account to a smart contract version (using PUT /v2/accounts) which does not return any scheduled events in a conversion\_hook (or without a conversion hook defined), the existing schedules for the account are not disabled.
+
+ |
+| 
+
+TM-85027
+
+ | 
+
+Creating an account using V1 Core API endpoint with a Smart Contract with a non-optional parameter defined and not providing a value for the expected parameter on the request will return an error with incorrect missing field mapping. The issue is an error message field, which points to a non-existing field on the request.
+
+ |
+| 
+
+TM-84666
+
+ | 
+
+When opening an account through Core API with a Smart Contract that refences a schedule tag that doesn’t exist, it will return an internal error back with a message "Something went wrong", rather than return a Failed Precondition error.
+
+ |
+| 
+
+TM-84437
+
+ | 
+
+Attempting to close an account that has incorrect deactivation hook logic i.e. does not zero-out balances, will return an error that might have misleading message: rather than indicate only final, closing PIB failed to be committed, it might suggest that PIB directives from hook are rejected, which is not the case.
+
+ |
+
+#### [](#ledger_2 "Copy link to heading")Ledger
+
+ 
+| Reference | Description |
+| --- | --- |
+| 
+TM-84722
+
+ | 
+
+Feature Flags might not be propagated during usage of Disaster Recover or Events Reconciliation of Posting events, and instead the static set used.
+
+ |
+
+#### [](#simulator "Copy link to heading")Simulator
+
+ 
+| Reference | Description |
+| --- | --- |
+| 
+TM-84143
+
+ | 
+
+In simulation, if the `end_datetime` of a schedule is set in the deactivation\_hook then it will result in an error if the next run time is after the end time of the simulation. Workarounds for this are to either set the account closure instruction to match the next run time of the schedule, or set `skip=True` on the schedule.
+
+ |
+
+#### [](#smart_contracts_2 "Copy link to heading")Smart Contracts
+
+ 
+| Reference | Description |
+| --- | --- |
+| 
+TM-85415
+
+ | 
+
+Account data fetchers in CLv4 from 5.0 used in scheduled\_event\_hook, guarantee, unless they specify DefinedDateTime.LIVE, that different executions of the same job at different times get the same results.This is however not the case when the fetchers are used by schedules in a group other than the first one. In this case, postings inserted between two executions of the same job but valued before the effective\_datetime of the schedule will be seen by the second execution but not by the first one.
+
+ |
+| 
+
+TM-85397
+
+ | 
+
+Account data fetchers in CLv4 from 5.0 in scheduled\_event\_hook only retrieve, by default, postings inserted in the ledger before the effective\_datetime of the hook. If a schedule execution is delayed beyond the effective\_datetime of the following execution of the same schedule (for example more than 24 hours for a schedule configured to run daily), any postings instructed by the first schedule execution after the effective\_datetime of the second schedule execution will not be seen by the second one, even if their value\_timestamp is earlier.In use cases where execution of a schedule cannot be guaranteed to complete before the time the next execution is scheduled, this can be mitigated by using DefinedDateTime.LIVE in the fetchers as documented in the reference section of CLv4.
+
+ |
+| 
+
+TM-84984
+
+ | 
+
+Improves the parsing of Contract Hook Arguments. This is to make sure that all products with Hook Arguments not following the documented pattern that are parsed successfully, will not fail Hook Execution. This has no impact on products that follow the documented hook signatures.
+
+ |
+| 
+
+TM-83935
+
+ | 
+
+Improves the error handling of Supervisor Contracts parsing, when a wrong Event Type class is used in the metadata.
+
+ |
+| 
+
+TM-83762
+
+ | 
+
+Smart Contracts should validate that the same parameter name is used for global parameters, instance parameters, or template-level parameters. As a workaround Contact writers need to ensure this is the case.
+
+ |
+| 
+
+TM-80198
+
+ | 
+
+It is technically possible for a smart contract to define an incorrect interval (for example end date earlier than start date). When this happens the hook still executes without fetching requirements and may result, depending on the contract, in incorrect directives instructed. What should happen instead is that the whole execution should fail, so that it can be retried once the contract error is resolved.If this situation takes place an error is logged. As a mitigation for this problem it is important to thoroughly test smart contract code and monitor any errors logged.
+
+ |
+
+#### [](#vault_applications "Copy link to heading")Vault Applications
+
+ 
+| Reference | Description |
+| --- | --- |
+| 
+TM-84656
+
+ | 
+
+When the service that authenticates employees becomes unavailable users of our front end applications will receive an error indicating that there is an issue with their request instead of an internal issue. This will not happen if the Vault Core deployment is healthy.
+
+ |
+| 
+
+TM-84193
+
+ | 
+
+If an account that belongs to the Job gets closed before its operations been completed associated Vault Jobs may remain "In progress" forever. There is no mitigation for this issue in place and until this bug is resolved, in-completed operations from the closed accounts will remain "In progress" and will need to be ignored.
+
+ |
+| 
+
+TM-82428
+
+ | 
+
+The customers page, transactions tab in the Ops dashboard might be stuck if one switches to different tab (for example accounts) and then tries to go back pressing back button. To mitigate this issues - reload the page.
+
+ |
+
+#### [](#vault_common_components "Copy link to heading")Vault Common Components
+
+ 
+| Reference | Description |
+| --- | --- |
+| 
+TM-85350
+
+ | 
+
+It is not possible upgrading existing Vault Core instances to Vault Core release 5.0. This release is only suitable for new installations of the product.
+
+ |
+| 
+
+TM-84646
+
+ | 
+
+When processing an account creation or update event an error log may be emitted even if the account is successfully processed. Currently the mitigation is to ignore the errors as the operation is retried and could be completed successfully.
+
+ |
+
+### [](#vaultctl_changelog "Copy link to heading")Vaultctl changelog
+
+All notable changes to vaultctl will be documented in this section.
+
+#### [](#vaultctl_1_0_201105 "Copy link to heading")vaultctl-1.0.201105
+
+Released in `2023-07-19`. Not yet included in any version of vault.
+
+##### [](#added "Copy link to heading")Added
+
+-   Command `vaultctl install --help` specifies that `--vault-packages-file` is only for Vault releases ⇐ 4.4.x
+    
+
+##### [](#changed "Copy link to heading")Changed
+
+-   Vaultctl exits immediately when the installation encounters an error
+    
+-   Update kubectl to 1.24.16 used by crown operator
+    
+
+#### [](#vaultctl_1_0_199328 "Copy link to heading")vaultctl-1.0.199328
+
+Released in `2023-06-30`. Included in `4.5.8`.
+
+##### [](#added_2 "Copy link to heading")Added
+
+-   Add container security contexts where missing to prevent privilege escalation
+    
+
+##### [](#changed_2 "Copy link to heading")Changed
+
+-   Update kubectl to 1.22.16
+    
+
+##### [](#fixed "Copy link to heading")Fixed
+
+-   Dynamically get correct openssl config file path
+    
+-   Improve operator pods logging
+    
+
+#### [](#vaultctl_1_0_196951 "Copy link to heading")vaultctl-1.0.196951
+
+Released in `2023-06-06`. Included in `4.6.7`, `4.6.6`.
+
+##### [](#changed_3 "Copy link to heading")Changed
+
+-   Upgrade istio image to 1.17
+    
+
+#### [](#vaultctl_1_0_196177 "Copy link to heading")vaultctl-1.0.196177
+
+Released in `2023-05-26`. Included in `4.5.7`.
+
+##### [](#added_3 "Copy link to heading")Added
+
+-   Add watch permissions to webhook-operator role
+    
+
+##### [](#changed_4 "Copy link to heading")Changed
+
+-   Upgrade prometheus-operator image and CRDs to v0.65.1
+    
+
+## [](#patch_release_notes "Copy link to heading")Patch Release Notes
+
+### [](#5_0_37_patch_release_fixes "Copy link to heading")5.0.37 Patch Release Fixes
+
+There are no changes for this section in the 5.0.37 Patch Release.
+
+### [](#5_0_36_patch_release_fixes "Copy link to heading")5.0.36 Patch Release Fixes
+
+#### [](#observability_3 "Copy link to heading")Observability
+
+ 
+| Reference | Description |
+| --- | --- |
+| 
+INFRA-107723
+
+ | 
+
+Improved tracing spans. Metadata will now have as OTEL Resource Attributes the "vault\_version" and the "cluster\_name" from the Values file
+
+ |
+
+### [](#5_0_35_patch_release_fixes "Copy link to heading")5.0.35 Patch Release Fixes
+
+There are no changes for this section in the 5.0.35 Patch Release.
+
+### [](#5_0_34_patch_release_fixes "Copy link to heading")5.0.34 Patch Release Fixes
+
+#### [](#hault "Copy link to heading")Hault
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-106624
+
+ | 
+
+Vaultctl errors if a custom ca\_pem for Hashicorp Vault is specified
+
+ | 
+
+Resolves a defect in `vaultctl` which results in execution errors if a `secrets_management.hashicorp_vault.ca_pem` value is configured. These errors can prevent the installation of a Vault Core release from succeeding. This defect affects the following patch releases: 5.6.2, 5.6.3, 5.5.9, 5.5.10, 5.5.11, 5.4.18, 5.4.19, 5.3.18, 5.0.33, 4.7.32, 4.6.46 and 4.5.44.
+
+ |
+
+### [](#5_0_33_patch_release_fixes "Copy link to heading")5.0.33 Patch Release Fixes
+
+#### [](#vault_data_services "Copy link to heading")Vault Data Services
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-108921
+
+ | 
+
+Java Postgres Driver not Compatible with a passive db setup
+
+ | 
+
+We have changed the configuration in the java based postgres driver to allow for connecting to read-only databases/read replicas.
+
+ |
+
+### [](#5_0_32_patch_release_fixes "Copy link to heading")5.0.32 Patch Release Fixes
+
+#### [](#audit_and_access_control_2 "Copy link to heading")Audit and Access Control
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-108379
+
+ | 
+
+Add pod anti affinities for vault-auth deployment
+
+ | 
+
+Adds Kubernetes pod anti-affinities to distribute 'vault-auth' pods under the same deployment evenly across nodes. This improves application availability. This is done on a best-effort basis, if Kubernetes is unable to distribute pods as desired, they will still be scheduled as they were prior to this change.
+
+ |
+
+### [](#5_0_31_patch_release_fixes "Copy link to heading")5.0.31 Patch Release Fixes
+
+There are no changes for this section in the 5.0.31 Patch Release.
+
+### [](#5_0_30_patch_release_fixes "Copy link to heading")5.0.30 Patch Release Fixes
+
+#### [](#database_provisioningdeployment "Copy link to heading")Database provisioning/deployment
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-93425
+
+ | 
+
+Index creation can silently fail without blocking the upgrade
+
+ | 
+
+Fixes an issue in which under certain rare circumstances, index creation during a version upgrade could fail without blocking the installation. Alerts (InvalidDBIndex1h and InvalidDBIndex4h) would have been emitted, still. A missing index may subsequently result performance degradation or, in rare circumstances, application bugs.  
+  
+This fix prevents the upgrade from completing if there already exist such invalid indices or new ones fail.  
+To confirm before upgrading whether your environment has such invalid indices or not and how to repair them, refer to the `Validating Database Indices` section at  
+[https://vault-portal.thoughtmachine.net/vault-core/latest/EN/environment\_and\_installation/infrastructure\_docs/infrastructure\_and\_installation\_guides/vault\_cloud\_infrastructure/using\_a\_relational\_database#validating\_database\_indices](https://vault-portal.thoughtmachine.net/vault-core/latest/EN/environment_and_installation/infrastructure_docs/infrastructure_and_installation_guides/vault_cloud_infrastructure/using_a_relational_database#validating_database_indices)  
+  
+Going forward, the DB Migrator will log an error with the failed index and the pod will crashloop, without incurring downtime, until it becomes valid. You can verify if manual intervention is required by following the documentation above.  
+  
+In future releases, we will make it possible to run index creation as a pre-upgrade step so that slow index creation and index creation failure does not risk upgrade delays.
+
+ |
+
+#### [](#toolchain "Copy link to heading")Toolchain
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-98639
+
+ | 
+
+contract\_executor fail to load following rollout of tm-toolchain-3.53.1
+
+ | 
+
+Resolves a bug impacting contract-executor which prevents new pods from starting. This will functionally result in contract simulation not working once the old working pods for contract-executor get killed.
+
+ |
+
+### [](#5_0_29_patch_release_fixes "Copy link to heading")5.0.29 Patch Release Fixes
+
+#### [](#tickets "Copy link to heading")Tickets
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-105769
+
+ | 
+
+Fix Spring and Jetty security vulnerabilities on 5.0
+
+ | 
+
+This change is required to mitigate security vulnerabilities.
+
+ |
+
+#### [](#workflows "Copy link to heading")Workflows
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-106331
+
+ | 
+
+License records for some Jakarta EE components are incorrect
+
+ | 
+
+Jakarta EE, a third-party component used in Vault Core, is dual-licensed under the Eclipse Public License 2.0 (EPL-2.0) and the GNU General Public License 2.0 with an exception for classpath-based linking (GPL-2.0-with-classpath-exception). The software bill of materials for the most recent patch release incorrectly stated that Jakarta is dual-licensed under EPL-2.0 and an unspecified version of the GPL; this has been corrected.
+
+ |
+
+### [](#5_0_28_patch_release_fixes "Copy link to heading")5.0.28 Patch Release Fixes
+
+There are no changes for this section in the 5.0.28 Patch Release.
+
+### [](#5_0_27_patch_release_fixes "Copy link to heading")5.0.27 Patch Release Fixes
+
+There are no changes for this section in the 5.0.27 Patch Release.
+
+### [](#5_0_26_patch_release_fixes "Copy link to heading")5.0.26 Patch Release Fixes
+
+There are no changes for this section in the 5.0.26 Patch Release.
+
+### [](#5_0_25_patch_release_fixes "Copy link to heading")5.0.25 Patch Release Fixes
+
+There are no changes for this section in the 5.0.25 Patch Release.
+
+### [](#5_0_24_patch_release_fixes "Copy link to heading")5.0.24 Patch Release Fixes
+
+#### [](#contracts_language_3 "Copy link to heading")Contracts Language
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-98910
+
+ | 
+
+CLv4 Vault method examples reference unavailable legacy @requires fetchers for postings/balances
+
+ | 
+
+Improves the documentation examples for get\_posting\_instructions and get\_balances\_timeseries in the CLv4 API Reference. Removes misleading examples that show the use of the legacy @requires decorator for Postings and Balances in Smart Contracts.
+
+ |
+
+#### [](#database_libraries_2 "Copy link to heading")Database Libraries
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-92931
+
+ | 
+
+db\_migrator user is unable to create extentions in Azure Database for PostgreSQL
+
+ | 
+
+A change in the default permissions on Azure Postgres Flexible server prevents Vault Core from installing successfully with 'ERROR: Only members of "azure\_pg\_admin" are allowed to use CREATE EXTENSION' on clean environments.
+
+ |
+
+#### [](#documentation "Copy link to heading")Documentation
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-93044
+
+ | 
+
+Update "Consistency guarantees" wording of List API endpoint
+
+ | 
+
+Documentation for Core API List endpoints mention "Consistency guarantees". This is now more accurately referred to as "Pagination consistency guarantees".
+
+ |
+
+### [](#5_0_23_patch_release_fixes "Copy link to heading")5.0.23 Patch Release Fixes
+
+There are no changes for this section in the 5.0.23 Patch Release.
+
+### [](#5_0_22_patch_release_fixes "Copy link to heading")5.0.22 Patch Release Fixes
+
+#### [](#database_provisioningdeployment_2 "Copy link to heading")Database provisioning/deployment
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-92032
+
+ | 
+
+Vault-db-init locks all tables when updating ownership
+
+ | 
+
+Fixed an issue whereby the DB initialisation and update process would lock tables for longer than necessary, increasing risk of deadlocks and causing performance degradation during maintenance.
+
+ |
+
+#### [](#observability_4 "Copy link to heading")Observability
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-92080
+
+ | 
+
+vault\_version not updated after upgrading Vault
+
+ | 
+
+Fixed bug where "vault\_version" metric wouldn’t get updated after an upgrade
+
+ |
+
+### [](#5_0_21_patch_release_fixes "Copy link to heading")5.0.21 Patch Release Fixes
+
+#### [](#kafka_2 "Copy link to heading")Kafka
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-91754
+
+ | 
+
+Vault Topic Reconciliation does not behave in the expected manner
+
+ | 
+
+Vault Topic Manager makes changes to topics it manages on startup even when ongoing reconciliation is disabled. Behaviour when this setting is enabled has been changed to reflect expectations - topics which already exist will not be updated, and those which are missing will be created.
+
+ |
+
+#### [](#observability_5 "Copy link to heading")Observability
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-91951
+
+ | 
+
+Can’t scrape otel-collector /metrics endpoint
+
+ | 
+
+We now have to add explicit 0.0.0.0 address for internal telemetry since localhost has been deprecated
+
+ |
+
+### [](#5_0_20_patch_release_fixes "Copy link to heading")5.0.20 Patch Release Fixes
+
+#### [](#observability_6 "Copy link to heading")Observability
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-87357
+
+ | 
+
+otel-collector noisy logs
+
+ | 
+
+Correctly setting open telemetry log level to avoid log noise.
+
+ |
+
+#### [](#simulator_2 "Copy link to heading")Simulator
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-99944
+
+ | 
+
+Parallel requests to Simulation cause it to fall over due to concurrent map read/write
+
+ | 
+
+Fixed an issue which caused the Contract Simulator to error or crash when run in parallel.
+
+ |
+
+### [](#5_0_19_patch_release_fixes "Copy link to heading")5.0.19 Patch Release Fixes
+
+There are no changes for this section in the 5.0.19 Patch Release.
+
+### [](#5_0_18_patch_release_fixes "Copy link to heading")5.0.18 Patch Release Fixes
+
+#### [](#account_management_3 "Copy link to heading")Account Management
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-99173
+
+ | 
+
+Retry transient errors returned by BatchCreateParameterValues and check SetErrored uses
+
+ | 
+
+This fixes the bug where, if there is a transient error during a V1 account conversion, the account update may not be retried and end up in `ACCOUNT_UPDATE_STATUS_ERRORED`.
+
+ |
+
+#### [](#contracts_language_4 "Copy link to heading")Contracts Language
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-99319
+
+ | 
+
+Move the instantiation of the embedded executor to the top of services
+
+ | 
+
+Fixes a bug in the contracts engine where it will endlessly log a message for number of long running workers, indicating a long running request but the request will be stuck perpetually and never be processed.
+
+ |
+
+#### [](#observability_7 "Copy link to heading")Observability
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-87363
+
+ | 
+
+Upgrade otel-collector-contrib
+
+ | 
+
+latest: 0.108.0, current: 0.106.1
+
+ |
+
+#### [](#warm_storage "Copy link to heading")Warm Storage
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-94829
+
+ | 
+
+Warm Storage grafana dashboards missing
+
+ | 
+
+The dashboards for monitoring the status of the various warm storage components are now available under the Warm Storage grafana folder.
+
+ |
+
+### [](#5_0_17_patch_release_fixes "Copy link to heading")5.0.17 Patch Release Fixes
+
+#### [](#account_management_4 "Copy link to heading")Account Management
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-98763
+
+ | 
+
+V2 Account Conversion only fetches the last existing schedule set
+
+ | 
+
+When performing a PUT /v2/accounts call to update the smart\_contract\_version\_id the conversion\_hook of the smart contract is called with an incorrect value for hook\_arguments.existing\_schedules. This issue only occurs if the smart contract defines more than one group in the event\_types\_groups metadata or if the smart contract defines some ungrouped event types and some grouped event types. Specifically, only the schedules in the last group (sorted by the group\_id of the associated schedules, in ascending order) are included in hook\_arguments.existing\_schedules.
+
+ |
+
+#### [](#contracts_platform_2 "Copy link to heading")Contracts Platform
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-96207
+
+ | 
+
+Platform HookExecutor does not correctly handle supervisor timeouts in all cases.
+
+ | 
+
+Fixed a bug whereby a Supervisor execution time out would be triaged as a success.
+
+ |
+| 
+
+TM-98702
+
+ | 
+
+Product/ProductVersion documentation incorrectly suggests ID is a settable field
+
+ | 
+
+Corrects documentation for the Product/ProductVersion POST/PUT APIs to correctly reflect which fields are settable on the request types.
+
+ |
+
+#### [](#ledger_3 "Copy link to heading")Ledger
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-98892
+
+ | 
+
+Secondary CustomInstruction with a ValueTimestamp before previous postings returns Internal Error
+
+ | 
+
+Fix the behaviour around Value Timesamp validation for Custom Instruction linked with an existing client transaction. If they have an invalid ValueTimestamp, we will return a rejected PIB response instead of a errored PIB.
+
+ |
+
+#### [](#scheduler_3 "Copy link to heading")Scheduler
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-96606
+
+ | 
+
+ListScheduleSets does not handle error correctly
+
+ | 
+
+Fixed an issue where creating schedules for CLv4 products could fail without returning an error.
+
+ |
+| 
+
+TM-98979
+
+ | 
+
+Unhelpful message during account creation due to Scheduler BulkGetTags to return an overall error when no tags are found
+
+ | 
+
+Fixed a bug where an unhelpful message "Something went wrong" is returned when creating account with all tags missing. It now returns a FailedPrecondition error with more helpful message instead.
+
+ |
+| 
+
+TM-99106
+
+ | 
+
+Account update errors when updating schedules on clv4
+
+ | 
+
+Fixed an issue where an account update would error when migrating an account on a CLv4 product to another CLv4 product which would happen when the products contain 1 or more identical schedules and the account was not created recently.
+
+ |
+
+### [](#5_0_16_patch_release_fixes "Copy link to heading")5.0.16 Patch Release Fixes
+
+#### [](#account_management_5 "Copy link to heading")Account Management
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-92847
+
+ | 
+
+Create PlanMigration fails with InvalidArgument
+
+ | 
+
+Resolved an issue that could result in creating a Plan Migration failing if Plans supervise more than an average of 4 Accounts each.
+
+ |
+
+#### [](#contracts_language_5 "Copy link to heading")Contracts Language
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-98610
+
+ | 
+
+Very small amounts on postings directive are not accepted
+
+ | 
+
+It is now possible to instruct postings directives with amount smaller than `1E-6` from a contract.
+
+ |
+
+#### [](#scheduler_4 "Copy link to heading")Scheduler
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-97371
+
+ | 
+
+Vault Jobs streaming API documentation incorrect for field 'status'
+
+ | 
+
+The documentation of the Vault Jobs events was incorrect; in particular the "status" field of the "Job" for the "JobCreatedEvent" documentation stated that Jobs will always be in "IN PROGRESS" status on "JobCreatedEvent", which is not always true and should not be relied on by client integrations.
+
+ |
+
+### [](#5_0_15_patch_release_fixes "Copy link to heading")5.0.15 Patch Release Fixes
+
+#### [](#account_management_6 "Copy link to heading")Account Management
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-89106
+
+ | 
+
+Account Activation Updates can be incorrectly rejected due to inconsistent Account status
+
+ | 
+
+Previously Activation AccountUpdates were sometimes incorrectly set to Rejected Status, when they actually had successfully Completed.
+
+ |
+| 
+
+TM-96308
+
+ | 
+
+Context deadline exceeded error is incorrectly classified as non-retriable in the v2 to v1 processor
+
+ | 
+
+Fixed an issue when v2 and v1 accounts compatibility layer was misclassifying an error as non-retriable and sending message to DLQ instead
+
+ |
+| 
+
+TM-96603
+
+ | 
+
+Migrated Accounts sometimes have their Associated Account Activation Update set to Errored Status despite being successfully opened
+
+ | 
+
+Resolved an issue where the account update record was not correctly updated due to transient database errors, leaving the account in an incorrect state from the v1/accounts perspective. This resulted in an error being reported on the v1 accounts topic, despite the actual update being completed successfully.
+
+ |
+| 
+
+TM-96866
+
+ | 
+
+Account owned journals metadata incorrect keys
+
+ | 
+
+One of journal tables for account related resources had an incorrect data format, which could occasionally cause events to be processed by the internal processor when not really required or have incorrect partition keys set for "AccountUpdate" stream events.
+
+ |
+
+#### [](#product_configuration "Copy link to heading")Product Configuration
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-96768
+
+ | 
+
+Existing Account Simulation fails seeding given more than one Smart Contract with the same Instance Parameter
+
+ | 
+
+When making a request to Contract Simulation where multiple existing Smart Contracts are involved (either directly, or indirectly through the use of an existing Account) that share the same Instance Parameter with the same Shape, the request would fail with a COINCIDENT\_PARAMETER\_VALUE precondition violation. This has been addressed such that the Simulation should now be valid and processed as expected.
+
+ |
+
+#### [](#workflows_2 "Copy link to heading")Workflows
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-96786
+
+ | 
+
+Workflow performs duplicate actions when navigating "back" in browser
+
+ | 
+
+Workflows executed via the Operations Dashboard no longer show duplicated actions when following certain navigation flows to instantiate a series of processes.
+
+ |
+
+### [](#5_0_14_patch_release_fixes "Copy link to heading")5.0.14 Patch Release Fixes
+
+#### [](#account_management_7 "Copy link to heading")Account Management
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-92126
+
+ | 
+
+Account Conversion to a Smart Contract without a Conversion Hook does not reject the Account Update
+
+ | 
+
+A request to update an Account’s Product Version will now fail if event\_types are defined in the metadata of the target Product Version, but the Product Version does not specify a conversion\_hook. If using /v2/accounts, the update to the Account will return an InvalidArgument error; if using /v1/accounts, the corresponding AccountUpdate will be rejected.
+
+ |
+| 
+
+TM-95468
+
+ | 
+
+Vault 5+ Account Opening to a Smart Contract without an Activation Hook does not reject the Account Update
+
+ | 
+
+A request to create an Account to OPEN status, or update an Account from PENDING status to OPEN status, will now fail if event\_types are defined in the metadata of the backing Product Version, but the Product Version does not specify an activation\_hook. If using /v2/accounts, the response will contain an InvalidArgument error; if using /v1/accounts, the corresponding AccountUpdate will be rejected.
+
+ |
+| 
+
+TM-96367
+
+ | 
+
+An account may become unusable following a conversion
+
+ | 
+
+In exceptionally rare circumstances, when an account is converted to a new contract, its existing instance parameters would not be carried over, which would cause most interactions with that account to fail with an error.Attempting to fetch the account would result in an error containing "No value found for contract template/instance/parameter\_id/parameter names".The root cause of this problem could also occasionally cause issues in other locations, though conversion is the only known occurrence that would result in invalid data being written. The other occurrences should all be resolvable by rolling pods in order to reset caches, or simply retrying the operation.This has now been fixed. Accounts that have become stuck can be remediated; contact Production Support if such remediation is required.
+
+ |
+
+#### [](#contracts_platform_3 "Copy link to heading")Contracts Platform
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-95990
+
+ | 
+
+Postings interval fetching doesn’t align with Vault behaviour in 5.0 & 5.1
+
+ | 
+
+Fixes issue where in simulation postings that were inserted exactly on the end timestamp of a postings observation fetcher interval would be filtered out.
+
+ |
+| 
+
+TM-96189
+
+ | 
+
+BatchGetSupervisorContractVersions cannot handle requests with duplicate contract version ids
+
+ | 
+
+GET /v1/supervisor-contract-versions:batchGet Core API endpoint was incorrectly returning a not found error if duplicate IDs were supplied in the request. This was known to affect Plan conversions upgrading to a supervisor contract in CLv4 (from 4.6) when the history of conversions includes duplicated supervisor contract versions. This change improves the endpoint to be resilient to duplicate IDs.
+
+ |
+
+#### [](#documentation_2 "Copy link to heading")Documentation
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-71596
+
+ | 
+
+vault.get\_account\_creation\_datetime does not return None in pre-Vault 5 versions, and only returns it if v2/accounts is used in post-Vault 5 versions
+
+ | 
+
+Vault 4.x docs are incorrectly suggesting that using vault.get\_account\_creation\_datetime() in the activation\_hook for a CLv4 Smart Contract may return None in some cases. This is only valid from Vault 5.x and when using the v2/accounts endpoint.
+
+ |
+
+#### [](#ledger_4 "Copy link to heading")Ledger
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-95297
+
+ | 
+
+Null pointer exception when postings table is locked
+
+ | 
+
+Fixes an extremely rare concurrency issue in the database handling code that could result in nil pointer exception while fetching balances.
+
+ |
+| 
+
+TM-95594
+
+ | 
+
+Unprocessed PiB was emitted by ledger as ACCEPTED
+
+ | 
+
+Fixes an an extremely rare concurrency issue in the database handling code that could result in PIBs being emitted as accepted despite not being inserted in the database correctly.
+
+ |
+| 
+
+TM-96326
+
+ | 
+
+The Ledger does not validate that Source Insert Timestamp is not set on Requests
+
+ | 
+
+The BAU Postings API was not always validating that the `source_insertion_timestamp` for Posting Instruction Batch requests was populated, and could be written externally. If set on the request, the account may have misordered postings. This will still be settable on the Migration Postings API as this field exists on the Request level for that API.
+
+ |
+
+#### [](#observability_8 "Copy link to heading")Observability
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-70605
+
+ | 
+
+Upgrade otel-collector-contrib
+
+ | 
+
+latest: 0.103.0, current: 0.101.0
+
+ |
+| 
+
+INFRA-71608
+
+ | 
+
+Upgrade prometheus
+
+ | 
+
+latest: 2.53.0, current: 2.52.0
+
+ |
+
+#### [](#scheduler_5 "Copy link to heading")Scheduler
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-96496
+
+ | 
+
+Activation of accounts with schedules can fail due to timeouts
+
+ | 
+
+Fixed an issue that was causing account activation to fail backwards:Accounts received a Data Loader API ResourceMigratedEvent (i.e. event stating the outcome of the migration per resource) of status RESOURCE\_STATUS\_FAILED, however in reality the migration was successful.
+
+ |
+| 
+
+TM-96546
+
+ | 
+
+Activation of accounts with schedules can fail with a "transaction is aborted" error
+
+ | 
+
+Activating accounts with schedules while Vault Core is now more resilient to transient issues.
+
+ |
+| 
+
+TM-96604
+
+ | 
+
+Calendar error incorrectly classified as Internal error
+
+ | 
+
+Fixed an issue that was causing account activation to fail backwards:Accounts received a Data Loader API ResourceMigratedEvent (i.e. event stating the outcome of the migration per resource) of status RESOURCE\_STATUS\_FAILED, however in reality the migration was successful.
+
+ |
+
+#### [](#simulator_3 "Copy link to heading")Simulator
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-91655
+
+ | 
+
+Add a caveat to the existing account simulation docs for last\_execution\_time fetch
+
+ | 
+
+In Existing account simulation. `LastExecutionTime` which is retrieved via `last_execution_datetime` in CLv3 or `get_last_execution_datetime` in CLV4 is not recovered as of simulation start time. `LastExecutionTime` instead shows when the corresponding event was last executed in Vault. The change here is to reflect this in our documentation.
+
+ |
+| 
+
+TM-95653
+
+ | 
+
+Existing Account Simulation returns incorrect error code if schedules not fetched for account
+
+ | 
+
+Fixed an issue where schedules had not finished being created for V1 Accounts in simulation, causing internal errors to be returned. Simulation now only supports accounts that are in OPEN or PENDING\_CLOSED status.
+
+ |
+
+### [](#5_0_13_patch_release_fixes "Copy link to heading")5.0.13 Patch Release Fixes
+
+#### [](#account_management_8 "Copy link to heading")Account Management
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-95517
+
+ | 
+
+AccountMigration can miss Accounts due to disruption of account\_updates\_next\_batch\_creator
+
+ | 
+
+This fix improves resilience of Account Migrations so that if there is a disruption of the vault-account-processor pod when an AccountMigration is ongoing where not all accounts would complete the process.
+
+ |
+| 
+
+TM-95654
+
+ | 
+
+Instance Parameter updates with more than 1 non-existent parameter can halt processing of all Account Updates
+
+ | 
+
+An Instance Parameter Value Account Update containing more than one Parameter not defined on the Contract Template of the given Account could make a Vault Core service get stuck in a crash loop. This would block subsequent Account Updates from being processed. It has now has been fixed.
+
+ |
+
+#### [](#asynchronous_executions "Copy link to heading")Asynchronous Executions
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-94306
+
+ | 
+
+Update Async Executions grafana dashboards to stop using Graph, Replace with Timeseries.
+
+ | 
+
+Now using timeseries instead of graph panels in Asynchronous Executions and Post-Postings Grafana dashboards.
+
+ |
+
+#### [](#contracts_hierarchy_and_supervisors "Copy link to heading")Contracts Hierarchy and Supervisors
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-95182
+
+ | 
+
+Supervisor Contracts returning ContractRaisedUnexpectedError rather than ContractRaisedTimeoutError
+
+ | 
+
+The error message when a Supervisor contract hook execution is terminated due to a timeout has been improved to be more specific
+
+ |
+
+#### [](#contracts_platform_4 "Copy link to heading")Contracts Platform
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-95456
+
+ | 
+
+Supervised 'INVOKED' Hook Execution does not execute correctly for chained posting types.
+
+ | 
+
+Fixed an issue where a Supervised `pre_posting_code` for CLv3 or `pre_posting_hook` for CLv4 which runs in mode `SupervisionExecutionMode.INVOKED` would fail for chained posting instructions that are linked to other postings e.g. Settlements that refer to an earlier Authorsation via a client transaction id.
+
+ |
+
+#### [](#kafka_3 "Copy link to heading")Kafka
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-70363
+
+ | 
+
+Downgrade Burrow to 1.6 to fix issues with SASL/SCRAM
+
+ | 
+
+Downgrade Burrow to 1.6 to fix issues with it not working when using SASL/SCRAM for authentication with Kafka.
+
+ |
+| 
+
+INFRA-70519
+
+ | 
+
+Burrow is not working when using SASL/OAUTH
+
+ | 
+
+Fixed an issue with Burrow not working when using SASL/OAUTHBEARER for authentication with Kafka.
+
+ |
+
+#### [](#ledger_5 "Copy link to heading")Ledger
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-94136
+
+ | 
+
+Replace SQL Injection vulnerable function "convertStringArrayToPostgresArray"
+
+ | 
+
+The API to create PIBs was vulnerable to an SQL parameter injection. Because this only affected the parameters of the query itself arbitrary SQL queries was not possible. In the unlikely case where the data would trigger the injection it would however result in unexpected error instead of processing the PIB correctly.
+
+ |
+| 
+
+TM-95594
+
+ | 
+
+Unprocessed PiB was emitted by ledger as ACCEPTED
+
+ | 
+
+Fixes an an extremely rare concurrency issue in the database handling code that could result in PIBs being emitted as accepted despite not being inserted in the database correctly.
+
+ |
+
+#### [](#observability_9 "Copy link to heading")Observability
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-69343
+
+ | 
+
+Upgrade prometheus
+
+ | 
+
+latest: 2.52.0, current: 2.51.2
+
+ |
+| 
+
+INFRA-69447
+
+ | 
+
+Migrate deprecated dashboard panels in folder "database"
+
+ | 
+
+Update Database dashboards from deprecated Angular to React panels
+
+ |
+
+#### [](#simulator_4 "Copy link to heading")Simulator
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-92435
+
+ | 
+
+Simulation does not read source\_insertion\_timestamp when populating insertion\_datetime of a posting
+
+ | 
+
+In Contract Simulation, Postings fetched for contract execution now have field `insertion_datetime` field populated correctly.
+
+ |
+
+#### [](#toolchain_2 "Copy link to heading")Toolchain
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-70355
+
+ | 
+
+Upgrade golang to 1.22.4
+
+ | 
+
+Update go tooling to version 1.22.4
+
+ |
+
+### [](#5_0_12_patch_release_fixes "Copy link to heading")5.0.12 Patch Release Fixes
+
+#### [](#account_management_9 "Copy link to heading")Account Management
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-92915
+
+ | 
+
+CLv3 to CLv4 Plan Conversions can fail due to incorrect Plan Schedule
+
+ | 
+
+Fixed an issue in which CLv3 to CLv4 Plan conversions could fail if there is an existing incorrect association created via a bug. These incorrect associations are now correctly discarded during Plan conversion, allowing it to succeed.
+
+ |
+
+#### [](#istio "Copy link to heading")Istio
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-68976
+
+ | 
+
+k8s\_versions.yaml drift between new versions and old versions can complicate Istio backports
+
+ | 
+
+Remove the explicit listing of Istio’s supported Kubernetes versions.
+
+ |
+
+#### [](#observability_10 "Copy link to heading")Observability
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-63524
+
+ | 
+
+Address excessive CPU throttling on prom-multiplexer sidecar
+
+ | 
+
+Addressed excessive CPU throttling on the prom-multiplexer sidecar.
+
+ |
+| 
+
+INFRA-69659
+
+ | 
+
+Migrate Grafana common panels from type "panel" to type "timeseries"
+
+ | 
+
+In preparation for the Angular panels deprecation in Grafana. We’re now using "timeseries" panel type instead of "graph" for common panels
+
+ |
+
+#### [](#scheduler_6 "Copy link to heading")Scheduler
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-89183
+
+ | 
+
+Deterministic request IDs result in different Schedule updates assigned the same request ID
+
+ | 
+
+Fixed an incorrect idempotency mechanism that could cause schedules to be updated with different fields to those specified in the request under certain circumstances.
+
+ |
+| 
+
+TM-94638
+
+ | 
+
+Nil pointer error when accessing Schedule Update object
+
+ | 
+
+Prevents access of a nil object which can cause Scheduler to panic.
+
+ |
+
+#### [](#vault_applications_2 "Copy link to heading")Vault Applications
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-94510
+
+ | 
+
+Workflow State UI submit button does not disable after being pressed
+
+ | 
+
+Fixed an issue where submitting an action in the Workflows UI would not disable the submit button, potentially resulting in multiple workflow transitions being executed.
+
+ |
+
+### [](#5_0_11_patch_release_fixes "Copy link to heading")5.0.11 Patch Release Fixes
+
+#### [](#observability_11 "Copy link to heading")Observability
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-69659
+
+ | 
+
+Migrate Grafana common panels from type "panel" to type "timeseries"
+
+ | 
+
+In preparation for the Angular panels deprecation in Grafana. We’re now using "timeseries" panel type instead of "graph" for common panels
+
+ |
+
+#### [](#product_configuration_2 "Copy link to heading")Product Configuration
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-94395
+
+ | 
+
+POST v1/parameters is not idempotent after 1 week
+
+ | 
+
+Treat requests to the CreateParameter (`POST /v1/parameters`) endpoint that reuse the same request ID as idempotent, even if the request is more than 1 week after the original request.
+
+ |
+| 
+
+TM-94396
+
+ | 
+
+Contracts with UnionShape or DenominationShape Instance Parameters can fail to upload after upgrading to Vault 5
+
+ | 
+
+Prior to this fix, if a Smart Contract uses a UnionShape or DenominationShape Instance Parameter, and its items are not in alphabetical order, and this Instance Parameter was used in Vault Core prior to upgrading to version 5, then attempts to create the Product Version may fail with the error "The request ID matches previous partially successful request, however, the INSTANCE level ContractParameter definitions in these requests are different. Use different request ID.". Smart Contracts with many instance parameters that have been used in many versions are particularly affected by this. A retry may eventually succeed, but changing the order of the items to be alphabetical (based on display name) also resolves the issue.
+
+ |
+
+#### [](#scheduler_7 "Copy link to heading")Scheduler
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-90278
+
+ | 
+
+Race condition where next job is not unlocked when schedule update and outcome received at the same time.
+
+ | 
+
+Fixes a bug causing scheduled jobs to become stuck and discontinue executing for schedules which are updated while the job is in flight.
+
+ |
+
+#### [](#vault_applications_3 "Copy link to heading")Vault Applications
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-94510
+
+ | 
+
+Workflow State UI submit button does not disable after being pressed
+
+ | 
+
+Fixed an issue where submitting an action in the Workflows UI would not disable the submit button, potentially resulting in multiple workflow transitions being executed.
+
+ |
+
+### [](#5_0_10_patch_release_fixes "Copy link to heading")5.0.10 Patch Release Fixes
+
+#### [](#scheduler_8 "Copy link to heading")Scheduler
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-86374
+
+ | 
+
+DLQ reported for Outcome Processor when manipulating scheduler groups
+
+ | 
+
+Fixed a bug causing DLQs to be published to scheduler.jobs.outcomes.dlq topic as a result of schedule groups being incorrectly set up.
+
+ |
+
+#### [](#security_engineering "Copy link to heading")Security Engineering
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-68046
+
+ | 
+
+Resync tm-alpine-mirror (20240422)
+
+ | 
+
+In first-party container images based on Alpine Linux, the python3 package has been upgraded where present to remediate CVE-2023-6597. This also resolves some other OS package vulnerabilities that were present in these Alpine-based images.
+
+ |
+
+### [](#5_0_9_patch_release_fixes "Copy link to heading")5.0.9 Patch Release Fixes
+
+#### [](#account_management_10 "Copy link to heading")Account Management
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-91363
+
+ | 
+
+AccountUpdate events don’t set partition key
+
+ | 
+
+Fixed an issue so that AccountUpdateEvents for an Account, streamed out from vault.core\_api.v1.accounts.account\_update.events, are now guaranteed to be published to the same partition in Kafka, including duplicate events.
+
+ |
+| 
+
+TM-92414
+
+ | 
+
+Vault Core incorrectly classifies InFailedSqlTransaction error in Python services
+
+ | 
+
+Within Python microservices, an InFailedSqlTransaction error was not being retried correctly. This error is currently poorly triaged as an Unavailable error, which is usually translated to an Internal error when emitted from a service. The error triaging should instead emit an Aborted error, which signifies to callers that this needs to be retried at a higher level.
+
+ |
+| 
+
+TM-93168
+
+ | 
+
+v1/accounts requests to update stakeholders and details trigger activation Account Updates
+
+ | 
+
+AccountUpdates are no longer created for PUT /v1/accounts requests to update Stakeholder IDs and details.
+
+ |
+
+#### [](#audit_and_access_control_3 "Copy link to heading")Audit and Access Control
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-93012
+
+ | 
+
+Undefined sort order in GET /v1/role-data-permission-assocs
+
+ | 
+
+Fixed a bug with consistency ordering of the list role data permission associations endpoint.
+
+ |
+
+#### [](#contracts_platform_5 "Copy link to heading")Contracts Platform
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-60389
+
+ | 
+
+Simulator still does not recognise Optional Template parameters in 2.8.3
+
+ | 
+
+Fixed an issue where the Default Values for Optional Template Parameters were not being populated in Contract Simulation.
+
+ |
+
+#### [](#observability_12 "Copy link to heading")Observability
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-63916
+
+ | 
+
+Upgrade kube-state-metrics
+
+ | 
+
+latest: 2.12.0, current: 2.10.1
+
+ |
+| 
+
+INFRA-65745
+
+ | 
+
+Upgrade grafana
+
+ | 
+
+latest: 10.4.2, current: 10.4.0
+
+ |
+| 
+
+INFRA-66790
+
+ | 
+
+Upgrade prometheus-operator
+
+ | 
+
+latest: 0.73.1, current: 0.72.0
+
+ |
+
+#### [](#storage "Copy link to heading")Storage
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-65959
+
+ | 
+
+Teller-patch missing truncation logic for SA AWS role annotations
+
+ | 
+
+There’s a bug that in certain scenarios (e.g. where namespace and a given service account name are relatively long) which results in discrepancy between names used in k8s service account annotations and the relevant AWS role. This results in broken setup. This might prevent customers from migrating from HashiCorp Vault to AWS ASM
+
+ |
+
+### [](#5_0_8_patch_release_fixes "Copy link to heading")5.0.8 Patch Release Fixes
+
+#### [](#account_management_11 "Copy link to heading")Account Management
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-87625
+
+ | 
+
+UpdatePlanEventTypes does not disassociate old Schedules
+
+ | 
+
+Due to a bug in the UpdatePlanEventType logic, updating the Schedules for a Plan would not disassociate the old Schedules. This results in old Schedules being included in the result set for API calls to list the Schedules associated with a Plan. Following this fix, these associations are correctly removed. Once an update is performed, any associations which were previously kept incorrectly will be removed.
+
+ |
+| 
+
+TM-88690
+
+ | 
+
+Mitigation for broken account activations
+
+ | 
+
+Prior to Vault 5.0 if an activation failed, it was possible to perform an account conversion then retry the activation. This is now possible in Vault 5.0.
+
+ |
+| 
+
+TM-91406
+
+ | 
+
+accounts-v2-to-v1-events-processor stuck if there are too many events to insert
+
+ | 
+
+Fix ensures the correct publishing to the accounts-v1 compatible update topic under high load, e.g. when rehydrating Kafka queues. Previously downstream consumers of these account updates or v1.account or v1.accounts events could stop seeing messages in this scenario.
+
+ |
+| 
+
+TM-91664
+
+ | 
+
+Product version account updates fail irrecoverably when automatic retries are exhausted
+
+ | 
+
+When retrying an account update to change the product version id, the pending\_smart\_contract\_version\_id is now unset if the maximum number of retries is reached. This allows further product version id updates to be applied to the account.
+
+ |
+| 
+
+TM-91964
+
+ | 
+
+v1 account events are unnecessarily DLQed
+
+ | 
+
+Producing v1 account events has been made more resilient to transient failures. As a result the rate of messages produced to vault.api.v1.accounts.account.created.failures and vault.api.v1.accounts.account.status.updated.failures has been reduced.
+
+ |
+| 
+
+TM-92020
+
+ | 
+
+UpdateAccount returns Internal error for all restriction fetching errors
+
+ | 
+
+Transient errors that occur during /v1/accounts PUT requests are now classified correctly and will be retried.
+
+ |
+
+#### [](#asynchronous_executions_2 "Copy link to heading")Asynchronous Executions
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-81207
+
+ | 
+
+Database deadlock on vault upgrade causes DLQed post-posting
+
+ | 
+
+The contract-post-balance-update-processor, or any Python microservice in Vault Core, can encounter an internal error when fetching data from the DB. The source of this error is a rare deadlock in the DB, which causes a DB query to fail to commit. This error is currently poorly triaged as an Unavailable error, which is usually translated to an Internal error when emitted from a service. The error triaging should instead emit an Aborted error, which signifies to callers that this needs to be retried at a higher level.
+
+ |
+
+#### [](#audit_and_access_control_4 "Copy link to heading")Audit and Access Control
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-92179
+
+ | 
+
+Undefined sort order in GET /v1/role-vault-permission-assocs
+
+ | 
+
+Fixed a bug with consistency ordering of the list role vault permission associations endpoint.
+
+ |
+| 
+
+TM-93012
+
+ | 
+
+Undefined sort order in GET /v1/role-data-permission-assocs
+
+ | 
+
+Fixed a bug with consistency ordering of the list role data permission associations endpoint.
+
+ |
+
+#### [](#contracts_language_6 "Copy link to heading")Contracts Language
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-91841
+
+ | 
+
+Fix embedded contract execution long running workers metric to still be populated when pool is exhausted
+
+ | 
+
+Fix error where the number of long running execution workers were not reported when the worker pool is exhausted.
+
+ |
+| 
+
+TM-92378
+
+ | 
+
+Expensive deepcopying Hook\_API on every hook execution
+
+ | 
+
+Fixes a case where we were doing unnecessary additional work during contract executions based on disabled features.
+
+ |
+
+#### [](#contracts_platform_6 "Copy link to heading")Contracts Platform
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-88621
+
+ | 
+
+Unsetting Optional Defined Instance Parameter in Simulation Doesn’t Work in Vault 5
+
+ | 
+
+This bug is triggered when simulating a CLv4 contract with an OptionalShape Parameter with a non-empty Value in Vault 5.x. If an AccountUpdate is created that unsets the Parameter Value, this operation will not be persisted correctly and fetching the Parameter timeseries will show the Value is still set. This has now been fixed.
+
+ |
+| 
+
+TM-90988
+
+ | 
+
+Contracts Engine PIB directives should be partitioned by originating\_account\_id
+
+ | 
+
+Improved partitioning of postings directives to use the originating account id on the posting instruction rather than the first account id found in the instruction. This removes the risk of a hot partition if an internal account was specified first.
+
+ |
+| 
+
+TM-92301
+
+ | 
+
+Fix the mistriaging of Resource Pool Exhausted Timeout Errors
+
+ | 
+
+Changes the classification of Hook Timeout Errors from Internal to retryable Unavailable errors. With this fix, postings that were previously rejected due to timeouts will rerun validation.
+
+ |
+
+#### [](#ledger_6 "Copy link to heading")Ledger
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-88065
+
+ | 
+
+Implement new Distribution query based on the 5.0 code path
+
+ | 
+
+This splits an expensive SQL join in the Ledger Balances Distribution Processor into two operations that are much more efficient, which removes timeouts from the Ledger Balance Distribution Processor.
+
+ |
+| 
+
+TM-89675
+
+ | 
+
+Add new index is required for balance backdate processor
+
+ | 
+
+Adds an index to the balances table to avoid timeouts occurring when processing backdates
+
+ |
+| 
+
+TM-91541
+
+ | 
+
+Change transient logging strategy in pipeline v2 library
+
+ | 
+
+Reducing the noise when alerting transient error retries, in vault-ledger-balances-accumulator-processor
+
+ |
+| 
+
+TM-91592
+
+ | 
+
+Improve idempotent balance query performance in v4 balances
+
+ | 
+
+Adds an index to the balances table that makes the querying of balances for idempotent balances faster
+
+ |
+
+#### [](#observability_13 "Copy link to heading")Observability
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-62920
+
+ | 
+
+Upgrade alertmanager
+
+ | 
+
+latest: 0.27.0, current: 0.26.0
+
+ |
+| 
+
+INFRA-63116
+
+ | 
+
+Upgrade otel-collector
+
+ | 
+
+latest: 0.96.0, current: 0.95.0
+
+ |
+| 
+
+INFRA-63117
+
+ | 
+
+Upgrade otel-collector-contrib
+
+ | 
+
+latest: 0.96.0, current: 0.94.0
+
+ |
+| 
+
+INFRA-63252
+
+ | 
+
+Upgrade grafana
+
+ | 
+
+latest: 10.4.0, current: 10.3.3
+
+ |
+| 
+
+INFRA-65714
+
+ | 
+
+Change "logging" exporter in otel-collector in favour of "debug" exporter
+
+ | 
+
+The `logging` exporter in the OTel Collector, responsible for printing a log line to stdout when traces are received, is being deprecated. The `debug` exporter is recommended instead.
+
+ |
+| 
+
+INFRA-65922
+
+ | 
+
+Change dropped capabilities from "all" to "ALL" in prometheus-adapted
+
+ | 
+
+Changed dropped capabilities casing from "all" to "ALL" in prometheus-adapter deployment
+
+ |
+
+#### [](#product_configuration_3 "Copy link to heading")Product Configuration
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-92423
+
+ | 
+
+Gaps incorrectly validated when updating non-optional value timestamp to infinity
+
+ | 
+
+When updating non-optional parameter values, Vault Core incorrectly validates nil timestamps as an epoch timestamp. Instead, it should not validate them at all. The incorrect time-series gap validation will be fixed in a subsequent patch release.
+
+ |
+
+#### [](#scheduler_9 "Copy link to heading")Scheduler
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-88346
+
+ | 
+
+Scheduler DR republisher job times out on environments with a significant number of schedules
+
+ | 
+
+The scheduler job republisher database timeout has been increased to prevent queries timing out when rehydrating.
+
+ |
+| 
+
+TM-89652
+
+ | 
+
+Investigate why retryable errors are classified as internal errors in SM
+
+ | 
+
+Correcting error handling in the Schedule Manager service to ensure transient errors are dealt with appropriately.
+
+ |
+| 
+
+TM-90662
+
+ | 
+
+Skipped schedules cannot be preserved when updating
+
+ | 
+
+Prevents account conversions from failing when a skipped one-off schedule in the past is converted.
+
+ |
+| 
+
+TM-91186
+
+ | 
+
+Allow use of legacy GetNextRuntimeForTags query
+
+ | 
+
+Allows the usage of scheduler.use\_legacy\_tags\_query to fallback to the legacy DB query for specific client use cases.
+
+ |
+| 
+
+TM-92045
+
+ | 
+
+Job Republisher Nil Messages Panic
+
+ | 
+
+Fixed a bug where republishing a skipped job would result in a nil pointer exception
+
+ |
+
+#### [](#security_engineering_2 "Copy link to heading")Security Engineering
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-65713
+
+ | 
+
+Resync tm-alpine-mirror (20240321)
+
+ | 
+
+In first-party container images based on Alpine Linux, the expat package has been upgraded to version 2.6.2-r0 to remediate CVE-2024-28757.
+
+ |
+
+#### [](#toolchain_3 "Copy link to heading")Toolchain
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-63151
+
+ | 
+
+Upgrade Go to 1.22.1
+
+ | 
+
+First-party binaries written in the Go programming language have been rebuilt with Go 1.22.1 to remediate CVE-2024-24783, CVE-2023-45290, and CVE-2023-45289.
+
+ |
+
+#### [](#vault_applications_4 "Copy link to heading")Vault Applications
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-89116
+
+ | 
+
+Remove non-existing metrics config from core-apps k8s config
+
+ | 
+
+The Prometheus scraping rule for the core-apps service has been removed. This service does not expose any metrics servers.
+
+ |
+
+### [](#5_0_7_patch_release_fixes "Copy link to heading")5.0.7 Patch Release Fixes
+
+#### [](#account_management_12 "Copy link to heading")Account Management
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-86717
+
+ | 
+
+Kernel Accounts board not updated for V5 but is documented on Docs Hub
+
+ | 
+
+Our documentation provides details of a dashboard, but this dashboard and monitoring in general are not subject to backwards-compability agreements. References to the Kernel / Accounts dashboards have now been removed from our documentation.
+
+ |
+| 
+
+TM-91293
+
+ | 
+
+APv2 panics if a Grouped Schedule has been updated before CL3 → CL4 Account Conversion
+
+ | 
+
+CL3 → CL4 Account Conversion now works in the case where the Account has at least one updated Event Type in an Event Type Group.
+
+ |
+
+#### [](#asynchronous_executions_3 "Copy link to heading")Asynchronous Executions
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-90163
+
+ | 
+
+Remove transformer putting consumers DLQ messages to public failures topic
+
+ | 
+
+Fix removes publishing of internal schedule execution DLQs to public failures topic `vault.core_api.v1.accounts.account_schedule_job_execution_failure.events`.
+
+ |
+
+#### [](#contracts_language_7 "Copy link to heading")Contracts Language
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-89394
+
+ | 
+
+Skip Schedule Updates do not conform with "immediate schedule update" specification
+
+ | 
+
+This fixes an issue whereby skipping a schedule from within a smart contract using "timecursor testing" would not correctly skip all intended schedule jobs.
+
+ |
+
+#### [](#dashboards "Copy link to heading")Dashboards
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-52079
+
+ | 
+
+Address missing HPA metrics in the "Kubernetes / Deployment reliability" dashboard
+
+ | 
+
+Fix missing metrics issue on the Deployment Reliability dashboard.
+
+ |
+
+#### [](#database_libraries_3 "Copy link to heading")Database Libraries
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-61527
+
+ | 
+
+pgconn’s support of multihost DSN is flawed
+
+ | 
+
+An upstream database library is upgraded to fix a defect that may result in database connection failures when multi-host DSN is used.
+
+ |
+
+#### [](#istio_2 "Copy link to heading")Istio
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-62177
+
+ | 
+
+Backport Istio 1.20.3
+
+ | 
+
+Update Istio to 1.20.3.
+
+ |
+
+#### [](#kafka_4 "Copy link to heading")Kafka
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-62450
+
+ | 
+
+librdkafka/confluent-kafka-go 2.2.0. causes Consumers to get in a stuck state
+
+ | 
+
+Upgraded librdkafka (and also confluent-kafka-go / confluent-kafka-python) libraries from 2.2.0 to 2.3.0 in order to avoid potential issues where Vault Kafka consumers might get stuck and not process messages if there are multiple leader changes during a short period of time.
+
+ |
+
+#### [](#ledger_7 "Copy link to heading")Ledger
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-90582
+
+ | 
+
+Postings Enrichment Processor DLQs messages if LocalisedBookingTimestamp is before the StartTime of the Calendar Period
+
+ | 
+
+Handle PIBs with earlier `booking_localised_date_time` than their Calendar Period correctly in the Postings Enrichment Processor.
+
+ |
+
+#### [](#observability_14 "Copy link to heading")Observability
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-62168
+
+ | 
+
+Observability clusterstats improvements
+
+ | 
+
+Extended the clusterstat tests suite to include PrometheusRules and prometheus-operator RBAC tests.
+
+ |
+
+#### [](#product_configuration_4 "Copy link to heading")Product Configuration
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-88617
+
+ | 
+
+FlagsFetcher returns InvalidArgument when resolving timeseries for many supervisees
+
+ | 
+
+When using a Supervisor with a large number of Supervisees, it is no longer possible for contract execution to fail if the hook fetches Flags.
+
+ |
+| 
+
+TM-91547
+
+ | 
+
+Failed directives from post\_parameter\_change\_hook treated as internal errors
+
+ | 
+
+If any directives returned by the post\_parameter\_change\_hook (schedule modifications, posting instructions, notifications) fail to be committed, Vault Core incorrectly treats it as an internal error. This will block any further executions of the hook for that account until a retry of the hook eventually succeeds. Converting the affected account to a new Product Version that will not produce the directives which fail would work around this. This change has fixed how the error is treated, preventing further executions from being blocked. This does not apply to executions that arise from using the v1/account-updates API, only the v1/parameter-values API.
+
+ |
+
+#### [](#saas "Copy link to heading")SaaS
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-60584
+
+ | 
+
+Update the Amazon provided CA bundle in our Vault Core (and other) base images
+
+ | 
+
+Expand the set of trusted certificates published by Amazon that protects our connection to AWS endpoints such as databases.
+
+ |
+
+#### [](#scheduler_10 "Copy link to heading")Scheduler
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-91059
+
+ | 
+
+Execution set poller fails to create Vault Jobs when all schedules are disabled
+
+ | 
+
+Fixes an issue causing Vault Jobs to sometimes never be created when corresponding Schedules are self-updating.
+
+ |
+| 
+
+TM-91060
+
+ | 
+
+ActualEnd and Status not populated on Schedule Events from BulkUpdateSchedules
+
+ | 
+
+Fixes issue causing Vault Job expected totals to be incorrectly updated after Schedules are mutated during the execution of the Job.
+
+ |
+| 
+
+TM-91108
+
+ | 
+
+Increase SchedulerLagWhenPublishingJobsTooHigh from 30 minutes to 2 hours
+
+ | 
+
+`SchedulerLagWhenPublishingJobsTooHigh` alerts when a scheduled job is taking at least `X` time to start processing for EOD. Thus, it helps us give advance notice when an EOD may not finish in time.The default value of this alert has been increased from 30 minutes to 2 hours after feedback that it was too sensitive. This change will not overwrite any custom value that has been set, only the default.
+
+ |
+| 
+
+TM-91195
+
+ | 
+
+Execution Set Poller double-counts Schedules
+
+ | 
+
+Prevents some expected schedules from being double-counted in Vault Jobs, causing the expected number of executions for the Job to be incorrect.
+
+ |
+
+### [](#5_0_6_patch_release_fixes "Copy link to heading")5.0.6 Patch Release Fixes
+
+#### [](#account_management_13 "Copy link to heading")Account Management
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-89119
+
+ | 
+
+ListAccounts /v1 filter on status not working
+
+ | 
+
+In previous versions it was possible for the /v1 ListAccounts endpoint to return a smaller result set than the requested page size when filtering on account status, even if additional matching accounts exist in the data set. This required more API calls than necessary for the client to retrieve a full result set. This has now been fixed.
+
+ |
+
+#### [](#asynchronous_executions_4 "Copy link to heading")Asynchronous Executions
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-89732
+
+ | 
+
+UpdateAccountEventType failure due to UnknownVaultError succeeds on retry
+
+ | 
+
+Fixed an issue where a Schedule job was marked as successful on retry when executing the update\_event\_type directive. Schedules no longer end up in the Completed status when they should have been disabled and replaced with a new Schedule.
+
+ |
+
+#### [](#contracts_language_8 "Copy link to heading")Contracts Language
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-89714
+
+ | 
+
+Misleading documentation about Supervisor pre\_posting\_hook for rejected supervisee pre\_posting\_hook execution
+
+ | 
+
+Added a clarification in the description of the Supervisor pre\_posting\_hook. Previously it implied that if a Supervisee pre\_posting\_hook rejected the proposed Posting Instructions, the Supervisor pre\_posting\_hook would not run, which is not the case if the SupervisionExecutionMode is set to INVOKED.
+
+ |
+
+#### [](#contracts_platform_7 "Copy link to heading")Contracts Platform
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-88596
+
+ | 
+
+Existing account simulation fetches template params for user specified contracts
+
+ | 
+
+Fixes a previous issue with Existing Account Simulation that could be encountered if requesting a simulation of an existing account with a new smart contract that requires different template or instance parameters than the original smart contract (i.e. in a simulation of an account’s product conversion).  
+  
+This will now not fail, and provide a more understandable output to the caller.
+
+ |
+
+#### [](#observability_15 "Copy link to heading")Observability
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-57807
+
+ | 
+
+Fix bug with node-exporter Role and RoleBinding not being deployed to OpenShift
+
+ | 
+
+Correctly configure node-exporter Role and RoleBinding when installing Vault.
+
+ |
+| 
+
+INFRA-58200
+
+ | 
+
+Make target thresholds dependent on cluster size
+
+ | 
+
+Observability component clusterstat sanity check for vault services targets reduced to 128
+
+ |
+| 
+
+INFRA-60190
+
+ | 
+
+Prometheus dashboard couldn’t select cluster-wide prometheus (monitoring namespace)  
+  
+
+
+ | 
+
+Adding prometheus\_namespace label to prometheus instances in the monitoring namespace so that theye also show up in the "Observability/Prometheus" dashboard
+
+ |
+
+#### [](#scheduler_11 "Copy link to heading")Scheduler
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-88120
+
+ | 
+
+Invalid Schedules created/updated in Schedule Manager without version IDs
+
+ | 
+
+Prevents schedules from failing to be created without an API error response being returned.
+
+ |
+
+### [](#5_0_5_patch_release_fixes "Copy link to heading")5.0.5 Patch Release Fixes
+
+#### [](#account_management_14 "Copy link to heading")Account Management
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-86306
+
+ | 
+
+v1 CreateAccount panics if called at load with the same request ID
+
+ | 
+
+When inserting accounts into the database, if a retryable error is encountered, some Accounts would not be inserted and instead a grpc "Marshal called with nil" error is returned to the caller. This error would occur with both v1 and v2 Account creation.
+
+ |
+| 
+
+TM-86359
+
+ | 
+
+CLv3 activation with schedules is not idempotent between /v1/account-updates retries
+
+ | 
+
+Fixes an edge case where Account Activation for Contracts Language v3 fails partially, leaving the account in an incorrect state with schedules active. The bug fix means that the Account can be activated again and put into correct state.
+
+ |
+| 
+
+TM-88492
+
+ | 
+
+Instance parameter values missing from account events
+
+ | 
+
+Under certain error conditions some Account Events would be published without instance parameter values when they were defined on the Accounts. This is now fixed so all Account Events have these values populated if they are defined, as the error is handled internally.
+
+ |
+| 
+
+TM-89318
+
+ | 
+
+Marking journal rows as processed causes excessive usage of database CPU
+
+ | 
+
+An SQL query against the accounts.accounts\_journal table can cause excessive database CPU usage. This surfaces as widespread performance degradation for database queries and API endpoints.
+
+ |
+
+#### [](#istio_3 "Copy link to heading")Istio
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-58634
+
+ | 
+
+Test Compatibility of Istio 1.20 with supported Vault Versions
+
+ | 
+
+Istio has been upgraded to 1.20.1 following successful compatibility testing.
+
+ |
+
+#### [](#ledger_8 "Copy link to heading")Ledger
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-89185
+
+ | 
+
+Pre-posting hook incorrectly errors with MissingHookDataInRequest for certain Supervisor Postings
+
+ | 
+
+Addresses a pre-posting supervision issue where Vault incorrectly triggered supervisor pre posting hook execution and failed in the process. In cases where the posting was created in a supervisor’s post-posting hook, this manifested itself as a failed post-posting execution.
+
+ |
+| 
+
+TM-89509
+
+ | 
+
+Non-final settlement postings releasing incorrect ringfenced amount
+
+ | 
+
+In certain situations, settling more than what is Authorised against a client transaction leads to incorrect movements between PENDING and COMMITTED phases. Logic updated to provide consistent behaviour between V4 and V5, to make the committed postings movements correct when Settling more than currently ringfenced
+
+ |
+| 
+
+TM-89581
+
+ | 
+
+Error while checking for zero balances when that includes CloseAccount coordinate
+
+ | 
+
+Fixes a bug preventing account closure after a transient error had happened
+
+ |
+| 
+
+TM-89913
+
+ | 
+
+Transfers between internal accounts return postings API error
+
+ | 
+
+Internal account transfers are processed normally, without erroring when processed as part of a batch of instructions that have no restrictions set.
+
+ |
+
+#### [](#scheduler_12 "Copy link to heading")Scheduler
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-45730
+
+ | 
+
+Optimised DB performance for clients using Schedule Tags
+
+ | 
+
+Changes to how the Operation Event notifications for Schedule Tags are generated, reducing the load on the Scheduler database generated by this feature by 95% on average. As a result, the rate at which the incoming messages are consumed has increased proportionally. These changes have also been ported to the latest patch versions for 4.6, 4.7, 5.0, and 5.1
+
+ |
+| 
+
+TM-83245
+
+ | 
+
+Conversion from CLv3 to CLv4 fails if there are completed schedules
+
+ | 
+
+Corrected issue whereby if an Account/Plan being converted from CLv3 to CLv4 has completed schedules, the conversion would fail.
+
+ |
+| 
+
+TM-84052
+
+ | 
+
+Smart contract version ID not updated in Vault Jobs after account conversion
+
+ | 
+
+Vault Jobs has been fixed to display the correct smart contract version ID after an account conversion, where schedules are unchanged
+
+ |
+| 
+
+TM-87090
+
+ | 
+
+Disabled schedules get re-enabled by default when performing product conversion from CLv3 to CLv4
+
+ | 
+
+If an Account/Plan being converted from CLv3 to CLv4 has disabled schedules, these will get re-enabled upon conversion to CLv4.
+
+ |
+| 
+
+TM-88775
+
+ | 
+
+Amending schedules fails if there are no active schedules
+
+ | 
+
+The fix ensures that updates are not applied to the incorrect schedule version when using amend\_schedules and no previous schedules have ENABLED or PENDING status.
+
+ |
+| 
+
+TM-89481
+
+ | 
+
+Vault Jobs incorrectly calculates expected number of executions
+
+ | 
+
+Fixes a bug causing the expected number of executions calculated for Vault Jobs to exceed the actual number when schedules are created at the same time as the Vault Job, leading to Vault Jobs being stuck in progress or expired.
+
+ |
+
+#### [](#streaming "Copy link to heading")Streaming
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-59445
+
+ | 
+
+Clients using SASL-SCRAM for Kafka auth experience auth request timeouts on the core-stream-api
+
+ | 
+
+In versions of Vault Core that were upgraded to use OpenSSL 3.X, librdkafka also had to be upgraded to support it. This introduced a new client configuration, socket.connection.setup.timeout.ms, which is set by default to 30s. For Vault Core services that set up many connections to Kafka, it’s possible to go over this timeout, leading to timeouts during SSL or SASL handshakes. This has been addressed by exposing this configuration via the kafka.client.connection\_setup\_timeout field in values.yaml and setting the default to 60s.
+
+ |
+
+#### [](#vault_applications_5 "Copy link to heading")Vault Applications
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-86756
+
+ | 
+
+add\_contract\_template Core Workflow via Ops Dash does not support uploading CLv4 contracts
+
+ | 
+
+Fixed a bug in the “add\_contract\_template” and “upgrade\_contract\_template” core workflows that was preventing CLv4 contracts from being uploaded through the Operations Dashboard.
+
+ |
+| 
+
+TM-89476
+
+ | 
+
+OpsDash monetary value not in full precision for very high values
+
+ | 
+
+An issue has been identified where at the upper bound of integer values, the monetary value will not be displayed at full precision which results in small inaccuracies in the displayed value. Only affects values above 8,796,093,022,207.
+
+ |
+
+#### [](#workflows_3 "Copy link to heading")Workflows
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-89307
+
+ | 
+
+Workflow not instantiated despite a successful sync API response
+
+ | 
+
+Synchronous calls to create Workflow Instances could return a successful response but fail to create the instance. These responses will now match the result of the creation transaction.
+
+ |
+
+#### [](#deprecated_smart_contracts "Copy link to heading")\[DEPRECATED\] Smart Contracts
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-77832
+
+ | 
+
+Contract Simulation should reject postings made against closed accounts
+
+ | 
+
+Contract simulation fix to reject postings if an account is already closed.
+
+ |
+| 
+
+TM-80843
+
+ | 
+
+Incorrectly retrying non-transient ListScheduleSets errors when committing schedules
+
+ | 
+
+Some specific, non-transient errors produced when committing schedules from a smart contract were being incorrectly categorised as retriable which could lead to infinite loops, potentially impacting Kafka storage. These errors are now correctly categorised and produce a DLQ event instead.
+
+ |
+
+### [](#5_0_4_patch_release_fixes "Copy link to heading")5.0.4 Patch Release Fixes
+
+#### [](#account_management_15 "Copy link to heading")Account Management
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-86236
+
+ | 
+
+CL4 Account activation with schedules errors between /v1/account-updates retries
+
+ | 
+
+Allow activation account updates to be retried for accounts using Contracts Language V4. Previously the retry failed with an error message and it was necessary to convert the account to a new product version to complete the activation.
+
+ |
+| 
+
+TM-86322
+
+ | 
+
+CL3 → CL4 product version AccountUpdate cannot recover from transitional state
+
+ | 
+
+Account conversions between Contract Language V3 and Contract Language V4 may encounter failures midway through the conversion pipeline. In such cases, certain resources may already be created, while others are pending creation. Consequently, a retry becomes necessary. This fix ensures that the retry process successfully completes the conversion, addressing the incomplete conversion issue.
+
+ |
+| 
+
+TM-86954
+
+ | 
+
+Vault Core Minimal Consumer Tracing
+
+ | 
+
+Improved usability of OpenTelemetry traces in some asynchronous Vault Core journeys
+
+ |
+| 
+
+TM-87249
+
+ | 
+
+Fix plan event processor metrics and dashboard
+
+ | 
+
+Fixed metrics for panels under "Creating PlanUpdates in DB" and "Producing Events" sections in the "Plan Event Processor" dashboard
+
+ |
+| 
+
+TM-88690
+
+ | 
+
+Mitigation for broken account activations
+
+ | 
+
+Prior to Vault 5.0 if an activation failed, it was possible to perform an account conversion then retry the activation. This is now possible in Vault 5.0.
+
+ |
+| 
+
+TM-88787
+
+ | 
+
+Converting a Plan from CLv3 to CLv4 does not disable its CLv3 schedules
+
+ | 
+
+Fixed an issue where, when converting a Plan on Contract Language v3 to Contract Language v4, old schedules are not disabled, leaving two sets of active schedules for the Plan. With this fix the converted Plan will only have a set of active schedules based on the Contract Language v4 contract.
+
+ |
+
+#### [](#contracts_language_9 "Copy link to heading")Contracts Language
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-88439
+
+ | 
+
+Fix error so embedded supervisor executor can recover from exhausted pool
+
+ | 
+
+The supervisor contract executor can now automatically recover from an exhausted process pool when under heavy load and initiating a restart is not possible.
+
+ |
+
+#### [](#contracts_platform_8 "Copy link to heading")Contracts Platform
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-87261
+
+ | 
+
+Simulate Existing Account returning 500 internal if accounts are not found
+
+ | 
+
+Fixed the error response when calling the contract simulation endpoint `POST /v1/contracts:simulate` with the ID of an account that does not exist. If the account is not found, Vault Core now returns a 404 not found error instead of a 500 internal error.
+
+ |
+| 
+
+TM-87774
+
+ | 
+
+Improve Existing Account Simulation API error responses
+
+ | 
+
+Fixes issue where account status is not propagated into Simulation for Existing Account Simulation.
+
+ |
+
+#### [](#ledger_9 "Copy link to heading")Ledger
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-88779
+
+ | 
+
+ListPostingInstructionBatches is not compatible with postgres 15
+
+ | 
+
+ListPostingInstructionBatches endpoint (v1/posting-instruction-batches LIST) not compatible with postgres version 15 returning errors when called. A small change to the underlying db method to allow compatibility.
+
+ |
+
+#### [](#observability_16 "Copy link to heading")Observability
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-51877
+
+ | 
+
+Otel-collector dashboard broken internally and in client release
+
+ | 
+
+Fix and improve OpenTelemetry Collector Dashboard.
+
+ |
+| 
+
+INFRA-53928
+
+ | 
+
+Mitigate opentelemetry-collector vulnerabilities
+
+ | 
+
+We have introduced new values to support the OpenTelemetry Protocol that are available for Vault Core 4.6, 4.7, and from 5.0 onwards.  
+To implement this feature, you must configure tracing.exporter.otlp\_endpoint and tracing.exporter.otlp\_http\_endpoint in values.yaml before you install or upgrade Vault, as part of your observability component configuration.  
+You should only use one tracing facility, e.g. OpenTelemetry instead of Jaeger. If you currently have an instance of Vault and use the Jaeger endpoint, we recommend that you switch to these if you are currently using the Jaeger protocol. You will need to clear the tracing.exporter.jaeger-endpoint value in values.yaml and use the tracing.exporter.otlp\_endpoint or tracing.exporter.otlp\_http\_endpoint instead.
+
+ |
+| 
+
+INFRA-56545
+
+ | 
+
+Upgrade prometheus
+
+ | 
+
+latest: 2.48.0, current: 2.47.2
+
+ |
+| 
+
+Upgraded prometheus to v2.48.0 mitigating found vulnerabilities.
+
+ | 
+
+INFRA-57380
+
+ | 
+
+Observability clusterstat test is checking for grafana webui port but it’s called webuihttp
+
+ |
+| 
+
+The utility "clusterstat" now correctly uses the "webuihttp" service port to test access to Grafana.
+
+ | 
+
+INFRA-57578
+
+ | 
+
+Upgrade otel-collector
+
+ |
+
+#### [](#product_documentation_2 "Copy link to heading")Product Documentation
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-83445
+
+ | 
+
+Core api documentation incorrect for updating bookkeeping label
+
+ | 
+
+The documentation for /v1/calendar/bookkeeping-date/{id} PUT (Update Bookkeeping Date) has been updated to remove the Bookkeeping Date ID field as It is not necessary to include this field.
+
+ |
+
+#### [](#scheduler_13 "Copy link to heading")Scheduler
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-85637
+
+ | 
+
+Operations missing in Vault Jobs
+
+ | 
+
+Fixes bug where some Operations fail to be received by Vault Jobs, causing Jobs to incorrectly expire
+
+ |
+| 
+
+TM-86146
+
+ | 
+
+Postings have incorrect label after pod restart
+
+ | 
+
+Updates to the bookkeeping label will no longer affect enriched postings or requests to calculatePeriod for the current calendar period when the vault-postings-enrichment-processor pods are restarted.
+
+ |
+| 
+
+TM-86907
+
+ | 
+
+Fix for schedules with null published timestamps
+
+ | 
+
+Fixes a race condition that may occur when the job published successfully writes to kafka but fails to write to the db.
+
+ |
+| 
+
+TM-87099
+
+ | 
+
+CLv4 to CLv4 conversion fails if the tag for a completed schedule is modified
+
+ | 
+
+This fixes a behaviour whereby an Account or Plan conversion from CLv4 to CLv4 would fail if it has a completed schedules linked to a tag.
+
+ |
+| 
+
+TM-87659
+
+ | 
+
+Execution Processor: remove usage of Queue
+
+ | 
+
+Streamline Schedule Manager execution processing to improve database performance and avoid long-duration queries, which previously led to timeouts in other services.
+
+ |
+| 
+
+TM-87862
+
+ | 
+
+Execution Set Poller: enforce query timeout
+
+ | 
+
+Prevents the schedule-manager-execution-set-poller deployment from running infinite transactions which lock the DB
+
+ |
+| 
+
+TM-87934
+
+ | 
+
+Remove queue
+
+ | 
+
+Adds optional config to reduce frequency of updates to the `schedule_manager.execution_set_aggregations` table
+
+ |
+| 
+
+TM-88482
+
+ | 
+
+Avoid DLQing completed schedule jobs
+
+ | 
+
+In rare cases it was possible for the scheduler to attempt to republish the Job for a completed one-off schedule. Since no Job is required for a completed schedule, this would result in an error being logged by the scheduler-job-dispatcher service and an unnecessary message being published to a DLQ topic. This has been fixed so that a republish attempt for a completed one-off schedule is no longer treated as an error.
+
+ |
+| 
+
+TM-88564
+
+ | 
+
+Scheduler service panics under certain error conditions when updating CLv3 schedules
+
+ | 
+
+Fixes issue causing `scheduler` service to panic when attempting to update schedules for CLv3 contracts and encountering a race condition.
+
+ |
+
+#### [](#security_engineering_3 "Copy link to heading")Security Engineering
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-55525
+
+ | 
+
+Upgrade //third\_party/go:grpc\_download to v1.59.0
+
+ | 
+
+In first-party container images, the google.golang.org/grpc third-party Go module has been upgraded to version 1.59.0 to remediate CVE-2023-44487.
+
+ |
+
+#### [](#workflows_4 "Copy link to heading")Workflows
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-86707
+
+ | 
+
+Fix default Workflow transform step limit
+
+ | 
+
+The default Workflow transform step limit has been increased.
+
+ |
+
+#### [](#deprecated_smart_contracts_2 "Copy link to heading")\[DEPRECATED\] Smart Contracts
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-81168
+
+ | 
+
+Retried PostingInstructionDirectives generating non-deterministic request IDs for supervised accounts
+
+ | 
+
+Improved request ID generation for supervisor contract directives to ensure that they are always processed in a deterministic order.
+
+ |
+| 
+
+TM-85651
+
+ | 
+
+Embedded Executor context timeouts mis-triaged as Internal Errors
+
+ | 
+
+Improved error handling of deadline exceeded errors in embedded execution.
+
+ |
+| 
+
+TM-86256
+
+ | 
+
+Reduce the batch size for the contract db data exporter
+
+ | 
+
+The batch size used when publishing events to the vault.core.contract\_templates.added Kafka topic will be reduced dynamically on message size errors. This mitigates the risk of Kafka rejecting messages that exceed the size limit.
+
+ |
+| 
+
+TM-88701
+
+ | 
+
+Existing Account (EA) Sim fetching completed schedules returns an error
+
+ | 
+
+Fixes issue where Completed schedules were not being properly filtered out of existing account simulation when using Contracts Language v4
+
+ |
+
+### [](#5_0_3_patch_release_fixes "Copy link to heading")5.0.3 Patch Release Fixes
+
+#### [](#account_management_16 "Copy link to heading")Account Management
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-85506
+
+ | 
+
+Account processor panics trying to log missing AccountScheduleTags error
+
+ | 
+
+Fixed an issue where processing an activation or product update AccountUpdate involving non-existent AccountScheduleTags was unhandled, so that now it will result in the offending AccountUpdate transitioning to REJECTED status.
+
+ |
+| 
+
+TM-86485
+
+ | 
+
+Unsetting optional parameters via v1/account-updates will publish an event for a Parameter Value that was not created
+
+ | 
+
+Unsetting an optional instance parameter via the v1/account-updates endpoint on Vault Core 5.0 prior to this fix will result in a message on vault.core\_api.v1.parameters.parameter\_value.events for a Parameter Value that was not actually created. This event will also be present in the v1/journal-events API.  
+This is now fixed so that no such events will be produced; however, events generated before installing 5.0.3 will still be present via the v1/journal-events API, and will be replayed if using our disaster recovery functionality.
+
+ |
+
+#### [](#docker "Copy link to heading")Docker
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-52057
+
+ | 
+
+Update tm-alpine-mirror to v3.15.10-20231011/v3.17.5-20231011
+
+ | 
+
+This fix remediates CVE-2023-38545 and CVE-2023-38546 in curl.
+
+ |
+
+#### [](#observability_17 "Copy link to heading")Observability
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-52890
+
+ | 
+
+Upgrade grafana
+
+ | 
+
+latest: 10.1.5, current: 10.1.4
+
+ |
+| 
+
+Upgrade of Grafana from 10.1.14 to 10.1.15 fixes the following vulnerabilities  
+\- CVE-2023-38546  
+\- CVE 2023-3978  
+\- CVE 2023-39325
+
+ | 
+
+INFRA-53042
+
+ | 
+
+Upgrade prometheus-cardinality exporter from d99aad77d8dd79565416a26571878aaa52ad5eb7\_distroless to faa55467f147eba227174784525ec802ad96fd76\_distroless
+
+ |
+
+#### [](#scheduler_14 "Copy link to heading")Scheduler
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-84733
+
+ | 
+
+Schedule Manager Execution Processor - mark schedules as finished when executions have no Next Run Time
+
+ | 
+
+Schedule Manager Execution Processor amendments. To update schedules to finished status if no Next Run Time is set:  
+  
+\- Update Schedules to Finished status in Scheduler Manager Execution Processor if receiving executions without any Next Run Time  
+\- Remove validation preventing schedules in Finished status from being updated  
+\- Set the status of new schedule versions to active after each update.
+
+ |
+| 
+
+TM-84775
+
+ | 
+
+Schedule Manager - allow updates for FINISHED schedules
+
+ | 
+
+Fixes an issue causing updates to completed schedules to sometimes be rejected when they should be allowed.
+
+ |
+| 
+
+TM-85250
+
+ | 
+
+Schedule Manager sometimes rejects updates to completed Schedules
+
+ | 
+
+Fixes an issue causing updates to completed schedules to sometimes be rejected when they should be allowed.
+
+ |
+| 
+
+TM-86931
+
+ | 
+
+Exclude the operations processor from the DB pooler
+
+ | 
+
+The scheduler-operations-processor service has been excluded from the db\_pooler to reduce the likelihood of hitting database query timeouts.
+
+ |
+
+#### [](#vaultctl "Copy link to heading")Vaultctl
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-53432
+
+ | 
+
+Istio 1.19 custom access control permissions in vaultctl
+
+ | 
+
+A new version of the vaultctl-1.0.207383 binary has been generated with the necessary RBAC configuration, so as to enable a seamless deployment of Istio 1.19 with vaultctl.
+
+ |
+
+#### [](#workflows_5 "Copy link to heading")Workflows
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-86687
+
+ | 
+
+Upgrade json to fix vulnerability CVE-2023-5072
+
+ | 
+
+Upgrade of the json package to 20231013 to remediate vulnerability CVE-2023-5072.
+
+ |
+
+#### [](#deprecated_smart_contracts_3 "Copy link to heading")\[DEPRECATED\] Smart Contracts
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-68193
+
+ | 
+
+Location of exceptions in contract modules is not available for debugging
+
+ | 
+
+Improve logging when an error is raised in a Contract Module during Contract Hook Execution. Until now, the lines of the Contract Module were not displayed, making debugging of Module errors harder.
+
+ |
+| 
+
+TM-83935
+
+ | 
+
+Incorrect error message when trying to use SmartContractEventType in a Supervisor Contract
+
+ | 
+
+Improves the error handling of Supervisor Contracts parsing, when a wrong Event Type class is used in the metadata.
+
+ |
+| 
+
+TM-85660
+
+ | 
+
+Existing Account Simulation caveats missing in Vault Core
+
+ | 
+
+Improve documentation for caveats when running Existing Account Simulation. Explain more clearly how existing account schedules are handled. Explain exactly in which cases the simulation is not supported due to existing account schedule mutations since the simulation start time. Explain more clearly that accounts in pending status at start time will not have their activation hooks run in Simulation.
+
+ |
+| 
+
+TM-86486
+
+ | 
+
+Existing Account Simulation: account creation time not seeded correctly
+
+ | 
+
+In existing account simulation, the vault.get\_account\_creation\_datetime() method now correctly returns the source\_create\_timestamp of an account, instead of returning the timestamp for insertion into Vault. This makes simulation consistent with the real behaviour of Vault Core.
+
+ |
+
+### [](#5_0_2_patch_release_fixes "Copy link to heading")5.0.2 Patch Release Fixes
+
+#### [](#account_management_17 "Copy link to heading")Account Management
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-83206
+
+ | 
+
+Make sure all parameter attributes are accessible in CLv3 pre\_parameter hook simulation
+
+ | 
+
+An attribute error is no longer raised when simulating an INSTANCE level parameter value change for a CLv3 smart contract and the contract pre\_parameter\_change\_code hook code tries to access certain attributes. These attributes included "display\_name", "description", the "kind" or "step" attributes of a NumberShape, and the "display\_name" attribute of a UnionShape.
+
+ |
+| 
+
+TM-85372
+
+ | 
+
+Converting to a smart contract version without schedules does not disable the account’s existing schedules
+
+ | 
+
+When converting an account to a smart contract version (using PUT /v2/accounts) which does not return any scheduled events in a conversion\_hook (or without a conversion hook defined), the existing schedules for the account are not disabled. With this change we now correctly disable the existing schedules.
+
+ |
+| 
+
+TM-85653
+
+ | 
+
+Long-lived long-running contract-execution workers leads to exhaustion of pool in APv2
+
+ | 
+
+The contract executor can now automatically recover from an exhausted process pool when under heavy load and initiating a restart is not possible.
+
+ |
+| 
+
+TM-85671
+
+ | 
+
+Account processor does not automatically recover when embedded contract execution workers get stuck
+
+ | 
+
+In the event that a long-running smart contract hook is executed when modifying an account via the v1 accounts endpoints, the processing of other smart contract hook executions will be blocked from being processed.  
+  
+With this change, we handle long running hook executions more gracefully, and reduce the likelihood of account smart contract hook executions from being blocked from processing.
+
+ |
+
+#### [](#audit_and_access_control_5 "Copy link to heading")Audit and Access Control
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-85529
+
+ | 
+
+Common JWT library should not require algorithm field in JWKS response
+
+ | 
+
+The JWKS integration no longer relies on the algorithm being explicitly associated with the key, as this is an optional field.
+
+ |
+
+#### [](#hault_2 "Copy link to heading")Hault
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-44134
+
+ | 
+
+\[Secret Manager\] Test certificate rotation for Kafka with AWS Secret Manager
+
+ | 
+
+This improvement allows clients to rotate their Kafka certificates when AWS Secret Manager is the secret store backend instead of Hashicorp Vault.
+
+ |
+
+#### [](#istio_4 "Copy link to heading")Istio
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-51435
+
+ | 
+
+Upgrade to Istio 1.19
+
+ | 
+
+Upgraded the version of Istio shipped with Thought Machine Vault has been upgraded from 1.18.2 to 1.19.0 to remediate the following vulnerabilities: CVE-2023-4813, CVE-2023-4806, GHSA-6xv5-86q9-7xr8. Any Vault namespaces should be labelled for consumption of this Istio version using the label: `istio.io/rev=canary-v1-19`.
+
+ |
+
+#### [](#observability_18 "Copy link to heading")Observability
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-51666
+
+ | 
+
+Upgrade opentelemetry-api
+
+ | 
+
+latest: 1.20.0/0.41b0, current: 1.8.0/1.27b0
+
+ |
+
+#### [](#product_configuration_5 "Copy link to heading")Product Configuration
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-83303
+
+ | 
+
+Incorrect conflict violation error format
+
+ | 
+
+The formats for `COINCIDENT_PARAMETER_VALUE` and `OVERLAPS_EXPLICIT_PARAMETER_VALUE_EFFECTIVE_TIMESTAMP_RANGE` violations have been updated. Now, each invalid value is referenced by a single, separate violation. This change simplifies integration by eliminating the need to interact with index or grouped metadata containing details of all invalid values within a single violation.
+
+ |
+| 
+
+TM-85863
+
+ | 
+
+Data Loader API should prevent loading future-dated Parameter Values
+
+ | 
+
+Vault Core does not yet support creating future date Parameter Values. However the Data Loader API does not have a validation in place to prevent future-dated Parameter Values being loaded into the system. This fix will deliver a validation preventing this from happening.
+
+ |
+| 
+
+TM-85951
+
+ | 
+
+DateShape Parameters with no Start/End Date formatted as null instead of an empty date
+
+ | 
+
+The Start and End Dates of a DateShape Parameter are optional. In Vault Core 4.x the ProductVersion endpoint would return DateShape Parameters with empty values for Year, Month and Day (0,0,0) if they were not provided. However, in 5.0.1 the DateShape Parameters were incorrectly returned with null Start/End Dates if they were not provided. This has been fixed to reinstate the same behaviour as Vault Core 4.x.
+
+ |
+| 
+
+TM-85995
+
+ | 
+
+Incorrect default timeouts for contract-db-data-exporter
+
+ | 
+
+Changes to default DB timeout configuration of the contract-db-data-exporter to ensure the service operates correctly in heavily-loaded environments
+
+ |
+
+#### [](#scheduler_15 "Copy link to heading")Scheduler
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-83619
+
+ | 
+
+Adding a schedule into an existing group can result in multiple triggered jobs (CLv4)
+
+ | 
+
+Fix rare case where DLQs could happen when moving schedules between groups due to duplicate jobs
+
+ |
+| 
+
+TM-85670
+
+ | 
+
+Incorrect schedule creation retry mechanism when DB transaction fails
+
+ | 
+
+The request ID generating mechanism used when creating schedules for an Account backed by a smart contract in Contract Language API v4 has been made fully deterministic. This fixes a situation in which duplicate schedules could be created if the original request failed due to a database timeout.
+
+ |
+
+#### [](#streaming_2 "Copy link to heading")Streaming
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+INFRA-50717
+
+ | 
+
+Upgrade jetty to 9.4.52
+
+ | 
+
+Jetty has been upgraded to resolve CVE-2023-40167 and CVE-2023-36479 in Vault Java images across Vault versions.
+
+ |
+
+#### [](#vault_applications_6 "Copy link to heading")Vault Applications
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-85634
+
+ | 
+
+Vault-jobs deployment can’t access secrets with AWS secret manager
+
+ | 
+
+Corrects a problem which prevented Vault Jobs deployment from working with AWS Secrets Manager as the secret store backend.
+
+ |
+
+#### [](#deprecated_smart_contracts_4 "Copy link to heading")\[DEPRECATED\] Smart Contracts
+
+  
+| Reference | Title | Description |
+| --- | --- | --- |
+| 
+TM-67532
+
+ | 
+
+schedule\_hook execution failures when different event types defined with differing contract module alias requirements
+
+ | 
+
+Fixed an issue with `scheduled_code` hooks in Contracts Language v3 failing to fetch required contract modules if multiple event types are defined with differing contract module alias requirements.
+
+ |
+| 
+
+TM-75715
+
+ | 
+
+Contract Error when DerivedParameter DateShape doesn’t have a min/max date
+
+ | 
+
+When creating a Derived Parameter with DateShape without `min_date` and `max_date`, an execution error occurs when you try to fetch the account parameter value. Now it is allowed to create DateShape Derived Parameters without min\_date and max\_date’s.
+
+ |
+| 
+
+TM-83762
+
+ | 
+
+Smart Contracts can have duplicate global and instance/template parameters
+
+ | 
+
+Smart Contracts now validate against whether the same parameter name is used for global parameters, instance parameters, or template-level parameters.
+
+ |

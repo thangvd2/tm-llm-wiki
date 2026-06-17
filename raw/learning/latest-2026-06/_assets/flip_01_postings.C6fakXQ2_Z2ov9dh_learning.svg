@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="Layer_2" data-name="Layer 2" viewBox="0 0 465.45 461.82">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+      }
+
+      .cls-3 {
+        clip-path: url(#clippath-1);
+      }
+
+      .cls-4 {
+        fill: #8000d9;
+      }
+
+      .cls-2 {
+        stroke: #fff;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 7.28px;
+      }
+
+      .cls-5 {
+        fill: #fff;
+        font-family: LabGrotesque-Bold, 'Lab Grotesque';
+        font-size: 48px;
+        font-weight: 700;
+      }
+
+      .cls-6 {
+        letter-spacing: -.02em;
+      }
+
+      .cls-7 {
+        letter-spacing: 0em;
+      }
+
+      .cls-8 {
+        clip-path: url(#clippath);
+      }
+    </style>
+    <clipPath id="clippath">
+      <rect class="cls-1" x="149.09" y="120.91" width="171.1" height="163.64"/>
+    </clipPath>
+    <clipPath id="clippath-1">
+      <rect class="cls-1" x="149.09" y="120.91" width="171.1" height="163.64"/>
+    </clipPath>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <rect class="cls-4" x="3.64" width="461.82" height="461.82"/>
+    <text class="cls-5" transform="translate(135.31 400.68)"><tspan class="cls-6" x="0" y="0">P</tspan><tspan x="31.82" y="0">o</tspan><tspan class="cls-7" x="60.19" y="0">s</tspan><tspan x="84.34" y="0">tings</tspan></text>
+    <g id="Artwork_351" data-name="Artwork 351">
+      <g class="cls-8">
+        <g class="cls-3">
+          <path class="cls-2" d="M219.5,251.01s25.12,2.41,27.53,3.09c3.1,1.03,6.88-2.75,7.57-6.87-3.44-2.41-11.01-5.5-20.99-9.97-9.98-4.81-17.9-7.22-24.43-7.22-5.16,0-9.64,1.03-12.73,2.41-4.13,1.72-43.71,18.56-43.71,18.56l14.8,29.89,25.81-16.15s33.38,10.31,39.92,13.06c3.78,1.37,6.88,2.41,10.32,2.41,3.09,0,6.54-.69,11.01-2.41,10.32-4.12,61.95-33.68,61.95-33.68,0,0-2.76-7.22-11.36-7.22-1.03,0-2.06,0-3.1.34-9.98,1.72-34.76,14.78-40.61,16.84"/>
+          <path class="cls-2" d="M261.5,176.19c-2.13,5.05-7.45,8.41-13.83,8.41-8.15,0-14.89-6.05-14.89-13.79v-12.78c0-7.74,6.74-13.79,14.89-13.79,6.03,0,11.35,3.36,13.83,8.41"/>
+          <line class="cls-2" x1="225.68" y1="159.7" x2="246.6" y2="159.7"/>
+          <line class="cls-2" x1="225.68" y1="169.46" x2="246.6" y2="169.46"/>
+          <ellipse class="cls-2" cx="243.59" cy="164.41" rx="39.92" ry="39.86"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
