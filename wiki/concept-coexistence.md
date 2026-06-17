@@ -2,7 +2,11 @@
 tags: [concept, migration]
 products: [vault-core]
 sources:
-  - raw/vault-core-overview/vault_core_overview_coexistence.md
+  - raw/vault-core/5.8/vault-core-overview/vault_core_overview_coexistence.md
+vault_version:
+  introduced: "5.0"
+  verified: ["5.8"]
+  current: true
 last_updated: 2026-04-21
 ---
 

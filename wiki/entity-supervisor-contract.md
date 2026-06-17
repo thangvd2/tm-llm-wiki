@@ -1,7 +1,11 @@
 ---
 tags: [entity, supervisor, smart-contracts, clv4]
 products: [vault-core, smart-contracts]
-sources: [raw/smart-contracts-clv4/]
+sources: [raw/vault-core/5.8/smart-contracts-clv4/]
+vault_version:
+  introduced: "4.5"
+  verified: ["5.8"]
+  current: true
 last_updated: 2026-05-06
 ---
 

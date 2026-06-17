@@ -7,7 +7,7 @@
 
 - Pages: `{category-prefix}-{human-readable-name}.md`
 - Prefixes: `entity-`, `concept-`, `source-`, `analysis-`, `ref-`
-- Frontmatter: tags, products, sources, last_updated
+- Frontmatter: tags, products, sources, vault_version, last_updated
 
 ## Entities
 
@@ -33,7 +33,7 @@
 - [[concept-sc-data-fetching]] — Optimal data fetching via @fetch_account_data
 - [[concept-clv4-posting-instructions]] — Constructing and processing postings
 - [[concept-transaction-bridge]] — Automatic conversion of postings to Transactions
-- [[concept-clv4-version-migration]] — Migrating from CLv3 to CLv4
+- [[concept-clv3-to-clv4-migration]] — Migrating from CLv3 to CLv4
 
 ## Sources
 
