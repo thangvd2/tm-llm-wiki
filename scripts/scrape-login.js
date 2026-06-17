@@ -54,7 +54,7 @@ const TARGET_URL = "https://vault-portal.thoughtmachine.net/";
   console.log("Current URL:", page.url());
 
   // Don't close browser — keep it open for scraping
-  console.log("\nBrowser kept open. Run scrape-pages.js in another terminal.");
+  console.log("\nBrowser kept open. Run scrape-turndown.js in another terminal.");
   console.log("Or press Ctrl+C to close everything.");
 
   // Keep process alive

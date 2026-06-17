@@ -7,10 +7,7 @@
 const { chromium } = require("playwright");
 const fs = require("fs");
 const path = require("path");
-
-const BASE_URL = "https://vault-portal.thoughtmachine.net";
-const BROWSER_DATA = path.join(__dirname, "..", "tmp", "browser-data");
-const RAW_DIR = path.join(__dirname, "..", "raw");
+const { BASE_URL, BROWSER_DATA, VC_RAW_DIR, VC_VERSION_URL, resolveVersionUrls } = require("./scrape-config");
 
 // Pages to re-scrape (all under 1000 chars from first pass)
 const RETRY_PAGES = {
@@ -49,7 +46,7 @@ const RETRY_PAGES = {
 
 function urlToFilename(urlPath) {
   let name = urlPath
-    .replace(/^\/vault-core\/5-8\/EN\//, "")
+    .replace(new RegExp("^/vault-core/" + VC_VERSION_URL + "/EN/"), "")
     .replace(/\//g, "_")
     .replace(/[^a-zA-Z0-9_-]/g, "");
   if (!name || name.length < 3) name = "index";
@@ -195,11 +192,13 @@ async function main() {
 
   const page = browser.pages()[0] || (await browser.newPage());
 
+  const sections = resolveVersionUrls(RETRY_PAGES);
+
   let improved = 0;
   let unchanged = 0;
 
-  for (const [section, urls] of Object.entries(RETRY_PAGES)) {
-    const sectionDir = path.join(RAW_DIR, section);
+  for (const [section, urls] of Object.entries(sections)) {
+    const sectionDir = path.join(VC_RAW_DIR, section);
     console.log(`\n=== Re-scraping: ${section} (${urls.length} pages) ===`);
 
     for (const urlPath of urls) {

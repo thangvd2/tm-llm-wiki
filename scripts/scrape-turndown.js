@@ -1,20 +1,32 @@
 /**
- * Full re-scrape with turndown (proper tables) + image downloading.
- * Re-scrapes all Vault Core Overview + Smart Contracts CLv4 pages.
+ * Canonical scraper with turndown (proper tables) + image downloading.
+ * Discovers pages dynamically from portal navigation.
  *
- * Usage:  node scripts/scrape-turndown.js
+ * Usage:
+ *   node scripts/scrape-turndown.js [version] [--portal name] [--parallel N]
+ *
+ * Examples:
+ *   node scripts/scrape-turndown.js 5.9
+ *   node scripts/scrape-turndown.js 5.9 --portal vault-core
+ *   node scripts/scrape-turndown.js 5.9 --parallel 3
  */
 const { chromium } = require("playwright");
 const fs = require("fs");
 const path = require("path");
 const TurndownService = require("turndown");
 const turndownPluginGfm = require("turndown-plugin-gfm");
+const {
+  BASE_URL,
+  BROWSER_DATA,
+  PORTALS,
+  SCRAPE_PORTALS,
+  CONCURRENCY,
+  EXCLUDE_PATTERNS,
+  VC_RAW_DIR,
+  AP_RAW_DIR,
+  detectPortal,
+} = require("./scrape-config");
 
-const BASE_URL = "https://vault-portal.thoughtmachine.net";
-const BROWSER_DATA = path.join(__dirname, "..", "tmp", "browser-data");
-const RAW_DIR = path.join(__dirname, "..", "raw");
-
-// Turndown setup with GFM tables
 const td = new TurndownService({
   headingStyle: "atx",
   codeBlockStyle: "fenced",
@@ -25,7 +37,6 @@ const td = new TurndownService({
 const { gfm } = turndownPluginGfm;
 td.use(gfm);
 
-// Keep code blocks as-is
 td.addRule("codeblock", {
   filter: ["pre"],
   replacement: function (content, node) {
@@ -35,112 +46,22 @@ td.addRule("codeblock", {
   },
 });
 
-// All URLs to scrape
-const SCRAPE_SECTIONS = {
-  "vault-core-overview": [
-    "/vault-core/5-8/EN/vault_core_overview",
-    "/vault-core/5-8/EN/vault_core_overview/what_is_vault_core",
-    "/vault-core/5-8/EN/vault_core_overview/financial_model",
-    "/vault-core/5-8/EN/vault_core_overview/coexistence",
-    "/vault-core/5-8/EN/vault_core_overview/architecture",
-    "/vault-core/5-8/EN/vault_core_overview/vault_security",
-    "/vault-core/5-8/EN/vault_core_overview/whats_new_in_vc5",
-    "/vault-core/5-8/EN/vault_core_overview/whats_new_in_vc5/overview",
-    "/vault-core/5-8/EN/vault_core_overview/whats_new_in_vc5/service_compatibility",
-    "/vault-core/5-8/EN/vault_core_overview/whats_new_in_vc5/extensions",
-  ],
-  "smart-contracts-clv4": [
-    "/vault-core/5-8/EN/reference/contracts/introduction",
-    "/vault-core/5-8/EN/reference/contracts/sdk_download",
-    "/vault-core/5-8/EN/reference/contracts/contracts_api_4xx",
-    "/vault-core/5-8/EN/reference/contracts/contracts_api_4xx/overview",
-    "/vault-core/5-8/EN/reference/contracts/contracts_api_4xx/supervisor_overview",
-    "/vault-core/5-8/EN/reference/contracts/contracts_api_4xx/contract_modules_overview",
-    "/vault-core/5-8/EN/reference/contracts/contracts_api_4xx/concepts",
-    "/vault-core/5-8/EN/reference/contracts/contracts_api_4xx/version_notes",
-    "/vault-core/5-8/EN/reference/contracts/contracts_api_4xx/common_types_4xx",
-    "/vault-core/5-8/EN/reference/contracts/contracts_api_4xx/common_types_4xx/builtins",
-    "/vault-core/5-8/EN/reference/contracts/contracts_api_4xx/common_types_4xx/classes",
-    "/vault-core/5-8/EN/reference/contracts/contracts_api_4xx/common_types_4xx/decorators",
-    "/vault-core/5-8/EN/reference/contracts/contracts_api_4xx/common_types_4xx/enums",
-    "/vault-core/5-8/EN/reference/contracts/contracts_api_4xx/common_types_4xx/fixed_values",
-    "/vault-core/5-8/EN/reference/contracts/contracts_api_4xx/common_types_4xx/native_objects",
-    "/vault-core/5-8/EN/reference/contracts/contracts_api_4xx/smart_contracts_api_reference4xx",
-    "/vault-core/5-8/EN/reference/contracts/contracts_api_4xx/smart_contracts_api_reference4xx/metadata",
-    "/vault-core/5-8/EN/reference/contracts/contracts_api_4xx/smart_contracts_api_reference4xx/hooks",
-    "/vault-core/5-8/EN/reference/contracts/contracts_api_4xx/smart_contracts_api_reference4xx/hook_requirements",
-    "/vault-core/5-8/EN/reference/contracts/contracts_api_4xx/smart_contracts_api_reference4xx/account_fetcher_requirements",
-    "/vault-core/5-8/EN/reference/contracts/contracts_api_4xx/smart_contracts_api_reference4xx/vault",
-    "/vault-core/5-8/EN/reference/contracts/contracts_api_4xx/supervisor_contracts_api_reference4xx",
-    "/vault-core/5-8/EN/reference/contracts/contracts_api_4xx/supervisor_contracts_api_reference4xx/metadata",
-    "/vault-core/5-8/EN/reference/contracts/contracts_api_4xx/supervisor_contracts_api_reference4xx/hooks",
-    "/vault-core/5-8/EN/reference/contracts/contracts_api_4xx/supervisor_contracts_api_reference4xx/hook_requirements",
-    "/vault-core/5-8/EN/reference/contracts/contracts_api_4xx/supervisor_contracts_api_reference4xx/account_fetcher_requirements",
-    "/vault-core/5-8/EN/reference/contracts/contracts_api_4xx/supervisor_contracts_api_reference4xx/vault",
-    "/vault-core/5-8/EN/reference/contracts/contracts_api_4xx/contract_modules_api_reference4xx",
-    "/vault-core/5-8/EN/reference/contracts/contracts_api_4xx/development_and_testing",
-    "/vault-core/5-8/EN/reference/contracts/contracts_api_4xx/common_examples",
-    "/vault-core/5-8/EN/reference/contracts/contracts_api_4xx/common_examples/generic",
-    "/vault-core/5-8/EN/reference/contracts/contracts_api_4xx/performance_considerations",
-    "/vault-core/5-8/EN/reference/contracts/contracts_api_4xx/running_contracts_in_production",
-    "/vault-core/5-8/EN/reference/contracts/contracts_api_4xx/best_practice_guidelines",
-    "/vault-core/5-8/EN/reference/contracts/contract_simulation",
-    "/vault-core/5-8/EN/reference/contracts/contracts_transaction_bridge",
-  ],
-  "api-reference": [
-    "/vault-core/5-8/EN/api/overview",
-    "/vault-core/5-8/EN/api/core_api",
-    "/vault-core/5-8/EN/api/edge_functions_api",
-    "/vault-core/5-8/EN/api/edge_functions_api/edge_functions_streaming_api",
-    "/vault-core/5-8/EN/api/access_control_api",
-    "/vault-core/5-8/EN/api/postings_api",
-    "/vault-core/5-8/EN/api/audit_api",
-    "/vault-core/5-8/EN/api/data_loader_api",
-    "/vault-core/5-8/EN/api/workflows_api",
-    "/vault-core/5-8/EN/api/experience_layer_api",
-    "/vault-core/5-8/EN/api/payments_hub_api",
-  ],
-  "ref-accounts-balances-postings-params": [
-    "/vault-core/5-8/EN/reference/accounts/accounts_version_1",
-    "/vault-core/5-8/EN/reference/accounts/accounts_version_2",
-    "/vault-core/5-8/EN/reference/accounts/switching_from_v1_to_v2_accounts_api",
-    "/vault-core/5-8/EN/reference/accounts/account_attributes",
-    "/vault-core/5-8/EN/reference/accounts/high_volume_accounts",
-    "/vault-core/5-8/EN/reference/balances",
-    "/vault-core/5-8/EN/reference/balances/balance_milestone_reconciler",
-    "/vault-core/5-8/EN/reference/postings",
-    "/vault-core/5-8/EN/reference/adjustments",
-    "/vault-core/5-8/EN/reference/flags",
-    "/vault-core/5-8/EN/reference/dlq",
-    "/vault-core/5-8/EN/reference/parameters",
-    "/vault-core/5-8/EN/reference/parameters/switching_to_core_api_parameters",
-    "/vault-core/5-8/EN/reference/parameters/building_and_managing_the_parameter_value_hierarchy",
-    "/vault-core/5-8/EN/reference/parameters/using_core_api_parameters",
-    "/vault-core/5-8/EN/reference/processing_groups",
-    "/vault-core/5-8/EN/reference/calendar",
-    "/vault-core/5-8/EN/reference/scheduler",
-    "/vault-core/5-8/EN/reference/plans",
-    "/vault-core/5-8/EN/reference/policies",
-    "/vault-core/5-8/EN/reference/policies/opa-policies",
-    "/vault-core/5-8/EN/reference/policies/legacy-policies",
-  ],
-};
-
-function urlToFilename(urlPath) {
-  let name = urlPath
-    .replace(/^\/vault-core\/5-8\/EN\//, "")
-    .replace(/\//g, "_")
-    .replace(/[^a-zA-Z0-9_-]/g, "");
-  if (!name || name.length < 3) name = "index";
-  return name + ".md";
+function fmtDuration(ms) {
+  if (ms < 1000) return ms + "ms";
+  if (ms < 60000) return (ms / 1000).toFixed(1) + "s";
+  const m = Math.floor(ms / 60000);
+  const s = Math.floor((ms % 60000) / 1000);
+  return `${m}m${s}s`;
 }
 
-function resolveUrl(base, relative) {
-  try {
-    return new URL(relative, base).href;
-  } catch {
-    return relative;
+function urlToFilename(urlPath) {
+  let name = urlPath;
+  for (const portal of Object.values(PORTALS)) {
+    name = name.replace(new RegExp("^" + portal.urlSegment + "/?"), "");
   }
+  name = name.replace(/\//g, "_").replace(/[^a-zA-Z0-9_-]/g, "");
+  if (!name || name.length < 3) name = "index";
+  return name + ".md";
 }
 
 function imageFilename(src) {
@@ -148,7 +69,6 @@ function imageFilename(src) {
     const u = new URL(src);
     const parts = u.pathname.split("/").filter(Boolean);
     const filename = parts[parts.length - 1] || "image";
-    // Add hash prefix to avoid collisions
     const hash = u.pathname.replace(/[^a-zA-Z0-9]/g, "").slice(0, 8);
     const ext = path.extname(filename) || ".png";
     const base = path.basename(filename, ext).slice(0, 40);
@@ -160,31 +80,59 @@ function imageFilename(src) {
 
 async function downloadImage(page, imgSrc, destPath) {
   try {
-    const response = await page.request.get(imgSrc, { timeout: 15000 });
-    if (response.ok()) {
-      const buffer = await response.body();
-      fs.writeFileSync(destPath, buffer);
+    const base64 = await page.evaluate(async (url) => {
+      const response = await fetch(url);
+      if (!response.ok) return { status: response.status, data: null };
+      const blob = await response.blob();
+      const reader = new FileReader();
+      return new Promise((resolve) => {
+        reader.onloadend = () => resolve({ status: 200, data: reader.result.split(",")[1] });
+        reader.readAsDataURL(blob);
+      });
+    }, imgSrc);
+
+    if (base64 && base64.data) {
+      fs.writeFileSync(destPath, Buffer.from(base64.data, "base64"));
       return true;
     }
   } catch (e) {
-    // Silent fail
   }
   return false;
 }
 
-async function scrapePageFull(page, urlPath, section) {
-  const url = BASE_URL + urlPath;
-  console.log(`  Scraping: ${urlPath}`);
+async function discoverPagesForPortal(page, portalName) {
+  const portal = PORTALS[portalName];
+  if (!portal) return [];
 
+  const baseUrl = BASE_URL + portal.urlSegment;
+  await page.goto(baseUrl, { waitUntil: "networkidle", timeout: 45000 });
+  await page.waitForTimeout(2000);
+
+  const links = await page.evaluate((prefix) => {
+    const seen = new Set();
+    const results = [];
+    for (const a of document.querySelectorAll("a[href]")) {
+      let href = a.getAttribute("href") || "";
+      if (href.startsWith(prefix) && !href.includes("#")) {
+        if (!seen.has(href)) {
+          seen.add(href);
+          results.push(href);
+        }
+      }
+    }
+    return results;
+  }, portal.urlSegment);
+
+  return links.filter((u) => !EXCLUDE_PATTERNS.some((p) => u.includes(p)));
+}
+
+async function scrapePageFull(page, urlPath, sectionDir) {
+  const url = BASE_URL + urlPath;
   await page.goto(url, { waitUntil: "networkidle", timeout: 45000 });
 
-  // Wait for content to render
   try {
     await page.waitForFunction(
-      () => {
-        const body = document.body;
-        return body && body.textContent.trim().length > 500;
-      },
+      () => document.body && document.body.textContent.trim().length > 500,
       { timeout: 10000 }
     );
   } catch {
@@ -193,7 +141,6 @@ async function scrapePageFull(page, urlPath, section) {
 
   const title = await page.title();
 
-  // Extract content HTML and image sources
   const data = await page.evaluate((baseUrl) => {
     const main =
       document.querySelector("article") ||
@@ -202,41 +149,30 @@ async function scrapePageFull(page, urlPath, section) {
       document.querySelector("main") ||
       document.body;
 
-    // Strip nav, footer, sidebar
     const clone = main.cloneNode(true);
-    const removeSelectors = ["nav", "footer", "header", "[class*='sidebar']", "[class*='nav-']", "[class*='menu']", "[class*='breadcrumb']", "[class*='toc']", "[class*='search']"];
-    for (const sel of removeSelectors) {
+    for (const sel of ["nav", "footer", "header", "[class*='sidebar']", "[class*='nav-']", "[class*='menu']", "[class*='breadcrumb']", "[class*='toc']", "[class*='search']"]) {
       clone.querySelectorAll(sel).forEach((el) => el.remove());
     }
 
-    // Collect images with resolved URLs
     const images = [];
     clone.querySelectorAll("img").forEach((img) => {
       const src = img.getAttribute("src") || img.getAttribute("data-src") || "";
       if (src && !src.startsWith("data:")) {
-        try {
-          const resolved = new URL(src, baseUrl).href;
-          images.push(resolved);
-        } catch {}
+        try { images.push(new URL(src, baseUrl).href); } catch {}
       }
     });
 
-    return {
-      html: clone.innerHTML,
-      images: images,
-    };
+    return { html: clone.innerHTML, images };
   }, url);
 
-  // Download images into per-section assets dir
-  const sectionAssetsDir = path.join(RAW_DIR, section, "_assets");
+  const sectionAssetsDir = path.join(sectionDir, "_assets");
   fs.mkdirSync(sectionAssetsDir, { recursive: true });
 
-  const imageMap = {}; // original URL → local relative path from markdown
+  const imageMap = {};
   let downloadedCount = 0;
   for (const imgSrc of data.images) {
     const localName = imageFilename(imgSrc);
     const localPath = path.join(sectionAssetsDir, localName);
-    // Relative from the markdown file's section dir to the _assets subfolder
     const relativePath = `_assets/${localName}`;
 
     if (fs.existsSync(localPath)) {
@@ -248,22 +184,14 @@ async function scrapePageFull(page, urlPath, section) {
     }
   }
 
-  // Convert HTML to markdown with turndown
   let md = td.turndown(data.html);
-
-  // Replace image URLs with local paths (handle both absolute and relative URLs)
   for (const [originalUrl, localPath] of Object.entries(imageMap)) {
-    // Replace full URL
     md = md.split(originalUrl).join(localPath);
-    // Also replace the relative path (turndown may output relative paths)
     try {
-      const urlObj = new URL(originalUrl);
-      const relativePath = urlObj.pathname;
-      md = md.split(relativePath).join(localPath);
+      md = md.split(new URL(originalUrl).pathname).join(localPath);
     } catch {}
   }
 
-  // Build final document
   const frontmatter = [
     "---",
     `source_url: "${url}"`,
@@ -280,14 +208,110 @@ async function scrapePageFull(page, urlPath, section) {
   return { title, md: frontmatter, url, images: data.images.length, downloaded: downloadedCount, imageMap };
 }
 
+async function scrapePortal(browser, portalName) {
+  const portal = PORTALS[portalName];
+  if (!portal) return { portal: portalName, pages: 0, images: 0, downloaded: 0, duration: 0, error: "unknown portal" };
+
+  const sectionDir = portal.rawDir;
+  fs.mkdirSync(sectionDir, { recursive: true });
+
+  const page = await browser.newPage();
+  const portalStart = Date.now();
+
+  console.log(`\n[${portalName}] Discovering pages...`);
+  const discoverStart = Date.now();
+  const urls = await discoverPagesForPortal(page, portalName);
+  const discoverMs = Date.now() - discoverStart;
+  console.log(`[${portalName}] Found ${urls.length} pages (${fmtDuration(discoverMs)})`);
+
+  let totalPages = 0;
+  let totalImages = 0;
+  let totalDownloaded = 0;
+  const manifest = [];
+
+  for (const urlPath of urls) {
+    try {
+      const result = await scrapePageFull(page, urlPath, sectionDir);
+      const filename = urlToFilename(urlPath);
+      fs.writeFileSync(path.join(sectionDir, filename), result.md);
+      totalPages++;
+      totalImages += result.images;
+      totalDownloaded += result.downloaded;
+
+      if (totalPages % 50 === 0) {
+        const elapsed = Date.now() - portalStart;
+        const rate = (totalPages / (elapsed / 60000)).toFixed(1);
+        console.log(`[${portalName}] ${totalPages}/${urls.length} pages (${rate} pages/min)`);
+      }
+
+      manifest.push({
+        page: filename,
+        source_url: BASE_URL + urlPath,
+        images_found: result.images,
+        images_downloaded: result.downloaded,
+        files: Object.entries(result.imageMap || {}).map(([url, local]) => ({ url, local })),
+      });
+    } catch (e) {
+      console.error(`[${portalName}] ERROR: ${urlPath} — ${e.message}`);
+    }
+  }
+
+  const manifestPath = path.join(sectionDir, "_image-manifest.md");
+  const manifestLines = [
+    `# Image Manifest: ${portalName}`,
+    "",
+    `Generated: ${new Date().toISOString()}`,
+    "",
+    "| Page | Images Found | Downloaded | Local Files |",
+    "|------|-------------|------------|-------------|",
+  ];
+  for (const entry of manifest) {
+    const files = entry.files.map((f) => f.local).join(", ");
+    manifestLines.push(`| ${entry.page} | ${entry.images_found} | ${entry.images_downloaded} | ${files || "—"} |`);
+  }
+  fs.writeFileSync(manifestPath, manifestLines.join("\n"));
+
+  const duration = Date.now() - portalStart;
+  console.log(`[${portalName}] DONE: ${totalPages} pages, ${totalDownloaded}/${totalImages} images in ${fmtDuration(duration)}`);
+
+  await page.close();
+  return { portal: portalName, pages: totalPages, images: totalImages, downloaded: totalDownloaded, duration };
+}
+
+async function runParallel(browser, items, concurrency, fn) {
+  const results = [];
+  let index = 0;
+
+  async function worker() {
+    while (index < items.length) {
+      const current = items[index++];
+      try {
+        const result = await fn(browser, current);
+        results.push(result);
+      } catch (e) {
+        console.error(`[${current}] FATAL: ${e.message}`);
+        results.push({ portal: current, pages: 0, images: 0, downloaded: 0, duration: 0, error: e.message });
+      }
+    }
+  }
+
+  const workers = [];
+  for (let i = 0; i < Math.min(concurrency, items.length); i++) {
+    workers.push(worker());
+  }
+  await Promise.all(workers);
+  return results;
+}
+
 async function main() {
   if (!fs.existsSync(BROWSER_DATA)) {
     console.error("ERROR: No browser session. Run scrape-login.js first.");
     process.exit(1);
   }
 
-  // Ensure raw dir exists
-  fs.mkdirSync(RAW_DIR, { recursive: true });
+  const scriptStart = Date.now();
+  console.log(`Portals: ${SCRAPE_PORTALS.join(", ")}`);
+  console.log(`Concurrency: ${CONCURRENCY}`);
 
   const browser = await chromium.launchPersistentContext(BROWSER_DATA, {
     headless: false,
@@ -295,88 +319,29 @@ async function main() {
     channel: "chrome",
   });
 
-  const page = browser.pages()[0] || (await browser.newPage());
+  const results = await runParallel(browser, SCRAPE_PORTALS, CONCURRENCY, scrapePortal);
 
-  let totalPages = 0;
-  let totalImages = 0;
-  let totalDownloaded = 0;
+  await browser.close();
 
-  for (const [section, urls] of Object.entries(SCRAPE_SECTIONS)) {
-    const sectionDir = path.join(RAW_DIR, section);
-    fs.mkdirSync(sectionDir, { recursive: true });
+  const totalDuration = Date.now() - scriptStart;
+  const totalPages = results.reduce((s, r) => s + r.pages, 0);
+  const totalImages = results.reduce((s, r) => s + r.images, 0);
+  const totalDownloaded = results.reduce((s, r) => s + r.downloaded, 0);
 
-    console.log(`\n=== Section: ${section} (${urls.length} pages) ===`);
-
-    // Track per-page image mappings for manifest
-    const manifest = [];
-
-    for (const urlPath of urls) {
-      try {
-        const result = await scrapePageFull(page, urlPath, section);
-        const filename = urlToFilename(urlPath);
-        const filepath = path.join(sectionDir, filename);
-        fs.writeFileSync(filepath, result.md);
-        totalPages++;
-        totalImages += result.images;
-        totalDownloaded += result.downloaded;
-        console.log(
-          `    OK: ${filename} (${result.md.length} chars, ${result.downloaded}/${result.images} images)`
-        );
-
-        // Track for manifest
-        const pageImages = Object.entries(result.imageMap || {}).map(
-          ([url, local]) => ({ url, local })
-        );
-        manifest.push({
-          page: filename,
-          source_url: BASE_URL + urlPath,
-          images_found: result.images,
-          images_downloaded: result.downloaded,
-          files: pageImages,
-        });
-      } catch (e) {
-        console.error(`    ERROR: ${urlPath} — ${e.message}`);
-      }
-    }
-
-    // Write per-section image manifest
-    const manifestPath = path.join(sectionDir, "_image-manifest.md");
-    const manifestLines = [
-      `# Image Manifest: ${section}`,
-      "",
-      `Generated: ${new Date().toISOString()}`,
-      "",
-      "| Page | Images Found | Downloaded | Local Files |",
-      "|------|-------------|------------|-------------|",
-    ];
-    for (const entry of manifest) {
-      const files = entry.files.map((f) => f.local).join(", ");
-      manifestLines.push(
-        `| ${entry.page} | ${entry.images_found} | ${entry.images_downloaded} | ${files || "—"} |`
-      );
-    }
-    manifestLines.push("", "---", "");
-    // Detailed mapping
-    for (const entry of manifest) {
-      if (entry.files.length > 0) {
-        manifestLines.push(`## ${entry.page}`, "");
-        for (const f of entry.files) {
-          manifestLines.push(`- \`${f.local}\` ← ${f.url}`);
-        }
-        manifestLines.push("");
-      }
-    }
-    fs.writeFileSync(manifestPath, manifestLines.join("\n"));
-    console.log(`  Manifest: ${manifestPath}`);
-  }
-
-  console.log(`\n=== DONE ===`);
+  console.log(`\n${"=".repeat(60)}`);
+  console.log(`DONE in ${fmtDuration(totalDuration)}`);
+  console.log(`${"=".repeat(60)}`);
   console.log(`Pages scraped: ${totalPages}`);
   console.log(`Images found: ${totalImages}`);
   console.log(`Images downloaded: ${totalDownloaded}`);
-  console.log(`Output: ${RAW_DIR}`);
-
-  await browser.close();
+  console.log(`Rate: ${(totalPages / (totalDuration / 60000)).toFixed(1)} pages/min`);
+  console.log(`VC output: ${VC_RAW_DIR}`);
+  console.log(`AP output: ${AP_RAW_DIR}`);
+  console.log(`\nPer-portal breakdown:`);
+  for (const r of results) {
+    const rate = r.duration > 0 ? (r.pages / (r.duration / 60000)).toFixed(1) : "0";
+    console.log(`  ${r.portal.padEnd(30)} ${String(r.pages).padStart(4)} pages  ${String(r.downloaded).padStart(4)}/${r.images} images  ${fmtDuration(r.duration).padStart(8)}  (${rate} p/m)${r.error ? "  ERROR: " + r.error : ""}`);
+  }
 }
 
 main().catch((e) => {
