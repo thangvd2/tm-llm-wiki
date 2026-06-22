@@ -1,7 +1,7 @@
 ---
 source_url: "https://vault-portal.thoughtmachine.net/learning/latest/EN/labs"
 title: "Labs"
-scraped_at: "2026-06-17T05:18:27.303Z"
+scraped_at: "2026-06-17T15:57:18.478Z"
 images: 0
 ---
 

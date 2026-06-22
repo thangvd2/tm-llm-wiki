@@ -1,7 +1,7 @@
 ---
 source_url: "https://vault-portal.thoughtmachine.net/vault-payments/latest/EN/release_notes"
 title: "Release notes"
-scraped_at: "2026-06-17T05:13:31.833Z"
+scraped_at: "2026-06-17T15:51:53.889Z"
 images: 0
 ---
 

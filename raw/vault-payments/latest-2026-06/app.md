@@ -1,7 +1,7 @@
 ---
 source_url: "https://vault-portal.thoughtmachine.net/vault-payments/latest/EN/app"
 title: "Vault Payments App"
-scraped_at: "2026-06-17T05:08:16.607Z"
+scraped_at: "2026-06-17T15:46:41.076Z"
 images: 0
 ---
 

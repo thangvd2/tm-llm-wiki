@@ -1,7 +1,7 @@
 ---
 source_url: "https://vault-portal.thoughtmachine.net/vault-payments/latest/EN/cards"
 title: "Cards"
-scraped_at: "2026-06-17T05:11:20.622Z"
+scraped_at: "2026-06-17T15:49:42.320Z"
 images: 0
 ---
 

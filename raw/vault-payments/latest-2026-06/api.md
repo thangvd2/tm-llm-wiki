@@ -1,7 +1,7 @@
 ---
 source_url: "https://vault-portal.thoughtmachine.net/vault-payments/latest/EN/api"
 title: "API Reference"
-scraped_at: "2026-06-17T05:08:32.224Z"
+scraped_at: "2026-06-17T15:46:56.389Z"
 images: 0
 ---
 

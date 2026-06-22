@@ -1,7 +1,7 @@
 ---
 source_url: "https://vault-portal.thoughtmachine.net/vault-payments/latest/EN/account_to_account"
 title: "Account to Account"
-scraped_at: "2026-06-17T05:11:14.845Z"
+scraped_at: "2026-06-17T15:49:36.528Z"
 images: 0
 ---
 

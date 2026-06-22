@@ -1,7 +1,7 @@
 ---
 source_url: "https://vault-portal.thoughtmachine.net/additional-product-offerings/latest/EN/vault-bridge"
 title: "Vault Bridge"
-scraped_at: "2026-06-17T05:14:22.572Z"
+scraped_at: "2026-06-17T15:52:52.553Z"
 images: 0
 ---
 

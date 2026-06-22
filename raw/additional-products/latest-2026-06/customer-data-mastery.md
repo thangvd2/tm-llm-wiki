@@ -1,7 +1,7 @@
 ---
 source_url: "https://vault-portal.thoughtmachine.net/additional-product-offerings/latest/EN/customer-data-mastery"
 title: "Customer Data Mastery"
-scraped_at: "2026-06-17T05:16:48.532Z"
+scraped_at: "2026-06-17T15:55:39.764Z"
 images: 2
 ---
 

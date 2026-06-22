@@ -1,7 +1,7 @@
 ---
 source_url: "https://vault-portal.thoughtmachine.net/partners/latest/EN/partner_enablement_training"
 title: "Enablement Training"
-scraped_at: "2026-06-17T05:21:52.391Z"
+scraped_at: "2026-06-17T16:00:39.843Z"
 images: 0
 ---
 

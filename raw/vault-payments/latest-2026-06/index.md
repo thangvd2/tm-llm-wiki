@@ -1,7 +1,7 @@
 ---
 source_url: "https://vault-portal.thoughtmachine.net/vault-payments/latest/EN"
 title: "Vault Payments"
-scraped_at: "2026-06-17T05:06:56.009Z"
+scraped_at: "2026-06-17T15:45:19.190Z"
 images: 0
 ---
 

@@ -1,7 +1,7 @@
 ---
 source_url: "https://vault-portal.thoughtmachine.net/learning/latest/EN/fundamentals_pathway"
 title: "Vault Core Fundamentals"
-scraped_at: "2026-06-17T05:20:42.015Z"
+scraped_at: "2026-06-17T15:59:32.545Z"
 images: 0
 ---
 

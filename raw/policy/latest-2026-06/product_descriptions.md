@@ -1,7 +1,7 @@
 ---
 source_url: "https://vault-portal.thoughtmachine.net/policy/latest/EN/product_descriptions"
 title: "Product Descriptions"
-scraped_at: "2026-06-17T05:17:39.682Z"
+scraped_at: "2026-06-17T15:56:31.871Z"
 images: 0
 ---
 

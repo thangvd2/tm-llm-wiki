@@ -1,7 +1,7 @@
 ---
 source_url: "https://vault-portal.thoughtmachine.net/vault-payments/latest/EN/configuration_library"
 title: "Configuration Library"
-scraped_at: "2026-06-17T05:12:12.053Z"
+scraped_at: "2026-06-17T15:50:33.819Z"
 images: 0
 ---
 

@@ -1,7 +1,7 @@
 ---
 source_url: "https://vault-portal.thoughtmachine.net/vault-core/5-8/EN/environment_and_installation"
 title: "Environment and installation"
-scraped_at: "2026-06-17T05:28:59.767Z"
+scraped_at: "2026-06-17T15:35:44.908Z"
 images: 0
 ---
 

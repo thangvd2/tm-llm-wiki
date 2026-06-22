@@ -1,7 +1,7 @@
 ---
 source_url: "https://vault-portal.thoughtmachine.net/learning/latest/EN/bootcamps_intro"
 title: "Vault Core bootcamps"
-scraped_at: "2026-06-17T05:18:23.717Z"
+scraped_at: "2026-06-17T15:57:14.912Z"
 images: 0
 ---
 

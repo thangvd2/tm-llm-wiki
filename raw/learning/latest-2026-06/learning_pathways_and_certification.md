@@ -1,7 +1,7 @@
 ---
 source_url: "https://vault-portal.thoughtmachine.net/learning/latest/EN/learning_pathways_and_certification"
 title: "Learning Pathways and Certification"
-scraped_at: "2026-06-17T05:18:13.006Z"
+scraped_at: "2026-06-17T15:57:04.126Z"
 images: 0
 ---
 

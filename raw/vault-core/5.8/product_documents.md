@@ -1,7 +1,7 @@
 ---
 source_url: "https://vault-portal.thoughtmachine.net/vault-core/5-8/EN/product_documents"
 title: "Product documents"
-scraped_at: "2026-06-17T05:37:48.811Z"
+scraped_at: "2026-06-17T15:44:51.647Z"
 images: 0
 ---
 

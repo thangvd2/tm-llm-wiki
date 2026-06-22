@@ -1,7 +1,7 @@
 ---
 source_url: "https://vault-portal.thoughtmachine.net/learning/latest/EN"
 title: "Learning"
-scraped_at: "2026-06-17T05:18:11.260Z"
+scraped_at: "2026-06-17T15:57:02.315Z"
 images: 0
 ---
 

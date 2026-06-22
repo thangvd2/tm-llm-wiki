@@ -1,7 +1,7 @@
 ---
-source_url: "https://vault-portal.thoughtmachine.net/vault-core/5-8/EN/vault_release_information"
+source_url: "https://vault-portal.thoughtmachine.net/vault-core/5-8/EN/vault_release_information/"
 title: "Release information"
-scraped_at: "2026-06-17T05:28:49.877Z"
+scraped_at: "2026-06-17T15:45:13.731Z"
 images: 0
 ---
 

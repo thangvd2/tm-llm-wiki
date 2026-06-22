@@ -1,7 +1,7 @@
 ---
 source_url: "https://vault-portal.thoughtmachine.net/additional-product-offerings/latest/EN/hibernator"
 title: "Hibernator"
-scraped_at: "2026-06-17T05:13:46.100Z"
+scraped_at: "2026-06-17T15:52:08.893Z"
 images: 0
 ---
 

@@ -1,7 +1,7 @@
 ---
 source_url: "https://vault-portal.thoughtmachine.net/policy/latest/EN/open_source_software_list"
 title: "Intellectual Property Rights Register-Open Source"
-scraped_at: "2026-06-17T05:18:05.793Z"
+scraped_at: "2026-06-17T15:56:56.757Z"
 images: 0
 ---
 

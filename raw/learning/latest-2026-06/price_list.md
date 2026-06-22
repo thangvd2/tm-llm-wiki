@@ -1,7 +1,7 @@
 ---
 source_url: "https://vault-portal.thoughtmachine.net/learning/latest/EN/price_list"
 title: "Client Bootcamp and Exam Price List"
-scraped_at: "2026-06-17T05:18:25.466Z"
+scraped_at: "2026-06-17T15:57:16.707Z"
 images: 0
 ---
 

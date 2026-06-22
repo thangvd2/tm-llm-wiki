@@ -1,7 +1,7 @@
 ---
 source_url: "https://vault-portal.thoughtmachine.net/policy/latest/EN/company_policies_and_procedures"
 title: "Company policies and procedures"
-scraped_at: "2026-06-17T05:16:59.431Z"
+scraped_at: "2026-06-17T15:55:50.649Z"
 images: 0
 ---
 

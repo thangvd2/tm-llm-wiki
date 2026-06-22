@@ -1,7 +1,7 @@
 ---
 source_url: "https://vault-portal.thoughtmachine.net/vault-core/5-8/EN/vault_core_overview"
 title: "Vault Core overview"
-scraped_at: "2026-06-17T05:28:26.424Z"
+scraped_at: "2026-06-17T15:35:12.499Z"
 images: 0
 ---
 
