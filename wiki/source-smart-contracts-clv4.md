@@ -1,7 +1,7 @@
 ---
 tags: [source, clv4]
 products: [vault-core, smart-contracts]
-sources: [raw/vault-core/5.8/smart-contracts-clv4/]
+sources: [raw/vault-core/5.8/reference/contracts/]
 vault_version:
   introduced: "4.5"
   verified: ["5.8"]
@@ -11,7 +11,7 @@ last_updated: 2026-05-06
 
 # Source: Smart Contracts CLv4
 
-This page provides a summary of the raw technical documentation ingested from the `raw/vault-core/5.8/smart-contracts-clv4/` directory. The source material outlines the complete reference for Contracts Language Version 4 (CLv4).
+This page provides a summary of the raw technical documentation ingested from the `raw/vault-core/5.8/reference/contracts/` directory. The source material outlines the complete reference for Contracts Language Version 4 (CLv4).
 
 ## Overview & Concepts
 - **Concepts**: Details the fundamental shift from CLv3 to CLv4, introducing strict native Python execution, the removal of `vault` API instruction methods, and the introduction of deterministic directives and rejections.

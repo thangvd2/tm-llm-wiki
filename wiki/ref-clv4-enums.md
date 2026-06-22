@@ -1,7 +1,7 @@
 ---
 tags: [reference, enums, clv4]
 products: [vault-core, smart-contracts]
-sources: [raw/vault-core/5.8/smart-contracts-clv4/]
+sources: [raw/vault-core/5.8/reference/contracts/]
 vault_version:
   introduced: "4.5"
   verified: ["5.8"]

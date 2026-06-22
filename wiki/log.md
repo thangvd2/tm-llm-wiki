@@ -19,14 +19,14 @@
 
 ## [2026-05-06] ingest | Vault Core Smart Contracts CLv4
 
-- **Sources**: raw/vault-core/5.8/smart-contracts-clv4/ (multiple files)
+- **Sources**: raw/vault-core/5.8/reference/contracts/ (multiple files)
 - **Pages created**: entity-smart-contract, entity-supervisor-contract, concept-sc-hooks, concept-parameters, concept-sc-data-fetching, concept-clv4-posting-instructions, concept-transaction-bridge, concept-clv3-to-clv4-migration, analysis-clv4-development-lifecycle, ref-clv4-enums, ref-clv4-classes, ref-clv4-hook-signatures
 - **Pages updated**: concept-smart-contracts, index.md, log.md
 - **Summary**: Ingested Tier 1-8 of Vault Core CLv4 Smart Contract documentation. Synthesized concepts, parameters, lifecycle, references, and integration details into the wiki.
 
 ## [2026-04-21] ingest | Vault Core Overview
 
-- **Sources**: raw/vault-core/5.8/vault-core-overview/ (10 files, ~162 KB)
+- **Sources**: raw/vault-core/5.8/vault_core_overview/ (10 files, ~162 KB)
 - **Pages created**: entity-vault-core, concept-architecture, concept-financial-model, concept-postings, concept-smart-contracts, concept-coexistence, concept-security, ref-vc5-service-compatibility, source-vault-core-overview
 - **Pages updated**: index.md, log.md
 - **Summary**: Ingested all Vault Core overview documentation. Created 9 wiki pages covering core concepts, architecture, financial model, security, coexistence, and VC5 changes.

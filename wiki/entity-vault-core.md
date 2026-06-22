@@ -2,8 +2,8 @@
 tags: [entity, core-banking]
 products: [vault-core]
 sources:
-  - raw/vault-core/5.8/vault-core-overview/vault_core_overview_what_is_vault_core.md
-  - raw/vault-core/5.8/vault-core-overview/vault_core_overview.md
+  - raw/vault-core/5.8/vault_core_overview/what_is_vault_core.md
+  - raw/vault-core/5.8/vault_core_overview.md
 vault_version:
   introduced: "5.0"
   verified: ["5.8"]

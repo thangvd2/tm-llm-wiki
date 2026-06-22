@@ -2,7 +2,7 @@
 tags: [concept, accounting]
 products: [vault-core]
 sources:
-  - raw/vault-core/5.8/vault-core-overview/vault_core_overview_financial_model.md
+  - raw/vault-core/5.8/vault_core_overview/financial_model.md
 vault_version:
   introduced: "5.0"
   verified: ["5.8"]

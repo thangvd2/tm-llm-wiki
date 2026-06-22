@@ -2,16 +2,16 @@
 tags: [source, overview]
 products: [vault-core]
 sources:
-  - raw/vault-core/5.8/vault-core-overview/vault_core_overview_what_is_vault_core.md
-  - raw/vault-core/5.8/vault-core-overview/vault_core_overview_architecture.md
-  - raw/vault-core/5.8/vault-core-overview/vault_core_overview_financial_model.md
-  - raw/vault-core/5.8/vault-core-overview/vault_core_overview_vault_security.md
-  - raw/vault-core/5.8/vault-core-overview/vault_core_overview_coexistence.md
-  - raw/vault-core/5.8/vault-core-overview/vault_core_overview_whats_new_in_vc5.md
-  - raw/vault-core/5.8/vault-core-overview/vault_core_overview_whats_new_in_vc5_overview.md
-  - raw/vault-core/5.8/vault-core-overview/vault_core_overview_whats_new_in_vc5_service_compatibility.md
-  - raw/vault-core/5.8/vault-core-overview/vault_core_overview_whats_new_in_vc5_extensions.md
-  - raw/vault-core/5.8/vault-core-overview/vault_core_overview.md
+  - raw/vault-core/5.8/vault_core_overview/what_is_vault_core.md
+  - raw/vault-core/5.8/vault_core_overview/architecture.md
+  - raw/vault-core/5.8/vault_core_overview/financial_model.md
+  - raw/vault-core/5.8/vault_core_overview/vault_security.md
+  - raw/vault-core/5.8/vault_core_overview/coexistence.md
+  - raw/vault-core/5.8/vault_core_overview/whats_new_in_vc5.md
+  - raw/vault-core/5.8/vault_core_overview/whats_new_in_vc5_overview.md
+  - raw/vault-core/5.8/vault_core_overview/whats_new_in_vc5_service_compatibility.md
+  - raw/vault-core/5.8/vault_core_overview/whats_new_in_vc5_extensions.md
+  - raw/vault-core/5.8/vault_core_overview.md
 vault_version:
   introduced: "5.0"
   verified: ["5.8"]

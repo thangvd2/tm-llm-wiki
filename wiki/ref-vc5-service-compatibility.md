@@ -2,7 +2,7 @@
 tags: [reference, versioning]
 products: [vault-core]
 sources:
-  - raw/vault-core/5.8/vault-core-overview/vault_core_overview_whats_new_in_vc5_service_compatibility.md
+  - raw/vault-core/5.8/vault_core_overview/whats_new_in_vc5_service_compatibility.md
 vault_version:
   introduced: "5.0"
   verified: ["5.8"]
