@@ -7,7 +7,7 @@
 const { chromium } = require("playwright");
 const fs = require("fs");
 const path = require("path");
-const { BASE_URL, BROWSER_DATA, VC_RAW_DIR, VC_VERSION_URL, resolveVersionUrls } = require("./scrape-config");
+const { BASE_URL, BROWSER_DATA, VC_RAW_DIR, VC_VERSION_URL, resolveVersionUrls, urlToRelPath, urlToFilename } = require("./scrape-config");
 
 // Pages to re-scrape (all under 1000 chars from first pass)
 const RETRY_PAGES = {
@@ -43,15 +43,6 @@ const RETRY_PAGES = {
     "/vault-core/5-8/EN/reference/contracts/contracts_transaction_bridge",
   ],
 };
-
-function urlToFilename(urlPath) {
-  let name = urlPath
-    .replace(new RegExp("^/vault-core/" + VC_VERSION_URL + "/EN/"), "")
-    .replace(/\//g, "_")
-    .replace(/[^a-zA-Z0-9_-]/g, "");
-  if (!name || name.length < 3) name = "index";
-  return name + ".md";
-}
 
 function htmlToBasicMd(html) {
   return html
@@ -198,13 +189,15 @@ async function main() {
   let unchanged = 0;
 
   for (const [section, urls] of Object.entries(sections)) {
-    const sectionDir = path.join(VC_RAW_DIR, section);
     console.log(`\n=== Re-scraping: ${section} (${urls.length} pages) ===`);
 
     for (const urlPath of urls) {
       try {
+        const relPath = urlToRelPath(urlPath);
         const filename = urlToFilename(urlPath);
-        const filepath = path.join(sectionDir, filename);
+        const targetDir = path.join(VC_RAW_DIR, relPath);
+        fs.mkdirSync(targetDir, { recursive: true });
+        const filepath = path.join(targetDir, filename);
         const oldSize = fs.existsSync(filepath) ? fs.statSync(filepath).size : 0;
 
         const result = await scrapePageWithRetry(page, urlPath);

@@ -8,7 +8,7 @@
 const { chromium } = require("playwright");
 const fs = require("fs");
 const path = require("path");
-const { BASE_URL, BROWSER_DATA, VC_RAW_DIR, VC_VERSION_URL, resolveVersionUrls } = require("./scrape-config");
+const { BASE_URL, BROWSER_DATA, VC_RAW_DIR, VC_VERSION_URL, resolveVersionUrls, urlToRelPath, urlToFilename } = require("./scrape-config");
 
 // URLs to scrape, organized by section
 const SCRAPE_SECTIONS = {
@@ -63,18 +63,6 @@ const SCRAPE_SECTIONS = {
     "/vault-core/5-8/EN/reference/contracts/contracts_transaction_bridge",
   ],
 };
-
-function urlToFilename(urlPath, section) {
-  // Convert URL path to a readable filename
-  // Remove the common prefix
-  let name = urlPath
-    .replace(new RegExp("^/vault-core/" + VC_VERSION_URL + "/EN/"), "")
-    .replace(/^\/vault-core\/latest\/EN\//, "")
-    .replace(/\//g, "_")
-    .replace(/[^a-zA-Z0-9_-]/g, "");
-  if (!name || name.length < 3) name = "index";
-  return name + ".md";
-}
 
 function htmlToBasicMd(html) {
   return html
@@ -165,16 +153,16 @@ async function main() {
   let totalErrors = 0;
 
   for (const [section, urls] of Object.entries(sections)) {
-    const sectionDir = path.join(VC_RAW_DIR, section);
-    fs.mkdirSync(sectionDir, { recursive: true });
-
     console.log(`\n=== Section: ${section} (${urls.length} pages) ===`);
 
     for (const urlPath of urls) {
       try {
         const result = await scrapePage(page, urlPath);
-        const filename = urlToFilename(urlPath, section);
-        const filepath = path.join(sectionDir, filename);
+        const relPath = urlToRelPath(urlPath);
+        const filename = urlToFilename(urlPath);
+        const targetDir = path.join(VC_RAW_DIR, relPath);
+        fs.mkdirSync(targetDir, { recursive: true });
+        const filepath = path.join(targetDir, filename);
         fs.writeFileSync(filepath, result.md);
         totalScraped++;
         console.log(`    OK: ${filename} (${result.md.length} chars)`);

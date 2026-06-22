@@ -33,7 +33,7 @@
 
 ---
 
-## 2026-06-16 — Version tracking infrastructure
+## [2026-06-16] migration | Version tracking infrastructure
 
 **Operation**: Schema migration
 **Vault version**: 5.8
