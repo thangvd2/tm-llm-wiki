@@ -25,6 +25,8 @@ const {
   VC_RAW_DIR,
   AP_RAW_DIR,
   detectPortal,
+  urlToRelPath,
+  urlToFilename,
 } = require("./scrape-config");
 
 const td = new TurndownService({
@@ -52,16 +54,6 @@ function fmtDuration(ms) {
   const m = Math.floor(ms / 60000);
   const s = Math.floor((ms % 60000) / 1000);
   return `${m}m${s}s`;
-}
-
-function urlToFilename(urlPath) {
-  let name = urlPath;
-  for (const portal of Object.values(PORTALS)) {
-    name = name.replace(new RegExp("^" + portal.urlSegment + "/?"), "");
-  }
-  name = name.replace(/\//g, "_").replace(/[^a-zA-Z0-9_-]/g, "");
-  if (!name || name.length < 3) name = "index";
-  return name + ".md";
 }
 
 function imageFilename(src) {
@@ -212,8 +204,8 @@ async function scrapePortal(browser, portalName) {
   const portal = PORTALS[portalName];
   if (!portal) return { portal: portalName, pages: 0, images: 0, downloaded: 0, duration: 0, error: "unknown portal" };
 
-  const sectionDir = portal.rawDir;
-  fs.mkdirSync(sectionDir, { recursive: true });
+  const baseDir = portal.rawDir;
+  fs.mkdirSync(baseDir, { recursive: true });
 
   const page = await browser.newPage();
   const portalStart = Date.now();
@@ -231,9 +223,13 @@ async function scrapePortal(browser, portalName) {
 
   for (const urlPath of urls) {
     try {
-      const result = await scrapePageFull(page, urlPath, sectionDir);
+      const relPath = urlToRelPath(urlPath);
       const filename = urlToFilename(urlPath);
-      fs.writeFileSync(path.join(sectionDir, filename), result.md);
+      const targetDir = path.join(baseDir, relPath);
+      fs.mkdirSync(targetDir, { recursive: true });
+
+      const result = await scrapePageFull(page, urlPath, targetDir);
+      fs.writeFileSync(path.join(targetDir, filename), result.md);
       totalPages++;
       totalImages += result.images;
       totalDownloaded += result.downloaded;
@@ -245,7 +241,7 @@ async function scrapePortal(browser, portalName) {
       }
 
       manifest.push({
-        page: filename,
+        page: relPath + filename,
         source_url: BASE_URL + urlPath,
         images_found: result.images,
         images_downloaded: result.downloaded,
@@ -256,7 +252,7 @@ async function scrapePortal(browser, portalName) {
     }
   }
 
-  const manifestPath = path.join(sectionDir, "_image-manifest.md");
+  const manifestPath = path.join(baseDir, "_image-manifest.md");
   const manifestLines = [
     `# Image Manifest: ${portalName}`,
     "",

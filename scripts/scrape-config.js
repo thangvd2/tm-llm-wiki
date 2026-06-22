@@ -80,6 +80,26 @@ function detectPortal(urlPath) {
   return null;
 }
 
+function stripPortalPrefix(urlPath) {
+  for (const portal of Object.values(PORTALS)) {
+    const stripped = urlPath.replace(new RegExp("^" + portal.urlSegment + "/?"), "");
+    if (stripped !== urlPath) return stripped;
+  }
+  return urlPath;
+}
+
+function urlToRelPath(urlPath) {
+  const segments = stripPortalPrefix(urlPath).split("/").filter(Boolean);
+  if (segments.length <= 1) return "";
+  return segments.slice(0, -1).join("/") + "/";
+}
+
+function urlToFilename(urlPath) {
+  const segments = stripPortalPrefix(urlPath).split("/").filter(Boolean);
+  const last = (segments[segments.length - 1] || "index").replace(/[^a-zA-Z0-9_-]/g, "");
+  return (last.length < 3 ? "index" : last) + ".md";
+}
+
 function resolveVersionUrls(sections) {
   const resolved = {};
   for (const [section, urls] of Object.entries(sections)) {
@@ -126,4 +146,6 @@ module.exports = {
   resolveVersionUrls,
   resolveRawDir,
   detectPortal,
+  urlToRelPath,
+  urlToFilename,
 };

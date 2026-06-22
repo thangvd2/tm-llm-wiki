@@ -10,7 +10,7 @@
 const { chromium } = require("playwright");
 const fs = require("fs");
 const path = require("path");
-const { BASE_URL, BROWSER_DATA, VC_RAW_DIR, AP_RAW_DIR, SITEMAPS_DIR, resolveRawDir } = require("./scrape-config");
+const { BASE_URL, BROWSER_DATA, VC_RAW_DIR, AP_RAW_DIR, SITEMAPS_DIR, resolveRawDir, urlToRelPath, urlToFilename } = require("./scrape-config");
 
 fs.mkdirSync(VC_RAW_DIR, { recursive: true });
 fs.mkdirSync(AP_RAW_DIR, { recursive: true });
@@ -232,8 +232,12 @@ async function main() {
       const url = args[0];
       const result = await scrapePage(page, url);
 
-      const filename = args[1] || slugify(url) + ".md";
-      const filepath = path.join(resolveRawDir(url), filename);
+      const portalPath = url.replace(BASE_URL, "");
+      const relPath = urlToRelPath(portalPath);
+      const filename = args[1] || urlToFilename(portalPath);
+      const targetDir = path.join(resolveRawDir(portalPath), relPath);
+      fs.mkdirSync(targetDir, { recursive: true });
+      const filepath = path.join(targetDir, filename);
       fs.writeFileSync(filepath, result.md);
       console.log(`\nSaved: ${filepath}`);
       console.log(`Title: ${result.title}`);
