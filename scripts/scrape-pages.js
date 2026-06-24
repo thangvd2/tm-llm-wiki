@@ -10,12 +10,11 @@
 const { chromium } = require("playwright");
 const fs = require("fs");
 const path = require("path");
+const { BASE_URL, BROWSER_DATA, VC_RAW_DIR, AP_RAW_DIR, SITEMAPS_DIR, resolveRawDir, urlToRelPath, urlToFilename } = require("./scrape-config");
 
-const RAW_DIR = path.join(__dirname, "..", "raw");
-const BROWSER_DATA = path.join(__dirname, "..", "tmp", "browser-data");
-
-// Ensure dirs exist
-fs.mkdirSync(RAW_DIR, { recursive: true });
+fs.mkdirSync(VC_RAW_DIR, { recursive: true });
+fs.mkdirSync(AP_RAW_DIR, { recursive: true });
+fs.mkdirSync(SITEMAPS_DIR, { recursive: true });
 
 function slugify(url) {
   // Convert URL path to a safe filename
@@ -158,7 +157,7 @@ async function main() {
       await page.goto(url, { waitUntil: "networkidle", timeout: 60000 });
       const links = await getSitemap(page, "https://vault-portal.thoughtmachine.net");
 
-      const mapFile = path.join(RAW_DIR, "_sitemap.md");
+      const mapFile = path.join(SITEMAPS_DIR, "_sitemap.md");
       const lines = [
         "# Vault Portal Sitemap",
         "",
@@ -209,7 +208,7 @@ async function main() {
         }
       }
 
-      const mapFile = path.join(RAW_DIR, "_sitemap-full.md");
+      const mapFile = path.join(SITEMAPS_DIR, "_sitemap-full.md");
       const lines = [
         "# Vault Portal Full Sitemap",
         "",
@@ -233,8 +232,12 @@ async function main() {
       const url = args[0];
       const result = await scrapePage(page, url);
 
-      const filename = args[1] || slugify(url) + ".md";
-      const filepath = path.join(RAW_DIR, filename);
+      const portalPath = url.replace(BASE_URL, "");
+      const relPath = urlToRelPath(portalPath);
+      const filename = args[1] || urlToFilename(portalPath);
+      const targetDir = path.join(resolveRawDir(portalPath), relPath);
+      fs.mkdirSync(targetDir, { recursive: true });
+      const filepath = path.join(targetDir, filename);
       fs.writeFileSync(filepath, result.md);
       console.log(`\nSaved: ${filepath}`);
       console.log(`Title: ${result.title}`);

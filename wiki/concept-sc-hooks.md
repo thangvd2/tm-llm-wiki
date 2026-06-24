@@ -1,7 +1,11 @@
 ---
 tags: [concept, hooks, clv4, architecture]
 products: [vault-core, smart-contracts]
-sources: [raw/smart-contracts-clv4/]
+sources: [raw/vault-core/5.8/reference/contracts/]
+vault_version:
+  introduced: "4.5"
+  verified: ["5.8"]
+  current: true
 last_updated: 2026-05-06
 ---
 
@@ -58,4 +62,4 @@ A Supervisor Contract only supports a subset of 5 hooks, enabling it to orchestr
 
 > **See also**:
 > - [[concept-sc-data-fetching]] for retrieving data securely within these hooks.
-> - [[concept-clv4-version-migration]] for details on CLv3 hook renames and the removal of `execution_schedules`.
+> - [[concept-clv3-to-clv4-migration]] for details on CLv3 hook renames and the removal of `execution_schedules`.

@@ -1,0 +1,24 @@
+---
+source_url: "https://vault-portal.thoughtmachine.net/learning/latest/EN/price_list"
+title: "Client Bootcamp and Exam Price List"
+scraped_at: "2026-06-17T15:57:16.707Z"
+images: 0
+---
+
+# Client Bootcamp and Exam Price List
+
+## [](#vault_core_public_bootcamp_pricing "Copy link to heading")Vault Core Public Bootcamp Pricing
+
+<table class="tableblock frame-all grid-all fit-content"><colgroup><col> <col></colgroup><tbody><tr><td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph"><p>Public Bootcamp</p></div></div></td><td class="tableblock halign-left valign-top"><p class="tableblock">Price (USD) per attendee (includes entry into the associated exam)</p></td></tr><tr><td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph"><p>Vault Core Fundamentals Public Bootcamp</p></div></div></td><td class="tableblock halign-left valign-top"><p class="tableblock">$ 1100</p></td></tr><tr><td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph"><p>Vault Core Professional Analyst Public Bootcamp</p></div></div></td><td class="tableblock halign-left valign-top"><p class="tableblock">$ 1120</p></td></tr><tr><td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph"><p>Vault Core Professional Architect Public Bootcamp</p></div></div></td><td class="tableblock halign-left valign-top"><p class="tableblock">$ 2300</p></td></tr><tr><td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph"><p>Vault Core Professional Engineer Public Bootcamp</p></div></div></td><td class="tableblock halign-left valign-top"><p class="tableblock">$ 3300</p></td></tr><tr><td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph"><p>Vault Core Professional Site Reliability Engineer Public Bootcamp</p></div></div></td><td class="tableblock halign-left valign-top"><p class="tableblock">$ 650</p></td></tr></tbody></table>
+
+## [](#private_bootcamp_pricing "Copy link to heading")Private Bootcamp Pricing
+
+Contact your Thought Machine Representative to schedule a bootcamp exclusive to your organisation.
+
+<table class="tableblock frame-all grid-all fit-content"><colgroup><col> <col></colgroup><tbody><tr><td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph"><p>Bootcamp Type</p></div></div></td><td class="tableblock halign-left valign-top"><p class="tableblock">Price (USD) for up to 20 attendees (includes entry into the associated exam)</p></td></tr><tr><td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph"><p>Vault Core Fundamentals Private Bootcamp</p></div></div></td><td class="tableblock halign-left valign-top"><p class="tableblock">$ 14,700</p></td></tr><tr><td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph"><p>Vault Core Professional Analyst Private Bootcamp</p></div></div></td><td class="tableblock halign-left valign-top"><p class="tableblock">$ 14,700</p></td></tr><tr><td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph"><p>Vault Core Professional Architect Private Bootcamp</p></div></div></td><td class="tableblock halign-left valign-top"><p class="tableblock">$ 22,300</p></td></tr><tr><td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph"><p>Vault Core Professional Engineer Private Bootcamp</p></div></div></td><td class="tableblock halign-left valign-top"><p class="tableblock">$ 32,400</p></td></tr><tr><td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph"><p>Vault Core Professional SRE Private Bootcamp</p></div></div></td><td class="tableblock halign-left valign-top"><p class="tableblock">$ 6,400</p></td></tr></tbody></table>
+
+## [](#exams_pricing "Copy link to heading")Exams Pricing
+
+Click [here](https://ondemand.questionmark.eu/home/612441/catalog) to purchase exams
+
+<table class="tableblock frame-all grid-all fit-content"><colgroup><col></colgroup><tbody><tr><td class="tableblock halign-left valign-top"><p class="tableblock">Exam</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">Price (USD)</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">Vault Core Fundamentals</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">$120</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">Vault Core Professional</p></td></tr><tr><td class="tableblock halign-left valign-top"><p class="tableblock">$ 600</p></td></tr></tbody></table>

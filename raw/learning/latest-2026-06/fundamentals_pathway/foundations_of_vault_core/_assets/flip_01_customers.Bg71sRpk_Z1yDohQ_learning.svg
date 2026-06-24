@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="Layer_2" data-name="Layer 2" viewBox="0 0 465.45 461.82">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+      }
+
+      .cls-3 {
+        clip-path: url(#clippath-1);
+      }
+
+      .cls-4 {
+        fill: #8000d9;
+      }
+
+      .cls-2 {
+        stroke: #fff;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 7.5px;
+      }
+
+      .cls-5 {
+        fill: #fff;
+        font-family: LabGrotesque-Bold, 'Lab Grotesque';
+        font-size: 48px;
+        font-weight: 700;
+      }
+
+      .cls-6 {
+        letter-spacing: -.01em;
+      }
+
+      .cls-7 {
+        letter-spacing: 0em;
+      }
+
+      .cls-8 {
+        letter-spacing: -.01em;
+      }
+
+      .cls-9 {
+        clip-path: url(#clippath);
+      }
+    </style>
+    <clipPath id="clippath">
+      <rect class="cls-1" x="145.63" y="112.73" width="174.2" height="176.36"/>
+    </clipPath>
+    <clipPath id="clippath-1">
+      <rect class="cls-1" x="145.63" y="112.73" width="174.2" height="176.36"/>
+    </clipPath>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <rect class="cls-4" x="1.82" width="461.82" height="461.82"/>
+    <text class="cls-5" transform="translate(112.63 400.68)"><tspan x="0" y="0">Cu</tspan><tspan class="cls-7" x="59.47" y="0">s</tspan><tspan class="cls-6" x="83.61" y="0">t</tspan><tspan x="101.47" y="0">ome</tspan><tspan class="cls-8" x="197.33" y="0">r</tspan><tspan x="215.76" y="0">s</tspan></text>
+    <g id="Artwork_346" data-name="Artwork 346">
+      <g class="cls-9">
+        <g class="cls-3">
+          <path class="cls-2" d="M267.27,141.39c-4.48-21.45-25.17-24.91-34.83-24.91-12.07,0-31.73,2.77-34.83,28.37-2.41,19.72,6.56,44.98,13.11,53.63,7.59,9.34,14.14,14.19,23.45,14.19,8.62,0,14.48-4.15,22.07-15.57,6.9-10.72,14.83-37.72,11.04-55.71Z"/>
+          <path class="cls-2" d="M232.84,261.46l-26.56-28.03s-34.83,8.65-44.49,11.07c-9.65,2.42-12.42,24.91-12.42,40.83M232.61,261.46l26.56-28.03s34.83,8.65,44.49,11.07c9.66,2.42,12.42,24.91,12.42,40.83"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

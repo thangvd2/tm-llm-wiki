@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" version="1.1" viewBox="0 0 1920 580.14">
+  <!-- Generator: Adobe Illustrator 29.8.1, SVG Export Plug-In . SVG Version: 2.1.1 Build 2)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: #474747;
+      }
+
+      .st1 {
+        fill: #ff2d5c;
+      }
+
+      .st2 {
+        fill: #8000d9;
+      }
+
+      .st3 {
+        fill: #5f6dfb;
+      }
+
+      .st4 {
+        font-family: LabGrotesque-Bold, 'Lab Grotesque';
+        font-size: 48px;
+        font-weight: 700;
+      }
+
+      .st4, .st5 {
+        fill: #fff;
+      }
+
+      .st6 {
+        fill: #0080ff;
+      }
+
+      .st7 {
+        fill: none;
+        stroke: #000;
+        stroke-miterlimit: 10;
+        stroke-width: 3px;
+      }
+
+      .st5 {
+        font-family: LabGrotesque-Black, 'Lab Grotesque';
+        font-size: 36px;
+        font-weight: 800;
+      }
+    </style>
+  </defs>
+  <rect class="st6" x="99.36" y="193.97" width="823.71" height="110.36"/>
+  <text class="st4" transform="translate(276.49 262.71)"><tspan x="0" y="0">Total Credit Postings</tspan></text>
+  <rect class="st0" x="99.36" y="53.97" width="1722.19" height="110.36"/>
+  <text class="st4" transform="translate(665.91 122.71)"><tspan x="0" y="0">Liability (Savings Account)</tspan></text>
+  <rect class="st3" x="997.85" y="193.97" width="823.71" height="110.36"/>
+  <text class="st4" transform="translate(1183.46 262.71)"><tspan x="0" y="0">Total Debit Postings</tspan></text>
+  <rect class="st2" x="99.36" y="398.11" width="1722.19" height="110.36"/>
+  <text class="st4" transform="translate(919.44 466.85)"><tspan x="0" y="0">Net</tspan></text>
+  <rect class="st1" x="923.06" y="193.97" width="74.78" height="110.36"/>
+  <text class="st5" transform="translate(953.07 261.93)"><tspan x="0" y="0">-</tspan></text>
+  <path class="st7" d="M958.05,398.11c5.78-24.33-48.33-34.12-97.21-38.6-174.22-15.97-488.31,16.53-664.28,0-27.99-2.63-48.05-6.08-62.4-9.87-20.54-5.42-34.82-24.06-34.82-45.31h0"/>
+  <path class="st7" d="M958.91,398.11c-5.79-24.33,48.44-34.12,97.43-38.6,174.62-15.97,489.44,16.53,665.8,0,27-2.53,46.64-5.82,60.89-9.44,21.31-5.41,36.79-23.81,38.52-45.73h0"/>
+</svg>

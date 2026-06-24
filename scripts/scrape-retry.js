@@ -7,10 +7,7 @@
 const { chromium } = require("playwright");
 const fs = require("fs");
 const path = require("path");
-
-const BASE_URL = "https://vault-portal.thoughtmachine.net";
-const BROWSER_DATA = path.join(__dirname, "..", "tmp", "browser-data");
-const RAW_DIR = path.join(__dirname, "..", "raw");
+const { BASE_URL, BROWSER_DATA, VC_RAW_DIR, VC_VERSION_URL, resolveVersionUrls, urlToRelPath, urlToFilename } = require("./scrape-config");
 
 // Pages to re-scrape (all under 1000 chars from first pass)
 const RETRY_PAGES = {
@@ -46,15 +43,6 @@ const RETRY_PAGES = {
     "/vault-core/5-8/EN/reference/contracts/contracts_transaction_bridge",
   ],
 };
-
-function urlToFilename(urlPath) {
-  let name = urlPath
-    .replace(/^\/vault-core\/5-8\/EN\//, "")
-    .replace(/\//g, "_")
-    .replace(/[^a-zA-Z0-9_-]/g, "");
-  if (!name || name.length < 3) name = "index";
-  return name + ".md";
-}
 
 function htmlToBasicMd(html) {
   return html
@@ -195,17 +183,21 @@ async function main() {
 
   const page = browser.pages()[0] || (await browser.newPage());
 
+  const sections = resolveVersionUrls(RETRY_PAGES);
+
   let improved = 0;
   let unchanged = 0;
 
-  for (const [section, urls] of Object.entries(RETRY_PAGES)) {
-    const sectionDir = path.join(RAW_DIR, section);
+  for (const [section, urls] of Object.entries(sections)) {
     console.log(`\n=== Re-scraping: ${section} (${urls.length} pages) ===`);
 
     for (const urlPath of urls) {
       try {
+        const relPath = urlToRelPath(urlPath);
         const filename = urlToFilename(urlPath);
-        const filepath = path.join(sectionDir, filename);
+        const targetDir = path.join(VC_RAW_DIR, relPath);
+        fs.mkdirSync(targetDir, { recursive: true });
+        const filepath = path.join(targetDir, filename);
         const oldSize = fs.existsSync(filepath) ? fs.statSync(filepath).size : 0;
 
         const result = await scrapePageWithRetry(page, urlPath);

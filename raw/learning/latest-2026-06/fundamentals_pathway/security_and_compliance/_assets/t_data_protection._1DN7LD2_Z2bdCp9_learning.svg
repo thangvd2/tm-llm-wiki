@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="Layer_2" data-name="Layer 2" viewBox="0 0 569.09 569.09">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+      }
+
+      .cls-2 {
+        fill: #fff;
+        fill-rule: evenodd;
+      }
+
+      .cls-3, .cls-4 {
+        isolation: isolate;
+      }
+
+      .cls-4 {
+        font-family: LabGrotesque-Bold, 'Lab Grotesque';
+        font-size: 48px;
+        font-weight: 700;
+      }
+
+      .cls-5 {
+        letter-spacing: 0em;
+      }
+
+      .cls-6 {
+        letter-spacing: 0em;
+      }
+
+      .cls-7 {
+        letter-spacing: -.02em;
+      }
+
+      .cls-8 {
+        letter-spacing: -.02em;
+      }
+
+      .cls-9 {
+        letter-spacing: -.02em;
+      }
+
+      .cls-10 {
+        fill: #42ffb7;
+      }
+
+      .cls-11 {
+        letter-spacing: 0em;
+      }
+
+      .cls-12 {
+        clip-path: url(#clippath);
+      }
+    </style>
+    <clipPath id="clippath">
+      <rect class="cls-1" x="234.37" y="161.23" width="100.36" height="122.85"/>
+    </clipPath>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <rect class="cls-10" width="569.09" height="569.09"/>
+    <path class="cls-2" d="M114.71,222.66h0c0-93.89,76.04-170,169.84-170h0c45.04,0,88.24,17.91,120.09,49.79s49.74,75.12,49.74,120.21h0c0,93.89-76.04,170-169.84,170h0c-93.8,0-169.84-76.11-169.84-170h.01Z"/>
+    <g class="cls-3">
+      <text class="cls-4" transform="translate(101.01 486.13)"><tspan x="0" y="0">D</tspan><tspan class="cls-11" x="34.46" y="0">a</tspan><tspan class="cls-6" x="60.91" y="0">t</tspan><tspan x="79.58" y="0">a P</tspan><tspan class="cls-7" x="149.71" y="0">r</tspan><tspan class="cls-9" x="167.66" y="0">o</tspan><tspan class="cls-8" x="195.17" y="0">t</tspan><tspan class="cls-5" x="213.02" y="0">ec</tspan><tspan x="265.53" y="0">tion</tspan></text>
+    </g>
+    <g class="cls-12">
+      <image class="cls-3" width="116" height="142" transform="translate(234.37 161.23) scale(.87)" xlink:href="data:image/png;base64,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"/>
+    </g>
+  </g>
+</svg>

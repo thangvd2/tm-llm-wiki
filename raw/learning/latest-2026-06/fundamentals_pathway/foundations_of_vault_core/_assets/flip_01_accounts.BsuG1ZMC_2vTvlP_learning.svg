@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="Layer_2" data-name="Layer 2" viewBox="0 0 465.45 461.82">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-3 {
+        fill: none;
+      }
+
+      .cls-2, .cls-3 {
+        stroke: #fff;
+        stroke-miterlimit: 10;
+        stroke-width: 7.14px;
+      }
+
+      .cls-4 {
+        clip-path: url(#clippath-1);
+      }
+
+      .cls-5 {
+        fill: #8000d9;
+      }
+
+      .cls-3 {
+        stroke-linecap: round;
+      }
+
+      .cls-6 {
+        fill: #fff;
+        font-family: LabGrotesque-Bold, 'Lab Grotesque';
+        font-size: 48px;
+        font-weight: 700;
+      }
+
+      .cls-7 {
+        letter-spacing: 0em;
+      }
+
+      .cls-8 {
+        letter-spacing: -.01em;
+      }
+
+      .cls-9 {
+        letter-spacing: 0em;
+      }
+
+      .cls-10 {
+        clip-path: url(#clippath);
+      }
+
+      .cls-11 {
+        letter-spacing: 0em;
+      }
+    </style>
+    <clipPath id="clippath">
+      <rect class="cls-1" x="168.87" y="117.27" width="127.71" height="167.27"/>
+    </clipPath>
+    <clipPath id="clippath-1">
+      <rect class="cls-1" x="168.87" y="117.27" width="127.71" height="167.27"/>
+    </clipPath>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <rect class="cls-5" x="3.64" width="461.82" height="461.82"/>
+    <text class="cls-6" transform="translate(128.04 400.68)"><tspan class="cls-7" x="0" y="0">A</tspan><tspan class="cls-8" x="33.89" y="0">cc</tspan><tspan x="83.52" y="0">ou</tspan><tspan class="cls-9" x="138.96" y="0">n</tspan><tspan class="cls-11" x="165.98" y="0">t</tspan><tspan x="184.94" y="0">s</tspan></text>
+    <g id="Artwork_377" data-name="Artwork 377">
+      <g class="cls-10">
+        <rect class="cls-2" x="197.81" y="175.24" width="69.57" height="80.3"/>
+        <line class="cls-2" x1="197.81" y1="196.24" x2="267.38" y2="196.24"/>
+        <line class="cls-2" x1="197.81" y1="217.19" x2="267.38" y2="217.19"/>
+        <line class="cls-2" x1="197.81" y1="234.65" x2="267.38" y2="234.65"/>
+        <line class="cls-2" x1="218.68" y1="252.21" x2="218.68" y2="171.9"/>
+        <line class="cls-2" x1="196.74" y1="196.48" x2="267.38" y2="196.48"/>
+        <line class="cls-2" x1="196.74" y1="217.29" x2="267.38" y2="217.29"/>
+        <line class="cls-2" x1="196.74" y1="234.78" x2="267.38" y2="234.78"/>
+        <line class="cls-2" x1="218.87" y1="258.72" x2="218.87" y2="171.9"/>
+        <rect class="cls-2" x="197.66" y="174.96" width="70.14" height="80.73"/>
+        <g class="cls-4">
+          <path class="cls-2" d="M278.74,280.98h-92.02c-7.85,0-14.28-6.42-14.28-14.28v-115.9l29.95-29.96h76.34c7.85,0,14.28,6.42,14.28,14.28v131.58c0,7.85-6.42,14.28-14.28,14.28Z"/>
+          <path class="cls-3" d="M205.42,130.49c.65,22.75-7.08,23.05-23.17,23.53"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

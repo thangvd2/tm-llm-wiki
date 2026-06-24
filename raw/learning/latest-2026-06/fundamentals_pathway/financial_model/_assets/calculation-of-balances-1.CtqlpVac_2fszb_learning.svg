@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" version="1.1" viewBox="0 0 1920 462.27">
+  <!-- Generator: Adobe Illustrator 29.8.1, SVG Export Plug-In . SVG Version: 2.1.1 Build 2)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: #8000d9;
+      }
+
+      .st1 {
+        fill: #5f6dfb;
+      }
+
+      .st2 {
+        fill: #fff;
+        font-family: LabGrotesque-Bold, 'Lab Grotesque';
+        font-size: 48px;
+        font-weight: 700;
+      }
+
+      .st3 {
+        fill: #0080ff;
+      }
+    </style>
+  </defs>
+  <rect class="st3" x="99.36" y="38.88" width="1722.19" height="110.36"/>
+  <text class="st2" transform="translate(725.28 107.63)"><tspan x="0" y="0">Total Credit Postings</tspan></text>
+  <rect class="st1" x="99.36" y="178.88" width="1722.19" height="110.36"/>
+  <text class="st2" transform="translate(733.76 247.63)"><tspan x="0" y="0">Total Debit Postings</tspan></text>
+  <rect class="st0" x="99.36" y="318.88" width="1722.19" height="110.36"/>
+  <text class="st2" transform="translate(919.44 387.63)"><tspan x="0" y="0">Net</tspan></text>
+</svg>

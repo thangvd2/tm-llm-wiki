@@ -202,7 +202,7 @@ Pages are ordered by dependency — earlier pages are referenced by later ones.
   ```
 - **Cross-refs**: → `concept-postings`, `concept-financial-model`, `ref-clv4-classes`
 
-### Page 8: `concept-clv4-version-migration.md`
+### Page 8: `concept-clv3-to-clv4-migration.md`
 - **Category**: concept
 - **Raw files**: `version_notes`
 - **Description**: CLv4 migration guide. Benefits (performance 2-4x), key changes (hook renames, directives-as-classes, timezone pytz→zoneinfo, postings refactoring), conversion process (translate→test→deploy→convert), supervised account conversion, release notes timeline (4.5.0→5.7.0).
@@ -304,7 +304,7 @@ Pages are ordered by dependency — earlier pages are referenced by later ones.
 - Add new entries (not previously placeholder'd):
   - `concept-sc-data-fetching` — Data fetching: @fetch_account_data, @requires, range specifiers
   - `concept-clv4-posting-instructions` — Posting instruction types and compatibility
-  - `concept-clv4-version-migration` — CLv3→CLv4 migration guide
+  - `concept-clv3-to-clv4-migration` — CLv3→CLv4 migration guide
   - `concept-transaction-bridge` — Experience Layer Transaction auto-creation
   - `analysis-clv4-development-lifecycle` — Dev/test/perf/prod lifecycle analysis
 

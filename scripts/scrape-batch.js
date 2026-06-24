@@ -3,17 +3,12 @@
  * Uses persistent browser context from scrape-login.js session.
  *
  * Usage:  node scripts/scrape-batch.js
- * Output: raw/vault-core-overview/ and raw/smart-contracts-clv4/
+ * Output: raw/vault-core/5.8/vault-core-overview/ and raw/vault-core/5.8/smart-contracts-clv4/
  */
 const { chromium } = require("playwright");
 const fs = require("fs");
 const path = require("path");
-
-const BASE = "https://vault-portal.thoughtmachine.net";
-const BROWSER_DATA = path.join(__dirname, "..", "tmp", "browser-data");
-const RAW_DIR = path.join(__dirname, "..", "raw");
-
-const BASE_URL = "https://vault-portal.thoughtmachine.net";
+const { BASE_URL, BROWSER_DATA, VC_RAW_DIR, VC_VERSION_URL, resolveVersionUrls, urlToRelPath, urlToFilename } = require("./scrape-config");
 
 // URLs to scrape, organized by section
 const SCRAPE_SECTIONS = {
@@ -68,18 +63,6 @@ const SCRAPE_SECTIONS = {
     "/vault-core/5-8/EN/reference/contracts/contracts_transaction_bridge",
   ],
 };
-
-function urlToFilename(urlPath, section) {
-  // Convert URL path to a readable filename
-  // Remove the common prefix
-  let name = urlPath
-    .replace(/^\/vault-core\/5-8\/EN\//, "")
-    .replace(/^\/vault-core\/latest\/EN\//, "")
-    .replace(/\//g, "_")
-    .replace(/[^a-zA-Z0-9_-]/g, "");
-  if (!name || name.length < 3) name = "index";
-  return name + ".md";
-}
 
 function htmlToBasicMd(html) {
   return html
@@ -164,20 +147,22 @@ async function main() {
 
   const page = browser.pages()[0] || (await browser.newPage());
 
+  const sections = resolveVersionUrls(SCRAPE_SECTIONS);
+
   let totalScraped = 0;
   let totalErrors = 0;
 
-  for (const [section, urls] of Object.entries(SCRAPE_SECTIONS)) {
-    const sectionDir = path.join(RAW_DIR, section);
-    fs.mkdirSync(sectionDir, { recursive: true });
-
+  for (const [section, urls] of Object.entries(sections)) {
     console.log(`\n=== Section: ${section} (${urls.length} pages) ===`);
 
     for (const urlPath of urls) {
       try {
         const result = await scrapePage(page, urlPath);
-        const filename = urlToFilename(urlPath, section);
-        const filepath = path.join(sectionDir, filename);
+        const relPath = urlToRelPath(urlPath);
+        const filename = urlToFilename(urlPath);
+        const targetDir = path.join(VC_RAW_DIR, relPath);
+        fs.mkdirSync(targetDir, { recursive: true });
+        const filepath = path.join(targetDir, filename);
         fs.writeFileSync(filepath, result.md);
         totalScraped++;
         console.log(`    OK: ${filename} (${result.md.length} chars)`);
@@ -191,7 +176,7 @@ async function main() {
   console.log(`\n=== DONE ===`);
   console.log(`Scraped: ${totalScraped} pages`);
   console.log(`Errors: ${totalErrors} pages`);
-  console.log(`Output: ${RAW_DIR}`);
+  console.log(`Output: ${VC_RAW_DIR}`);
 
   await browser.close();
 }

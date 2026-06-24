@@ -1,0 +1,195 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="Layer_1" version="1.1" viewBox="0 0 858.2 878.2">
+  <!-- Generator: Adobe Illustrator 30.2.1, SVG Export Plug-In . SVG Version: 2.1.1 Build 1)  -->
+  <defs>
+    <style>
+      .st0, .st1 {
+        fill: none;
+      }
+
+      .st2 {
+        fill: url(#linear-gradient1);
+      }
+
+      .st3 {
+        fill: url(#linear-gradient);
+      }
+
+      .st1 {
+        stroke: #fff;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 2px;
+      }
+
+      .st4 {
+        clip-path: url(#clippath-1);
+      }
+
+      .st5 {
+        clip-path: url(#clippath-3);
+      }
+
+      .st6 {
+        clip-path: url(#clippath-4);
+      }
+
+      .st7 {
+        clip-path: url(#clippath-2);
+      }
+
+      .st8 {
+        clip-path: url(#clippath-7);
+      }
+
+      .st9 {
+        clip-path: url(#clippath-6);
+      }
+
+      .st10 {
+        clip-path: url(#clippath-9);
+      }
+
+      .st11 {
+        clip-path: url(#clippath-8);
+      }
+
+      .st12 {
+        clip-path: url(#clippath-5);
+      }
+
+      .st13 {
+        font-size: 28px;
+      }
+
+      .st13, .st14, .st15 {
+        fill: #fff;
+      }
+
+      .st13, .st15 {
+        font-family: LabGrotesque-Bold, 'Lab Grotesque';
+        font-weight: 700;
+      }
+
+      .st16 {
+        fill: #8000d9;
+      }
+
+      .st17 {
+        fill: #5f6dfb;
+      }
+
+      .st15 {
+        font-size: 48px;
+      }
+
+      .st18 {
+        clip-path: url(#clippath);
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="639.7" y1="388.4" x2="639.7" y2="489.8" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8000d9"/>
+      <stop offset="1" stop-color="#5f6dfb"/>
+    </linearGradient>
+    <clipPath id="clippath">
+      <rect class="st0" x="616.4" y="513.8" width="47" height="47"/>
+    </clipPath>
+    <clipPath id="clippath-1">
+      <rect class="st0" x="616.4" y="513.8" width="47" height="47"/>
+    </clipPath>
+    <clipPath id="clippath-2">
+      <rect class="st0" x="616.4" y="617" width="47" height="47"/>
+    </clipPath>
+    <clipPath id="clippath-3">
+      <rect class="st0" x="616.4" y="617" width="47" height="47"/>
+    </clipPath>
+    <clipPath id="clippath-4">
+      <rect class="st0" x="616.4" y="726.2" width="47" height="47"/>
+    </clipPath>
+    <clipPath id="clippath-5">
+      <rect class="st0" x="616.4" y="726.2" width="47" height="47"/>
+    </clipPath>
+    <clipPath id="clippath-6">
+      <rect class="st0" x="198" y="658.3" width="47" height="47"/>
+    </clipPath>
+    <clipPath id="clippath-7">
+      <rect class="st0" x="198" y="658.3" width="47" height="47"/>
+    </clipPath>
+    <clipPath id="clippath-8">
+      <rect class="st0" x="198" y="536.8" width="47" height="47"/>
+    </clipPath>
+    <clipPath id="clippath-9">
+      <rect class="st0" x="198" y="536.8" width="47" height="47"/>
+    </clipPath>
+    <linearGradient id="linear-gradient1" x1="222.7" x2="222.7" xlink:href="#linear-gradient"/>
+  </defs>
+  <polygon class="st16" points="828.4 35.9 828.4 413.2 665.2 413.2 665.2 382.4 614.2 382.4 614.2 413.2 451.1 413.2 451.1 35.9 828.4 35.9"/>
+  <polygon class="st17" points="827.1 465 827.1 842.3 449.8 842.3 449.8 465 606.5 465 639.7 498.3 673 465 827.1 465"/>
+  <polygon class="st3" points="639.7 489.8 684.4 445.1 659.2 445.1 659.2 388.4 620.2 388.4 620.2 445.1 595 445.1 639.7 489.8"/>
+  <polygon class="st16" points="411.4 35.9 411.4 413.2 248.2 413.2 248.2 382.4 197.2 382.4 197.2 413.2 34.1 413.2 34.1 35.9 411.4 35.9"/>
+  <g>
+    <path class="st14" d="M175.1,207h15.1v5.8h-21.8v-34.1h6.7v28.3Z"/>
+    <path class="st14" d="M218.3,200.5c0,7.8-5.3,13.1-12.7,13.1s-12.8-5.3-12.8-13.1,5.3-13.1,12.8-13.1,12.7,5.3,12.7,13.1ZM199.2,200.5c0,4.8,2.5,7.8,6.4,7.8s6.4-3,6.4-7.8-2.5-7.8-6.4-7.8-6.4,3.1-6.4,7.8Z"/>
+    <path class="st14" d="M243.9,196.2v16.6h-5.6v-2.5c-1.5,2.1-4.1,3.4-7.9,3.4s-8.8-2-8.8-7,5-7.6,10.6-8.6l5.8-1.1v-.6c0-2.4-1.8-3.7-4.6-3.7s-5.1,1.5-7.6,4l-3.9-3.6c3.1-3.6,6.6-5.5,11.5-5.5,7.1,0,10.7,3.6,10.7,8.8ZM238,202.8v-1.4l-4.1.9c-3.7.8-6.1,1.6-6.1,3.9s1.4,2.4,3.7,2.4,6.5-1.5,6.5-5.8Z"/>
+    <path class="st14" d="M271.4,196v16.8h-6.2v-14.9c0-3.2-1.6-5-4.6-5s-4.9,2.1-4.9,5.2v14.8h-6.2v-24.5h5.8v2.8c1.5-2.2,4-3.6,7.4-3.6,5.7,0,8.8,3.6,8.8,8.5Z"/>
+    <path class="st14" d="M154.9,253.8v16.6h-5.6v-2.5c-1.5,2.1-4.1,3.4-7.9,3.4s-8.8-2-8.8-7,5-7.6,10.6-8.6l5.8-1.1v-.6c0-2.4-1.8-3.7-4.6-3.7s-5.1,1.5-7.6,4l-3.9-3.6c3.1-3.6,6.6-5.5,11.5-5.5,7.1,0,10.7,3.6,10.7,8.8ZM149,260.4v-1.4l-4.1.9c-3.7.8-6.1,1.6-6.1,3.9s1.4,2.4,3.7,2.4,6.5-1.5,6.5-5.8Z"/>
+    <path class="st14" d="M171.8,250.3c-4.1,0-6.3,3.5-6.3,7.8s2.2,7.7,6.3,7.7,4.1-1.1,6.7-3.8l4.1,3.5c-3.5,4.4-6.6,5.7-10.9,5.7-7.4,0-12.5-4.9-12.5-13.1s5.3-13.1,12.7-13.1,7,1.1,10.3,4.7l-3.9,3.8c-2.8-2.6-4.5-3.2-6.4-3.2Z"/>
+    <path class="st14" d="M196.6,250.3c-4.1,0-6.3,3.5-6.3,7.8s2.2,7.7,6.3,7.7,4.1-1.1,6.7-3.8l4.1,3.5c-3.5,4.4-6.6,5.7-10.9,5.7-7.4,0-12.5-4.9-12.5-13.1s5.3-13.1,12.7-13.1,7,1.1,10.3,4.7l-3.9,3.8c-2.8-2.6-4.5-3.2-6.4-3.2Z"/>
+    <path class="st14" d="M234.2,258.1c0,7.8-5.3,13.1-12.7,13.1s-12.8-5.3-12.8-13.1,5.3-13.1,12.8-13.1,12.7,5.3,12.7,13.1ZM215.1,258.1c0,4.8,2.5,7.8,6.4,7.8s6.4-3,6.4-7.8-2.5-7.8-6.4-7.8-6.4,3.1-6.4,7.8Z"/>
+    <path class="st14" d="M260,245.9v24.5h-5.7v-2.6c-1.2,2-3.5,3.4-7.2,3.4-6.1,0-8.7-3.3-8.7-7.8v-17.5h6.2v15.8c0,2.5,1.3,4.1,4.1,4.1s5-1.7,5-5.1v-14.8h6.2Z"/>
+    <path class="st14" d="M287.4,253.6v16.8h-6.2v-14.9c0-3.2-1.6-5-4.6-5s-4.9,2.1-4.9,5.2v14.8h-6.2v-24.5h5.8v2.8c1.5-2.2,4-3.6,7.4-3.6,5.7,0,8.8,3.6,8.8,8.5Z"/>
+    <path class="st14" d="M307.4,270c-2.2.7-3.9.9-5.5.9-5,0-7-2.4-7-6.9v-13.4h-4.4v-4.8h4.4v-7.6h6.2v7.6h5.9v4.8h-5.9v12.7c0,1.7.8,2.3,2.4,2.3s1.5,0,3.1-.4l.7,4.9Z"/>
+  </g>
+  <polygon class="st17" points="410.1 465 410.1 842.3 32.8 842.3 32.8 465 189.5 465 222.7 498.3 256 465 410.1 465"/>
+  <text class="st13" transform="translate(90.7 611.1)"><tspan x="0" y="0">Stop repayment day</tspan></text>
+  <text class="st13" transform="translate(92.8 736.1)"><tspan x="0" y="0">Stop overdue check</tspan></text>
+  <text class="st15" transform="translate(550.7 212.8)"><tspan x="0" y="0">Current </tspan><tspan x="-4.3" y="57.6">account</tspan></text>
+  <text class="st13" transform="translate(504.6 591.6)"><tspan x="0" y="0">Stop interest accrual</tspan></text>
+  <text class="st13" transform="translate(480.1 694.8)"><tspan x="0" y="0">Stop interest application</tspan></text>
+  <text class="st13" transform="translate(509.9 804)"><tspan x="0" y="0">Stop fee application</tspan></text>
+  <g id="Artwork_344">
+    <g class="st18">
+      <g class="st4">
+        <circle class="st1" cx="639.9" cy="537.3" r="22.5"/>
+        <line class="st1" x1="632.7" y1="544.5" x2="647" y2="530.2"/>
+        <line class="st1" x1="647" y1="544.5" x2="632.7" y2="530.2"/>
+      </g>
+    </g>
+  </g>
+  <g id="Artwork_3441" data-name="Artwork_344">
+    <g class="st7">
+      <g class="st5">
+        <circle class="st1" cx="639.9" cy="640.5" r="22.5"/>
+        <line class="st1" x1="632.7" y1="647.7" x2="647" y2="633.4"/>
+        <line class="st1" x1="647" y1="647.7" x2="632.7" y2="633.4"/>
+      </g>
+    </g>
+  </g>
+  <g id="Artwork_3442" data-name="Artwork_344">
+    <g class="st6">
+      <g class="st12">
+        <circle class="st1" cx="639.9" cy="749.7" r="22.5"/>
+        <line class="st1" x1="632.7" y1="756.9" x2="647" y2="742.6"/>
+        <line class="st1" x1="647" y1="756.9" x2="632.7" y2="742.6"/>
+      </g>
+    </g>
+  </g>
+  <g id="Artwork_3443" data-name="Artwork_344">
+    <g class="st9">
+      <g class="st8">
+        <circle class="st1" cx="221.5" cy="681.8" r="22.5"/>
+        <line class="st1" x1="214.3" y1="688.9" x2="228.6" y2="674.7"/>
+        <line class="st1" x1="228.6" y1="688.9" x2="214.3" y2="674.7"/>
+      </g>
+    </g>
+  </g>
+  <g id="Artwork_3444" data-name="Artwork_344">
+    <g class="st11">
+      <g class="st10">
+        <circle class="st1" cx="221.5" cy="560.3" r="22.5"/>
+        <line class="st1" x1="214.3" y1="567.5" x2="228.6" y2="553.2"/>
+        <line class="st1" x1="228.6" y1="567.5" x2="214.3" y2="553.2"/>
+      </g>
+    </g>
+  </g>
+  <polygon class="st2" points="222.7 489.8 267.4 445.1 242.3 445.1 242.3 388.4 203.2 388.4 203.2 445.1 178 445.1 222.7 489.8"/>
+</svg>

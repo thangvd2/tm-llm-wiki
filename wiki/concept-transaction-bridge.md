@@ -1,7 +1,11 @@
 ---
 tags: [concept, postings, integrations, experience-layer]
 products: [vault-core, experience-layer]
-sources: [raw/smart-contracts-clv4/]
+sources: [raw/vault-core/5.8/reference/contracts/]
+vault_version:
+  introduced: "4.5"
+  verified: ["5.8"]
+  current: true
 last_updated: 2026-05-06
 ---
 

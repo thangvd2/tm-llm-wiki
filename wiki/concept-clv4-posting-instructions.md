@@ -1,7 +1,11 @@
 ---
 tags: [concept, postings, clv4]
 products: [vault-core, smart-contracts]
-sources: [raw/smart-contracts-clv4/]
+sources: [raw/vault-core/5.8/reference/contracts/]
+vault_version:
+  introduced: "4.5"
+  verified: ["5.8"]
+  current: true
 last_updated: 2026-05-06
 ---
 
@@ -55,4 +59,4 @@ Vault splits balances into debits and credits internally to support standard acc
 
 > **See also**:
 > - [[concept-sc-hooks]] for `pre_posting_hook` (accepting/rejecting) and `post_posting_hook` (reacting).
-> - [[concept-clv4-version-migration]] for how posting classes replaced batches in CLv4.
+> - [[concept-clv3-to-clv4-migration]] for how posting classes replaced batches in CLv4.
