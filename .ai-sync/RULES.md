@@ -9,7 +9,7 @@
 
 - NEVER commit directly to `master` or `dev`. Both are protected.
 - ALWAYS create a feature branch from `dev`: `git checkout -b {type}/{description} dev`
-- Branch naming: `feature/`, `fix/`, `security/`, `refactor/`
+- Branch naming: `feature/`, `fix/`, `security/`, `refactor/`, `docs/`, `chore/`
 - After work is done: `gh pr create --base dev`
 - Feature PR → dev: use `--squash` (keep dev history clean: 1 feature = 1 commit)
 - Release PR → master: use `--merge` (keep shared history, prevent future conflicts)
@@ -101,7 +101,7 @@ You MUST NOT report a task as complete until EVERY item below passes.
 No exceptions. If you skip any item, the user WILL find the bug on double-check.
 
 ### For EVERY code change (Python, YAML):
-- [ ] NOT on `master` or `dev` — must be on a feature branch (`feature/`, `fix/`, `security/`, `refactor/`)
+- [ ] NOT on `master` or `dev` — must be on a feature branch (`feature/`, `fix/`, `security/`, `refactor/`, `docs/`, `chore/`)
 - [ ] `ruff check .` passes on changed files
 - [ ] `lsp_diagnostics` shows no NEW errors on changed files
 - [ ] No duplicate lines, duplicate comments, or copy-paste artifacts
