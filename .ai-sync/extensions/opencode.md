@@ -1,7 +1,7 @@
 # OpenCode-Specific Extensions
 
 > **Appended to AGENTS.md when running `python .ai-sync/sync.py`.**
-> Rules that only apply to OpenCode (GLM-5.1 + Sisyphus agent system).
+> Rules that only apply to OpenCode (GLM-5.2 + Sisyphus agent system).
 
 ---
 
@@ -25,12 +25,12 @@
 - `lsp_find_references` — Trace full dependency chain
 - `ast_grep_search` — Pattern-based code search
 
-### Pre-Push Self-Review (OpenCode Pattern)
+### Pre-Push Self-Review (OpenCode Only)
 1. Fire 2+ `explore` agents in parallel to audit code
 2. Use `lsp_diagnostics` on ALL changed files
 3. Run `pytest tests/ -q` for backend changes
 4. Run `npm run build && npm run lint` for frontend changes
 
-## BEFORE EVERY COMMIT (OpenCode-Specific)
+## BEFORE EVERY COMMIT (OpenCode Only)
 
 - `lsp_diagnostics` shows no NEW errors on changed Python files
